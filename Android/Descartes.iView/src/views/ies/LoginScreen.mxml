@@ -1,0 +1,482 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:mx="library://ns.adobe.com/flex/mx"		
+		xmlns:zeusbaseservice="services.zeusbaseservice.*"		
+		color="#261ECC" 		
+		tabBarVisible="false"
+		destructionPolicy="never"
+		contentBackgroundColor="0xffffff" 
+		title="iView Mobile"
+		viewActivate="loadViewSetup()">
+
+	<fx:Script>
+		<![CDATA[
+			import com.adobe.protocols.dict.*;
+			import com.adobe.serialization.json.JSON;
+			import com.zeusbase.APIKey;
+			import com.zeusbase.AppInfoObject;
+			import com.zeusbase.CustomEvent;
+			
+			import database.Database;
+			import database.DatabaseEvent;
+			import database.DatabaseResponder;
+			
+			import flash.net.*;
+			import flash.net.Responder;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.rpc.AsyncToken;
+			import mx.rpc.IResponder;
+			import mx.rpc.Responder;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.http.mxml.HTTPService;
+			
+			import spark.components.ViewNavigator;
+			import spark.events.TextOperationEvent;
+			import spark.transitions.CrossFadeViewTransition;
+			
+			import views.ies.LogoutView;
+			import views.tabs.PipelineTabHome;
+			import views.tabs.SearchView;
+			import views.zeusbase.AppInfo;
+			
+			protected var sqlConnection:SQLConnection;
+			
+			public var appVersion:String = AppInfoObject.instance.version;			
+			public var fadeTrans:CrossFadeViewTransition = new CrossFadeViewTransition();
+											
+			[Bindable]
+			protected var usernameParam:String = "";
+			[Bindable]
+			protected var passwordParam:String = "";
+			[Bindable]
+			protected var httpURL:String = "";
+			[Bindable]
+			public var apiKey:String = "";
+			[Bindable]
+			public var login:String = "";
+			[Bindable]
+			public var upass:String = "";			
+			
+			public var developerModeOn:Boolean = false;
+			
+
+			/** Manual way to set http service responder and token 
+			 [Bindable]
+			 public var token:AsyncToken;
+			 [Bindable]
+			 public var responder:mx.rpc.Responder = new mx.rpc.Responder( resultHandler, faultHandler );
+			 
+			[Bindable]
+			private var resultArray:ArrayCollection = new ArrayCollection();
+			**/
+			
+			protected function loadViewSetup():void{
+				
+				navigator.activeView.tabBarVisible=false;
+				txtAppVersionInfo.text = "Descartes Mobile Apps : Version " + appVersion;
+				
+				initDatabase();
+				//clearOutAllData();
+				getAllData();
+				
+				/**
+				var apikeyFromDB:String = "";
+				apikeyFromDB = getAPIKeyCode();
+				trace('api key from database is = ' + apikeyFromDB);
+				*/
+			}
+			
+			protected function initDatabase():void
+			{
+				sqlConnection = new SQLConnection();
+				sqlConnection.open(File.applicationStorageDirectory.resolvePath("IviewMobile.db"));
+				var stmt:SQLStatement = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				//stmt.text = "CREATE TABLE IF NOT EXISTS users ('userid' integer PRIMARY KEY AUTOINCREMENT, 'username' char(100,0) NOT NULL, 'password' char(100,0) NOT NULL, 'apikeycode' char(50,0) NOT NULL)";
+				stmt.text = "CREATE TABLE IF NOT EXISTS users ('username' char(100,0) NOT NULL, 'password' char(100,0) NOT NULL, 'apikeycode' char(50,0) NOT NULL)";
+				stmt.execute();
+				getAllData();
+			}
+
+			
+			protected function clearOutAllData():void
+			{
+				var stmt:SQLStatement = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				//stmt.text = "DROP TABLE users";
+				stmt.text = "delete from users";
+				stmt.execute();
+			}			
+			
+			protected function getAllData():void
+			{
+				var stmt:SQLStatement = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "SELECT apikeycode FROM users";
+				stmt.execute();
+				//trace('Results = ' + stmt.getResult().data);				
+				//userList.dataProvider = new ArrayCollection(stmt.getResult().data);
+			}
+			
+			protected function getAPIKeyCode():String
+			{
+				var stmt:SQLStatement = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "SELECT apikeycode FROM users";
+				stmt.execute();
+				
+				trace('Results = ' + stmt.getResult().data);
+				
+				return stmt.getResult().data.toString();
+				
+				//userList.dataProvider = new ArrayCollection(stmt.getResult().data);
+			}			
+			
+			
+			protected function onAddUsername():void
+			{
+				var stmt:SQLStatement = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "INSERT into users values(:username)";
+				stmt.parameters[":username"] = username.text;
+				stmt.execute();
+				getAllData();
+				username.text = "";
+			}			
+						
+			
+			protected function onAddAPIKeyCode(apiKey:String):void
+			{
+				var stmt:SQLStatement = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "INSERT into users values(:username, :password, :apikeycode)";
+				stmt.parameters[":username"] = username.text;
+				stmt.parameters[":password"] = password.text;
+				stmt.parameters[":apikeycode"] = apiKey;
+				stmt.execute();
+				getAllData();
+				username.text = "";
+			}			
+						
+			
+			
+			
+			protected function resultHandler(event:ResultEvent):void
+			{
+				trace("HTTP Service RESPONSE executed successfully");
+				trace("Login Success - eventResult = " + event.token.result.toString());
+				
+				busy.visible=false;				
+				loginErrorMessage.visible=false;	
+				toggleShowErrorAlert(false);
+				// get return values for logic				
+				var success:Boolean = validateLoginResult.lastResult.success;
+				// see which way to go
+				if(success){					
+					// get apikey for data identification - set method in apikey object
+					apiKey = validateLoginResult.lastResult.data[0].apiKey;
+					trace('Responder Key Value = ' + apiKey);					
+					
+					onAddAPIKeyCode(apiKey);
+					trace('apikey added to sql lite database');
+					
+					
+					// create global objec to house apikey and user info					
+					APIKey.getInstance()._keyCode  = apiKey;
+					APIKey.getInstance()._username = usernameParam;
+					APIKey.getInstance()._password = passwordParam;
+					
+					// test object
+					trace('APIKeyCode from Object = ' + APIKey.getInstance().keyCode);
+					trace('APIKey Object stored username info of');
+					trace('Username = ' + APIKey.getInstance().username);
+					trace('Password = ' + APIKey.getInstance().password);
+					
+					// flip it good
+					var duration:int = 1;				
+					fadeTrans.duration = duration*1000;
+					navigator.pushView(views.tabs.PipelineTabHome, apiKey, null, fadeTrans);
+					
+					
+				} else {					
+					//loginErrorMessage.text = "The Username and Password you entered could not be found in our records.";
+					//loginErrorMessage.visible=true;	
+					toggleShowErrorAlert(true);
+				}
+			}
+			
+			
+			private function resultHandlerGenerate(event:ResultEvent):void
+			{
+				trace("HTTP Service RESPONSE executed successfully");
+				trace("API Key Creation Success - eventResult = " + event.token.result.toString());
+					
+				loginErrorMessage.visible=false;
+				toggleShowErrorAlert(false);
+				// get return values for logic				
+				var success:Boolean = generateAPIKeyResults.lastResult.success;
+				// see which way to go
+				if(success){					
+					// call the other apikey function -- need to make this just 1 result handler not 2					
+					submitCredentials(usernameParam.toUpperCase(), passwordParam.toUpperCase());					
+				} else {				
+					busy.visible=false;
+					//loginErrorMessage.text = "The Username and Password you entered could not be found in our records.";
+					//loginErrorMessage.visible=true;	
+					toggleShowErrorAlert(true);
+				}
+			}
+						
+			
+			
+			private function faultHandler(event:FaultEvent):void
+			{
+				trace(event.fault.faultDetail, "Error");				
+				trace("Login failure");	
+				
+				loginErrorMessage.text = "Please enter a valid Username and Password.";
+				busy.visible=false;				
+				loginErrorMessage.visible=false;				
+				
+				this.username.text = "";
+				this.password.text = "";							
+			}
+			
+
+			protected function developer_loginButton_clickHandler():void 
+			{
+				busy.visible=true;
+				
+				var validUser:Boolean = false;
+				var validPassword:Boolean = false;
+				var validLogin:Boolean = false;		
+				
+				usernameParam = "KRAFT";
+				passwordParam = "KRAFT";
+				
+				if(usernameParam != null && usernameParam.length > 3){
+					validUser = true;	
+				}
+				if(passwordParam != null && passwordParam.length > 3){
+					validPassword = true;
+				}
+				
+				
+				// user filled out the form properly
+				if(validUser && validPassword){										
+					generateAPIKeyCode(usernameParam.toUpperCase(), passwordParam.toUpperCase());															
+				} else {
+					busy.visible=false;
+					trace("User failed most basic form validation - send it back baby.");
+					loginErrorMessage.text = "Please enter a valid Username and Password.";
+					loginErrorMessage.visible=true;
+					
+				}
+			}				
+			
+			protected function loginButton_clickHandler():void 
+			{
+				busy.visible=true;
+				
+				var validUser:Boolean = false;
+				var validPassword:Boolean = false;
+				var validLogin:Boolean = false;		
+				
+				usernameParam = this.username.text;
+				passwordParam = this.password.text;
+				
+				if(usernameParam != null && usernameParam.length > 3){
+					validUser = true;	
+				}
+				if(passwordParam != null && passwordParam.length > 3){
+					validPassword = true;
+				}
+				
+				// user filled out the form properly
+				if(validUser && validPassword){					
+					generateAPIKeyCode(usernameParam.toUpperCase(), passwordParam.toUpperCase());					
+					// otherwise...					
+				} else {
+					busy.visible=false;
+					trace("User failed most basic form validation - send it back baby.");					;
+					toggleShowInfoAlert(true);
+				}
+			}		
+			
+			/**
+			 * Service call to validate user and return APIKEY
+			 */ 
+			protected function submitCredentials(username:String, password:String):void{
+				validateLoginResult.token = zeusbaseService.validateLogin(username, password);
+			}
+			
+			/**
+			 * Service call to validate user and CREATES AND return APIKEY
+			 */ 
+			protected function generateAPIKeyCode(username:String, password:String):void{
+				generateAPIKeyResults.token = zeusbaseService.generateAPIKey(username, password);
+			}			
+			
+			
+			protected function username_changeHandler(event:TextOperationEvent):void
+			{
+				// TODO Auto-generated method stub
+			}
+			
+			protected function image1_clickHandler(event:MouseEvent):void
+			{
+				navigator.pushView(views.zeusbase.AppInfo);				
+			}
+			
+			
+			protected function toggleShowErrorAlert(isVisible:Boolean):void
+			{
+				if(isVisible){
+					errorAlertMessage.visible = true;
+				} else {
+					errorAlertMessage.visible = false;
+				}
+			}
+			
+			protected function toggleShowInfoAlert(isVisible:Boolean):void
+			{
+				if(isVisible){
+					infoAlertMessage.visible = true;
+				} else {
+					infoAlertMessage.visible = false;
+				}
+			}
+			
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+<!--
+		<mx:HTTPService id="srv" url="{httpURL}" method="GET" resultFormat="text" 
+						result="resultHandler(event)" fault="faultHandler(event)" />
+-->		
+		<s:CallResponder id="validateLoginResult"
+						 result="resultHandler(event)" 
+						 fault="faultHandler(event)" />
+		
+		<s:CallResponder id="generateAPIKeyResults"
+						 result="resultHandlerGenerate(event)" 
+						 fault="faultHandler(event)" />
+		
+		<zeusbaseservice:ZeusbaseService id="zeusbaseService"/>
+
+		
+		
+		<!-- Pop Up Window Component -->		
+		<fx:Component className="ErrorAlertMsg">			
+			<s:SkinnablePopUpContainer x="20" y="200" skinClass="com.zeusbase.skins.AlertWindowSkin">				
+				<s:VGroup paddingTop="8" paddingBottom="8" paddingLeft="8" paddingRight="8" horizontalAlign="center">
+					<s:Label text="" />
+					<s:Button label="Ok" click="this.close()"/>
+					<s:Button label="Cancel" click="this.close()"/>		
+				</s:VGroup>  
+			</s:SkinnablePopUpContainer>
+		</fx:Component>
+				
+	</fx:Declarations>	
+
+	<!-- Background -->
+	<s:Rect left="0" right="0" height="100%">
+		<s:fill>
+			<s:SolidColor color="0xffffff"/>						  
+		</s:fill>
+	</s:Rect>
+	
+	<s:VGroup y="0" left="0" width="320" height="100%" horizontalCenter="0">	
+		<s:VGroup width="321" gap="5" horizontalAlign="center" paddingBottom="20" paddingLeft="10"
+				  paddingRight="20" paddingTop="35">
+			<s:VGroup width="100%">
+				<!-- LOGIN -->
+				<s:Label color="#000000" fontFamily="Helvetica" fontWeight="normal" text="Username" />			
+				<s:TextInput id="username" width="284" change="username_changeHandler(event)" 
+							 color="#3F3F47" fontFamily="Helvetica Nue" fontWeight="normal" />			
+			</s:VGroup>
+			
+			<s:VGroup width="100%" paddingTop="10">
+				<!-- PASSWORD -->
+				<s:Label color="#000000" fontFamily="Helvetica" fontWeight="normal" text="Password"/>
+				<s:TextInput id="password" width="285" color="#3F3F47" displayAsPassword="true"
+							 fontFamily="Helvetica Nue" fontWeight="normal"/>
+			</s:VGroup>
+			
+			<s:HGroup width="100%" horizontalAlign="center" paddingTop="5">
+				<!-- LOGIN BUTTON -->
+				<s:Button width="259" label="Click here to Login" click="loginButton_clickHandler()"
+						  color="#004080" fontFamily="Helvetica Nue" fontSize="15" />	
+			</s:HGroup>
+			
+			<s:HGroup width="100%" horizontalAlign="center" paddingTop="5">
+				<!-- DEVELOPER LOGIN BUTTON -->
+				<s:Button width="259" label="DEVELOPER : Kraft" click="developer_loginButton_clickHandler()" visible="{developerModeOn}"
+						  color="#004080" fontFamily="Helvetica Nue" fontSize="15" />	
+			</s:HGroup>
+		</s:VGroup>
+	
+		<s:Line width="100%">
+			<s:stroke>
+				<s:SolidColorStroke color="#ffffff" weight="1"/>		
+			</s:stroke>		
+		</s:Line>
+		
+		<s:Label id="loginErrorMessage" visible="false" width="319" height="33" color="#84130D"
+				 fontFamily="Helvetica" fontSize="13" fontStyle="italic" fontWeight="bold"
+				 text="Login Error Message" textAlign="center" verticalAlign="middle"/>
+		
+		<s:Label id="labelAPIKey" visible="false" width="768" height="59" fontFamily="Helvetica"
+				 text="APIKEY = " textAlign="center" verticalAlign="middle"/>
+
+		<mx:Spacer height="100%"/>
+		
+		<!-- Bottom bar -->
+		<s:Group width="100%" height="65" bottom="12">
+			<s:Rect left="0" right="0" height="93" verticalCenter="-11">
+				<s:fill>
+					<s:SolidColor color="#004080"/>
+				</s:fill>
+			</s:Rect>
+			<s:HGroup x="0" y="0" paddingLeft="15" width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">				
+				<s:Label color="0xFFFFFF" fontFamily="Helvetica" fontSize="12" fontWeight="normal" id="txtAppVersionInfo"
+						 text=""/>
+				<mx:Spacer width="100%"/>
+				<s:Image width="64" height="64" smooth="true"
+						 source="@Embed('assets/Chart_3.png')"
+						 click="image1_clickHandler(event)" />
+			</s:HGroup>
+		</s:Group>
+		
+	</s:VGroup>
+	
+	<!--
+	** Animated Busy Indicator
+	-->				
+	<s:BusyIndicator id="busy" visible="false" width="86" height="84" horizontalCenter="0"
+					 rotationInterval="50" symbolColor="#004080" verticalCenter="-65"/>
+	
+
+	
+	<!--
+	** Info Message Alert
+	-->					
+	<s:Button id="infoAlertMessage" left="22" right="10" top="152" height="63" 
+			  visible="false" label="Please enter both username and password."
+			  skinClass="skins.zeusbase.InfoMessageAlertSkin"			  
+			  horizontalCenter="0" verticalCenter="0" 
+			  click="toggleShowInfoAlert(false)" />
+	<!--
+	** Error Message Alert
+	-->					
+	<s:Button id="errorAlertMessage" left="22" right="10" top="152" height="63" 
+			  visible="false" label="Invalid Credentials."
+			  skinClass="skins.zeusbase.ErrorMessageAlertSkin"			  
+			  horizontalCenter="0" verticalCenter="0" 
+			  click="toggleShowErrorAlert(false)" />
+</s:View>

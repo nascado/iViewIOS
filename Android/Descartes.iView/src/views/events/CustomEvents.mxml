@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		title="CustomEvents" 
+		layout="absolute" 	
+		creationComplete="init()">
+	
+	<fx:Script>
+		<![CDATA[
+		import com.zeusbase.CustomEvent;
+		
+		public function init():void{
+			//Add the listeners for the events
+			addEventListener(CustomEvent.CEVENT01, launchEvent01);
+			addEventListener(CustomEvent.CEVENT02, launchEvent02);
+			addEventListener(CustomEvent.CEVENT03, launchEvent03);
+			addEventListener(CustomEvent.CEVENT04, launchEvent04);
+		}
+		
+		//Method for the button to dispatch the custom events		
+		public function throwEvent(e:MouseEvent):void{
+		switch (e.currentTarget){
+			case btn01:
+				dispatchEvent(new CustomEvent("cEvent01"));
+				break;
+			
+			case btn02:
+				dispatchEvent(new CustomEvent("cEvent02"));
+				break;
+			
+			case btn03:
+				dispatchEvent(new CustomEvent("cEvent03"));
+				break;
+			
+			case btn04:
+				dispatchEvent(new CustomEvent("cEvent04"));
+				break;			
+		}
+		
+		}
+		
+		public function launchEvent01(e:CustomEvent):void{
+			trace("Custom Event - 1 was thrown.");
+		}
+		public function launchEvent02(e:CustomEvent):void{
+			trace("Custom Event - 2 was thrown.");
+		}
+		public function launchEvent03(e:CustomEvent):void{
+			trace("Custom Event - 3 was thrown.");
+		}
+		public function launchEvent04(e:CustomEvent):void{
+			trace("Custom Event - 4 was thrown.");
+		}
+		
+		]]>
+	</fx:Script>
+	<s:VBox>
+		<s:Button id="btn01" label="Event 1" click="throwEvent(event);"/>
+		<s:Button id="btn02" label="Event 2" click="throwEvent(event);"/>
+		<s:Button id="btn03" label="Event 3" click="throwEvent(event);"/>
+		<s:Button id="btn04" label="Event 4" click="throwEvent(event);"/>
+	</s:VBox>
+	
+</s:View>

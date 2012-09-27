@@ -1,0 +1,64 @@
+{
+	"apikey":"",
+	"username":"",
+	"password":""	
+}
+
+/**
+Client ID for installed applications
+Client ID:	 		220879376718.apps.googleusercontent.com
+Client secret:		hHWn3BMPc7doRcuoXuO_rO6h
+Redirect URIs:	urn:ietf:wg:oauth:2.0:oob
+http://localhost
+
+Parse
+var APPLICATION_ID = 'At40BkmLyLuzTfnJ55GYh7HiV17cTfLC062tegdS';
+var MASTER_KEY = 'kYXHoFrLSqwFwxxiXTGEzquXRR9bvZSzPQVeMjrw';
+
+Flurry
+RR4HQGZQJZS88QYKY8HM
+
+
+Simple API Access
+Use API keys to identify your project when you do not need to access user data. Learn more
+Key for browser apps (with referers)
+API key:	
+AIzaSyCGqP1gqKtvzmghzFrvKGHXIaiSz042GWw
+Referers:	
+Any referer allowed
+Activated on:	May 29, 2012 5:42 AM
+Activated by:	 hyokos.developer@gmail.com – you
+*/
+
+
+/**
+DROPBOX
+
+App key 	hs715dsrwqwew6b
+App secret 	2usu6s6eyzyzemz
+Access type 	Full Dropbox
+
+*/
+
+
+
+/**  BOX
+com.descartes.iView
+apikey:  bzx6ura5jy4396289i3pl4j12vheesz8
+
+apikey - for h.iesltd
+o8elugq0t2imqp7qvm92quqh0ol2nptx
+account:
+h.iesltd@gmail.com
+georgedemo
+
+*/
+
+
+/**  SHAREKIT
+
+
+GOOGLE ANALYTIC
+ID:  UA-34918122-1
+
+*/

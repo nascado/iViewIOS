@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:employeeservice="services.employeeservice.*"
+		title="HomeView">
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			protected function empList_creationCompleteHandler(event:FlexEvent):void
+			{
+				//getEmployeesSummaryResult.token = employeeService.getEmployeesSummary();
+			}      
+			protected function doSearch(event:Event):void
+			{
+				this.addElement(busyIndicator);
+				if(searchTxt.text!="") 
+				{ 
+					//getEmployeesSummaryResult.token = employeeService.getEmployeesSummaryByName(searchTxt.text); 
+				} 
+				else 
+				{      
+					//getEmployeesSummaryResult.token = employeeService.getEmployeesSummary();
+				}
+			}   
+			protected function getEmployeesSummaryResult_resultHandler(event:ResultEvent):void
+			{
+				this.removeElement(busyIndicator);
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:CallResponder id="getEmployeesSummaryResult" result="getEmployeesSummaryResult_resultHandler(event)"/>
+		<employeeservice:EmployeeService id="employeeService"/>
+	</fx:Declarations>
+	<s:titleContent>
+		<s:TextInput id="searchTxt" width="100%" 
+					 prompt="Employee Name" enter="doSearch(event)"/>
+	</s:titleContent>
+	<s:actionContent>
+		<s:Button id="searchBtn" click="doSearch(event)" …/>
+		<s:Button id="addBtn"…./>
+	</s:actionContent>
+	<s:List id="empList" left="0" right="0" top="0" bottom="0"
+			creationComplete="empList_creationCompleteHandler(event)">
+		<s:AsyncListView list="{getEmployeesSummaryResult.lastResult}"/>
+		<s:itemRenderer>
+			<fx:Component>
+				<s:IconItemRenderer iconHeight="50" iconWidth="50" iconFunction="getPhotoURL"
+									labelFunction="getEmployeeFullName" messageField="title">
+					<fx:Script> 
+						<![CDATA[ 
+							private function getPhotoURL(item:Object):String 
+							{ 
+								return "http://localhost/TestDrive/photos/" + item.photofile; 
+							} 
+							private function getEmployeeFullName(item:Object):String
+							{
+								return item.firstname + " " + item.lastname;
+							}
+						]]> 
+					</fx:Script>
+				</s:IconItemRenderer>
+			</fx:Component>
+		</s:itemRenderer>
+	</s:List>
+	<s:BusyIndicator id="busyIndicator" verticalCenter="0" horizontalCenter="0" symbolColor="red"/>
+</s:View>

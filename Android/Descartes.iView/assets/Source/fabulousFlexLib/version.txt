@@ -1,0 +1,3 @@
+version=1.3.3
+Owner=(www.strawberrypixel.com/blog)
+License=open source Artistic License.  http://www.opensource.org/licenses/artistic-license-2.0.php

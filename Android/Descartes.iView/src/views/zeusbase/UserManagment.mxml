@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		viewActivate="viewActivateHandler(event)"
+		title="User Managment">
+	<fx:Script>
+		<![CDATA[
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+
+			import spark.events.ViewNavigatorEvent;
+
+			import database.DatabaseEvent;
+			import database.DatabaseResponder;			
+			import database.ModelLocator;
+			
+			//import questions.Question;		
+
+			protected var sqlConnection:SQLConnection;				
+			private var questionsCollection:ArrayCollection;			
+			import views.ies.LoginScreen;
+
+			
+			
+			protected function view_initializeHandler(event:FlexEvent):void
+			{
+				getQuestions();
+			}
+			
+			protected function getQuestions():void
+			{
+				var ml:ModelLocator = ModelLocator.getInstance();
+				var responder:DatabaseResponder = new DatabaseResponder();
+				responder.addEventListener(DatabaseEvent.ERROR_EVENT, onError);
+				responder.addEventListener(DatabaseEvent.RESULT_EVENT,onResult);				
+				ml.db.getQuestions([responder]);
+				
+				function onError(event:DatabaseEvent):void
+				{
+					trace("Error while fetching list of questions. ListOfQuestions:0001");
+					responder.removeEventListener(DatabaseEvent.ERROR_EVENT, onError);
+					responder.removeEventListener(DatabaseEvent.RESULT_EVENT, onResult);
+				}
+				
+				function onResult(event:DatabaseEvent):void
+				{
+					trace("Successfully fetched list of questions. ListOfQuestions:0002");					
+					responder.removeEventListener(DatabaseEvent.ERROR_EVENT, onError);
+					responder.removeEventListener(DatabaseEvent.RESULT_EVENT, onResult);	
+					questionsCollection = new ArrayCollection(); 
+					for each ( var o:Object in event.data )
+					{
+						//if ( o.question_type == Question.QUESTION_TYPE_MULTIPLE_CHOICE )
+						if ( o.question_type == '' )
+						{						
+							questionsCollection.addItem(o);
+						}
+					}
+					//questionsList.dataProvider = questionsCollection;
+				}
+			}
+			
+			
+			protected function viewActivateHandler(event:ViewNavigatorEvent):void
+			{
+				sqlConnection = new SQLConnection();
+				sqlConnection.open(File.applicationStorageDirectory.resolvePath("AMSOcean.db"));
+				var stmt:SQLStatement = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "CREATE TABLE IF NOT EXISTS AMSOceanMobile (label TEXT)";
+				stmt.execute();
+				getAllData();
+			}
+			
+			protected function getAllData():void
+			{
+				var stmt:SQLStatement = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "SELECT label FROM AMSOceanMobile";
+				stmt.execute();
+				userList.dataProvider = new ArrayCollection(stmt.getResult().data);
+			}
+			
+			protected function onAdd():void
+			{
+				var stmt:SQLStatement = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "INSERT into AMSOceanMobile values(:userName)";
+				stmt.parameters[":userName"] = txtFldUserName.text;
+				stmt.execute();
+				getAllData();
+				txtFldUserName.text = "";
+			}			
+			
+			public function actionButtonClicked():void
+			{
+				//navigator.pushView(views.zeusbase.LoginScreen);				
+			}
+			
+			public function navigatorButtonClicked():void
+			{
+				navigator.popView();				
+			}
+			
+			
+			protected function btnUserFormSave_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:navigationContent>
+		<s:Button width="49" click="navigatorButtonClicked()"/>				
+	</s:navigationContent>	
+	
+	<s:layout>
+		<s:VerticalLayout paddingTop="5" paddingBottom="5" paddingLeft="5" paddingRight="5" gap="0" 
+						  horizontalAlign="center" verticalAlign="top"/>
+	</s:layout>
+	
+	<s:Form width="313">
+		<s:layout>
+			<s:VerticalLayout horizontalAlign="center" paddingBottom="0" paddingLeft="0"
+							  paddingRight="0" paddingTop="0"/>
+		</s:layout>
+		<s:FormItem width="100%" label="API Keycode" skinClass="spark.skins.spark.StackedFormItemSkin">
+			<s:layout>
+				<s:VerticalLayout horizontalAlign="center"/>
+			</s:layout>
+			<s:TextInput id="txtFldUserName" y="0" width="252" height="34" horizontalCenter="0" prompt="User Name"/>
+			<s:TextInput id="txtFldSiteId" width="252" horizontalCenter="0" prompt="Password"/>
+			<s:TextInput id="txtFldFilerId" width="252" horizontalCenter="0" prompt="API Key"/>
+		</s:FormItem>
+		<s:Button width="220" label="Save Account Info" click="onAdd()" color="#059CFC"
+				  enabled="{txtFldUserName.text.length != 0}"/>
+	</s:Form>
+	
+	<s:List id="userList" width="100%" height="100%"/>
+
+</s:View>

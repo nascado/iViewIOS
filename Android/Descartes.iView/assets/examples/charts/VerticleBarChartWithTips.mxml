@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<s:View
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	creationComplete="srv.send()">
+	
+	<fx:Declarations>
+		<mx:HTTPService id="srv" url="http://aspexamples.adobe.com/chart_examples/expenses-xml.aspx"/>
+	</fx:Declarations>
+	
+	<fx:Script><![CDATA[
+		import mx.charts.HitData;
+		import mx.charts.series.ColumnSeries;
+		
+		public var b:Boolean = true;
+		
+		public function myDataTipFunction(e:HitData):String {
+			var s:String;
+			s = ColumnSeries(e.element).displayName + "\n";
+			s += "Profit: $" + (e.item.profit - e.item.expenses);
+			return s;
+		}
+		
+	]]></fx:Script>
+	
+	<s:layout>
+		<s:VerticalLayout/>
+	</s:layout>
+	
+	<s:navigationContent>
+		<s:Button  icon="@Embed('assets/glyphs/icon-back@2x.png')" click="navigator.popView()"/>	
+	</s:navigationContent>	
+	
+	<s:Panel width="319" title="Pipeline Summary">
+		<s:layout>
+			<s:VerticalLayout/>
+		</s:layout>
+		<mx:ColumnChart id="myChart" width="317" height="317"
+						dataProvider="{srv.lastResult.data.result}"
+						dataTipFunction="myDataTipFunction" showDataTips="true">
+			<mx:horizontalAxis>
+				<mx:CategoryAxis categoryField="month"/>
+			</mx:horizontalAxis>
+			<mx:series>
+				<mx:ColumnSeries
+					yField="profit"
+					displayName="Income '10"/>
+				<mx:ColumnSeries
+					yField="expenses"
+					displayName="Pipeline"/>
+			</mx:series>
+		</mx:ColumnChart>
+	</s:Panel>
+</s:View>

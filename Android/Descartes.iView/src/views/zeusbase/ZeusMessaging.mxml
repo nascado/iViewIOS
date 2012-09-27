@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		title="IES Messaging">
+	
+	<fx:Declarations>
+		<s:RadioButtonGroup id="textType"/>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			protected function txtAddress_clickHandler(event:MouseEvent):void
+			{
+				if (btnSMS.selected){
+					navigateToURL(new URLRequest("sms:"+txtAddress.text));
+				/**
+				} else if (btnTel.selected) {
+					navigateToURL(new URLRequest("tel:"+txtAddress.text));
+				*/
+				} else if (btnEmail.selected) {
+					navigateToURL(new URLRequest("mailto:"+txtAddress.text));
+				}
+			}
+		]]>
+	</fx:Script>
+	
+	<s:navigationContent>
+		<s:Button icon="@Embed('assets/glyphs/icon-back@2x.png')" click="navigator.popView()"/>				
+	</s:navigationContent>			
+	
+	<s:actionContent>
+		<s:Button click="navigator.popView()" icon="@Embed('assets/glyphs/icon-close@2x.png')">
+		</s:Button>
+	</s:actionContent>	
+	
+	<s:layout>
+		<s:VerticalLayout paddingTop="50" paddingBottom="20" paddingLeft="20" paddingRight="30" gap="40"/>
+	</s:layout>
+	
+	<s:VGroup width="289" height="100%" horizontalAlign="center">
+		<s:HGroup x="10" width="270" paddingBottom="5" paddingLeft="5" paddingRight="5" paddingTop="5">
+			
+			<s:BitmapImage id="imgSMS" source="@Embed('assets/glyphs/icon-phone1.png')"/>			
+			<s:RadioButton id="btnSMS" groupName="textType" label="SMS" iconPlacement="left" iconDisplay="{imgSMS}"/>
+			<!--
+			<s:BitmapImage id="imgTel" source="@Embed('assets/glyphs/icon-phone.png')"/>
+			<s:RadioButton id="btnTel" groupName="textType" label="Tel" iconPlacement="left" iconDisplay="{imgTel}"/>
+			-->
+			<s:BitmapImage id="imgEmail" source="@Embed('assets/glyphs/icon-mail1.png')"/>
+			<s:RadioButton id="btnEmail" groupName="textType" label="Email" iconPlacement="left" iconDisplay="{imgEmail}"/>			
+		</s:HGroup>
+		
+		<s:Label text="SMS or Email to:"/>
+		<s:TextInput id="txtAddress" x="12" width="266"/>
+		<s:Button x="19" width="223" height="36" label="Send" click="txtAddress_clickHandler(event)"
+				  color="#17582D" icon="@Embed('assets/glyphs/icon-ok@2x.png')"
+				  styleName="IESSendMessage"/>
+	</s:VGroup>
+</s:View>

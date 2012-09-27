@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:ns1="*"
+		fontFamily="Helvetica" 
+		title="Calendar"
+		viewActivate="refresh()">
+	
+	
+	<!-- SCRIPTS
+	**************************************************************************************************
+	-->
+	<fx:Script>
+		<![CDATA[
+			import com.adobe.serializers.utility.TypeUtility;
+			
+			import mx.events.FlexEvent;
+			
+			import spark.events.IndexChangeEvent;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			
+			import views.calendar.CalendarSummaryChart;
+			import views.calendar.CalendarSummaryChart_Line;
+			
+			import spark.components.calendarClasses.DateSelectorDisplayMode;
+			
+			
+			public var flipTrans:FlipViewTransition = new FlipViewTransition();		
+			
+			public function refresh(): void {
+				trace("CalendarTabHome View - refresh() called");
+				busy.visible = false;
+			}		
+			
+			
+			protected function actionButtonClicked():void 
+			{
+				var duration:int = 1;
+				var direction:String = 'right';				
+				var mode:String = 'card';
+				
+				flipTrans.duration = duration*1000; 
+				flipTrans.mode = mode;
+				flipTrans.direction = direction;
+				
+				navigator.pushView(views.calendar.CalendarSummaryChart_Line, null, null, flipTrans);
+			}						
+			
+
+			
+			protected function navigatorButtonClicked():void
+			{
+				var duration:int = 1;
+				var direction:String = 'left';				
+				var mode:String = 'card';
+				
+				flipTrans.duration = duration*1000; 
+				flipTrans.mode = mode;
+				flipTrans.direction = direction;
+				
+				navigator.pushView(views.calendar.CalendarSummaryChart, null, null, flipTrans);			
+			}
+						
+			protected function button1_clickHandler(event:MouseEvent):void
+			{
+				navigator.pushView(views.calendar.EventSummaryList);				
+			}
+			
+			protected function viewFilteredEventsButton_clickHandler(event:MouseEvent):void
+			{
+				navigator.pushView(views.calendar.EventSummaryList);
+				
+			}
+			
+			protected function calendarDateChooser_changeHandler(event:Event):void
+			{
+				trace('Date Selected was = ');
+			}
+			
+		]]>
+	</fx:Script>
+	
+
+	
+	<!-- NAV
+	**************************************************************************************************
+	-->
+				
+	<s:navigationContent>
+		<s:Button skinClass="spark.skins.ios.BeveledActionButtonSkin" icon="@Embed('assets/glyphs/icon-piechart@2x.png')" click="navigatorButtonClicked()"/>		
+	</s:navigationContent>	
+	
+	<s:actionContent>
+		<s:Button id="chartBtn" click="actionButtonClicked()"
+				  icon="@Embed('assets/glyphs/icon-chartside.png')">
+		</s:Button>
+	</s:actionContent>		
+	
+	<s:Image left="0" right="0" top="0" bottom="0" scaleMode="stretch" smooth="true"
+			 source="@Embed('assets/backgrounds/textureGradient.png')"/>
+	
+	<!-- CONTENT
+	**************************************************************************************************
+	width="320" height="367"
+	-->
+	<s:VGroup left="0" right="0" top="0" bottom="0"
+			  gap="16" horizontalAlign="center" verticalAlign="middle">
+		
+		<s:Button id="viewAllEventsButton" left="10" right="13" top="9" width="80%" height="40"
+				  label="View All Events for Current Month" click="button1_clickHandler(event)"
+				  color="#004080" enabled="true" fontFamily="Helvetica" fontStyle="normal"
+				  fontWeight="normal" icon="@Embed('assets/buttonsweb/calendar.png')"/>
+
+		
+			<s:DateSpinner id="calendarDateChooser" x="33" y="67" width="80%" height="60%"
+				   minDate="{new Date(2011,01,01)}" maxDate="{new Date(2013,01,01)}" displayMode="{DateSelectorDisplayMode.DATE}"
+				   change="calendarDateChooser_changeHandler(event)"/>
+
+		
+		<s:Button id="viewFilteredEventsButton" left="12" right="11" bottom="22" width="80%"
+				  height="40" label="Filter Events for {calendarDateChooser.selectedDate.month}/{calendarDateChooser.selectedDate.date}"
+				  click="viewFilteredEventsButton_clickHandler(event)" color="#537EAA"
+				  fontStyle="normal" fontWeight="normal"
+				  icon="@Embed('assets/buttons/ical blue 1.png')"/>
+		
+	
+	</s:VGroup>
+	
+	
+	
+
+	
+	<!-- BUSY
+	**************************************************************************************************
+	-->
+	<s:BusyIndicator id="busy" visible="true" width="82" height="82" horizontalCenter="0"
+					 rotationInterval="100" symbolColor="#004080" verticalCenter="-16"/>		
+	
+
+
+</s:View>

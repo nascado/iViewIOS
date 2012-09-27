@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:components="components.*"		
+		color="#060000" 
+		destructionPolicy="never" 
+		creationComplete="viewCreated_eventHandler()"
+		title="Container# {data.ContainerNumber}">
+	
+	<!-- SCRIPTS
+	**************************************************************************************************
+	-->
+	<fx:Script>
+	
+		<![CDATA[
+			/**
+			 * Views and Object Imports
+			 */ 		
+			import views.pipeline.ContainerList;
+			import views.pipeline.EventList;
+			import views.zeusbase.ZeusMessaging;
+			
+			
+			import views.tabs.CalendarTabHome;	
+			import views.tabs.PipelineTabHome;
+			
+			
+			/**
+			 * Functions
+			 */ 		
+			protected function viewCreated_eventHandler():void 
+			{
+				busy.visible = false;
+			}
+			
+			protected function ViewContainersButton_clickHandler(event:MouseEvent):void
+			{
+				navigator.pushView(views.pipeline.ContainerList, data);
+				
+			}
+			
+			protected function ViewEventsButton_clickHandler(event:MouseEvent):void
+			{
+				navigator.pushView(views.pipeline.EventList, data);
+				
+			}
+			
+			protected function notifyBtn_clickHandler(event:MouseEvent):void
+			{
+				navigator.pushView(views.zeusbase.ZeusMessaging, data);
+			}
+			
+		]]>
+		
+	</fx:Script>
+	
+	
+	<!-- DECLARATIONS
+	**************************************************************************************************
+	-->
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<!-- NAVIGATION
+	**************************************************************************************************
+	-->
+
+	<s:navigationContent>
+		<s:Button icon="@Embed('assets/glyphs/icon-back@2x.png')" click="navigator.popView()"/>				
+	</s:navigationContent>		
+	
+	
+	<!-- Background -->
+	<s:Rect left="0" right="0" height="100%" width="100%">
+		<s:fill>
+			<s:BitmapFill source="@Embed('assets/backgrounds/chrome.png')" fillMode="scale" />
+		</s:fill>
+	</s:Rect>
+	
+	<!-- Busy Indicator
+	**************************************************************************************************
+	-->
+	<s:BusyIndicator id="busy" visible="true" width="86" height="86" horizontalCenter="0"
+					 rotationInterval="100" symbolColor="#004080" verticalCenter="-65"/>		
+	<s:Label left="10" right="10" top="21" height="22" color="#004080"
+			 text="Container / Content Details" textAlign="center" verticalAlign="middle"/>
+</s:View>

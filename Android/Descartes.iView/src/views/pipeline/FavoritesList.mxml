@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" xmlns:layout="com.zeusbase.layout.*" title="FavoritesList">
+	<s:layout>
+		<layout:SectionTileListLayout/>
+	</s:layout>
+	
+	
+	<fx:Script>
+		<![CDATA[
+			import com.zeusbase.APIKey;
+			import com.adobe.serializers.utility.TypeUtility;
+			import mx.events.CollectionEvent;			
+			
+			import spark.events.IndexChangeEvent;
+			import mx.core.DPIClassification;
+			import mx.core.FlexGlobals;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			import views.tabs.PipelineTabHome;
+			public var flipTrans:FlipViewTransition = new FlipViewTransition();
+						
+			protected function loadListData(viewName:String, limit:String, apikey:String):void
+			{
+								
+			}	
+			
+			
+			private function resultHandler(event:ResultEvent):void
+			{
+				trace("HTTP Service RESPONSE executed successfully");							
+			}
+			
+			private function faultHandler(event:FaultEvent):void
+			{
+				trace(event.fault.faultDetail, "Error");				
+			}
+			
+			
+			protected function view1_creationCompleteHandler(event:FlexEvent):void
+			{
+				if (Capabilities.version.indexOf("IOS") == 0)
+				{
+					var padding:Number = (10 * FlexGlobals.topLevelApplication.applicationDPI / DPIClassification.DPI_160);
+					//list.top = list.bottom = list.left = list.right = padding;
+				}
+			}
+			
+			protected function asynclistview_collectionChange_EventHandler(event:CollectionEvent):void{
+				
+			}
+			
+			protected function list_creationCompleteHandler(event:FlexEvent):void
+			{
+			
+			}
+			
+			protected function goBackOneView():void {
+				var duration:int = 1;
+				var direction:String = 'right';
+				// up, down, left, right
+				var mode:String = 'cube';
+				// cube, card
+				
+				flipTrans.duration = duration*1000; 
+				flipTrans.mode = mode;
+				flipTrans.direction = direction;
+				
+				//navigator.popView(flipTrans); 		
+				navigator.pushView(views.tabs.PipelineTabHome, data, null, flipTrans); 
+			}
+			
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<s:navigationContent>
+		<s:Button icon="@Embed('assets/glyphs/icon-back@2x.png')" click="goBackOneView()"/>				
+	</s:navigationContent>
+	
+	<s:actionContent>
+		<s:Button id="refreshBtn" click="Object(navigator.activeView).refresh()"
+				  icon="@Embed('assets/glyphs/icon-refresh@2x.png')">
+		</s:Button>
+	</s:actionContent>
+	
+	
+</s:View>

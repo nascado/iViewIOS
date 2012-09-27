@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		tabBarVisible="false"
+		title="Descartes Mobile Apps" 
+		viewActivate="view1_viewActivateHandler(event)">
+
+	
+	<fx:Script>
+		<![CDATA[
+			import com.zeusbase.AppInfoObject;
+			
+			import spark.events.ViewNavigatorEvent;
+			
+			import views.ies.LoginScreen;
+			
+			public var appVersion:String = AppInfoObject.instance.version;
+			public var buildVersion:String = AppInfoObject.instance.build;
+			
+			public function navigatorButtonClicked():void
+			{
+				navigator.pushView(views.ies.LoginScreen);
+			}
+			
+			protected function SupportPhoneButton_clickHandler(event:MouseEvent):void
+			{
+				navigateToURL(new URLRequest("tel:2016395000"))
+				
+			}
+			
+			protected function SupportMailButton_clickHandler(event:MouseEvent):void
+			{
+				var address:String = "support@iesltd.com";
+				navigateToURL(new URLRequest("mailto:" + address));				
+			}
+			
+			protected function SupportWebsiteButton_clickHandler(event:MouseEvent):void
+			{
+				
+				navigator.pushView(views.zeusbase.ZeusWebView);
+			}
+			
+			protected function view1_viewActivateHandler(event:ViewNavigatorEvent):void
+			{
+				txtAppInfo.text = "iView Mobile : " + appVersion + " Build " + buildVersion;
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	
+	<s:navigationContent>
+		<s:Button icon="@Embed('assets/glyphs/icon-back@2x.png')" click="navigatorButtonClicked()"/>				
+	</s:navigationContent>		
+	
+	
+	
+	
+	<!-- Background -->
+	<s:Rect left="0" right="0" height="100%" width="100%">
+		<s:fill>
+			<s:BitmapFill source="@Embed('assets/backgrounds/textureGradient.png')" fillMode="scale" />
+		</s:fill>
+	</s:Rect>
+	
+	
+	<s:Label width="581" height="27" color="#FFFFFF" fontFamily="Helvetica Nue" fontSize="15"
+			 horizontalCenter="-1" text="Descartes Mobile Applications" textAlign="center"
+			 verticalAlign="middle" verticalCenter="-134"/>
+	<s:Label width="277" height="27" color="#FFFFFF" fontFamily="Helvetica Nue" fontSize="15"
+			 horizontalCenter="-1" text="" textAlign="center" id="txtAppInfo"
+			 verticalAlign="middle" verticalCenter="-99"/>
+	<s:Label width="225" height="44" color="#FFFFFF" fontStyle="italic" fontWeight="normal"
+			 horizontalCenter="0" text="Copyright@ 2012 Descartes" textAlign="center"
+			 verticalAlign="middle" verticalCenter="177"/>
+
+	<s:Button id="SupportPhoneButton" left="47" right="44" height="28" label="Call Descartes Support"
+			  click="SupportPhoneButton_clickHandler(event)"
+			  icon="@Embed('assets/buttonsweb/users.png')" verticalCenter="-37"/>
+	
+	<s:Button id="SupportMailButton" left="47" right="44" height="30" label="Email Descartes Support"
+			  click="SupportMailButton_clickHandler(event)" icon="@Embed('assets/buttonsweb/support.png')"
+			  verticalCenter="20"/>
+	<s:Button id="SupportWebsiteButton" left="49" right="40" height="30"
+			  label="Visit our Support Website" click="SupportWebsiteButton_clickHandler(event)"
+			  icon="@Embed('assets/buttonsweb/rss.png')" verticalCenter="79"/>
+	
+	
+</s:View>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:local="*" xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" creationComplete="init()"   height="627" width="603">
+
+	<mx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			import mx.controls.Alert;
+			import mx.controls.Button;
+		
+		
+			
+			private function init():void {
+				
+			
+				progress1.currentState = "Start1";
+				progress2.currentState = "Start2";
+				progress3.currentState = "Start3";				
+				progress4.currentState = "Start4";								
+			}		
+
+
+			private function kill():void {
+				progress1.hide();
+				progress2.hide();
+				progress3.hide();
+				progress4.hide();												
+			}
+
+			private function show():void {
+				progress1.show();
+				progress2.show();
+				progress3.show();
+				progress4.show();
+			}
+
+			
+			
+		]]>
+	</mx:Script>
+	<mx:Canvas x="19" y="10" height="200" width="551" backgroundColor="#ffffff">
+		<local:Progress x="50" y="20" id="progress1"/>
+		<local:Progress x="100" y="20" id="progress2"/>
+		<local:Progress x="250" y="20" id="progress3"/>
+		<local:Progress x="300" y="20" id="progress4"/>		
+	</mx:Canvas>
+	<mx:Button x="19" y="218" label="Hide" click="kill()" width="130" height="39"/>
+	<mx:Button x="440" y="218" label="Show" click="show()" width="130" height="39"/>
+	
+</mx:Application>

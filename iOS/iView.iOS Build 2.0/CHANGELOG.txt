@@ -1,0 +1,83 @@
+iView Mobile for IOS  Change Log
+Version 1.1
+
+*****************************************************************************************
+--- Functionality ---
+*****************************************************************************************
+* All browses have been recoded and are much smoother and easier to navigate.
+* All browses now feature a "pull down to refresh" feature as well as a constant Search Bar at the top of the list.
+   - The search bar will perform an incremental search as the user types, filtering down the list.
+   - For the time begin each lists search bar will filter the list on the Primary/Title field -- i.e..  FileNumber, PONumber, etc.
+
+* Ability to scan a bar code and parse the image.
+* Ability to photograph a document and upload it to the IES server where it will be attached to the corresponding shipment.
+* Ability to create a PDF on the fly (current shipment, po, etc) begin viewed.
+* Ability to Print the above PDF wireless to any Printer within the Network or within range allowing for Apples Air Print Protocol (which is most of them).
+* Ability to have the app auto-save the PDF to the users Dropbox account. (iView will automatically create a folder in the users account root directory named "iViewMobileDocuments")
+* Ability to have the app auto-save the PDF to the users BOX account. (iView will automatically create a folder in the users account root directory named "iViewMobileDocuments")
+* Ability to Share any PO, Shipment, or Shipping Order via the following social media and 3rd Party applications:
+          - Facebook
+          - Evernote
+          - ReadItLater
+          - Flickr
+* Ability to execute the following local services from a Shipment Summary Screen
+          - Copy
+          - Print
+          - Save to Photo Album
+          - Email
+          - SMS
+
+* Bar Code and Document Scanner
+* Bar Code Scanner able to parse the following types of bar codes
+								        case Barcode.URL
+								        
+								        case Barcode.SMS:
+								            
+								        case Barcode.TELEPHONE:
+								            
+								        case Barcode.TEXT:
+								            
+								        case Barcode.CALENDAR:
+								            
+								        case Barcode.GEOLOCATION:
+								            
+								        case Barcode.EMAIL:
+								            
+								        case Barcode.CONTACT:
+								            
+								        case Barcode.BOOKMARK:
+								            
+								        case Barcode.WIFI:
+					
+* Ability to link with BOX account
+* Ability to link with Driobox account
+	- Via the two above - upload, download, load, delete and search respective directory via this app.
+* Ability to link with Salesforce account
+
+* Push Notification via Apple and Urban Airship Servers
+* Parse Library Implementation - Database Modeling Support and Push Notification
+* Flurry Analytics - Custom Tracking for Mobile Devices
+
+*****************************************************************************************
+---User Interface / User Experience ---
+*****************************************************************************************
+*Complete overhaul of graphics, layout and overall design
+*Push notifcations added
+*Multi Language support added for the following languages
+		- English
+	    - Chinese
+	    - German
+	    - French
+	    - Spanish
+	    - Japanese
+
+
+
+*****************************************************************************************
+---Design ---
+*****************************************************************************************
+
+
+*****************************************************************************************
+---Bug Fixes ---
+*****************************************************************************************

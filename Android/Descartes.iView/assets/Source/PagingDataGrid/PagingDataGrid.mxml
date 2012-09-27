@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:DataGrid xmlns:mx="http://www.adobe.com/2006/mxml"
+   creationComplete="creationCompleted()">
+   
+   <mx:Script>
+      <![CDATA[
+         import mx.effects.WipeDown;
+         import mx.effects.WipeUp;
+         import mx.core.ScrollPolicy;
+         import mx.controls.LinkButton;
+         import mx.controls.Text;
+         import mx.controls.ComboBox;
+         import mx.containers.HBox;
+         import mx.collections.ArrayCollection;
+         import mx.events.ListEvent;
+         import mx.controls.Image;
+         
+         public var pageButtonFontSize : int = 10;
+         public var textInfoFontSize : int = 10;
+         public var heighPagingBar : uint = 24;
+         public var heighComboBoxPages : uint = 24;
+         public var widthNavigationButton : uint = 24;
+         public var heightNavigationButton : uint = 24;
+         public var maxPageButton : uint = 3; // number of num-button displayed
+         public var maxNumberItemPerPage : uint = 30; // determine how many pages 
+         public var pageIconTooltip : String = "Click to show paging bar";
+         public const EVENT_START_PAGE_CHANGED : String = "PagingDataGrid.EVENT_START_PAGE_CHANGED";
+         public const EVENT_PAGE_NUMBER_CHANGED : String = "PagingDataGrid.EVENT_PAGE_NUMBER_CHANGED";
+      
+         [Bindable]
+         [Embed(source="arrow_up.png")]
+         private var _pagingAsset : Class;
+         
+         [Bindable]
+         [Embed(source="close.png")]
+         private var _hideAsset : Class;
+      
+         private const HIDE_BUTTON_NAME : String = "PagingDataGrid.HideButton";
+         private const PAGING_IMAGE_NAME : String = "PagingDataGrid.PagingImage";
+         private const TEXT_INFO_NAME : String = "PagingDataGrid.TextInfo";
+         private const PREVIOUS : String = "<";
+         private const NEXT : String = ">";
+         
+         private var _boxPaging : HBox = new HBox();
+         private var _boxImage : HBox = new HBox();
+         private var _pageImage : Image = new Image();
+         private var _boxNavigationButtons : HBox = new HBox();
+         
+         private var _visiblePage : Boolean = false;
+         private var _dataProvider : ArrayCollection;
+         
+         private var _allowPaging : Boolean = true;
+         private var _callLaterFunctions : ArrayCollection = new ArrayCollection();
+         private var _pageNumber : int = -1;
+         private var _startPageNumber : int = -1;
+         private var _cbPages : ComboBox = new ComboBox();
+         private var _textInfo : Text = new Text();
+        
+         private function creationCompleted() : void
+         {
+            initChildren();
+            initEventListener();
+            callPreviousFunctions();
+            
+            allowPaging = _allowPaging;
+         }
+         
+         public function set visibleTextInfo(value : Boolean) : void
+         {
+            if (_textInfo)
+            {
+               _textInfo.visible = value;
+            }
+         }
+         
+         private function initChildren() : void
+         {
+            if (_pagingAsset)
+            {
+               _pageImage.toolTip = pageIconTooltip;
+               _pageImage.name = PAGING_IMAGE_NAME;
+               pagingIcon = _pagingAsset;
+            }
+            
+            //box image
+            //===============
+            _boxPaging.horizontalScrollPolicy = ScrollPolicy.OFF;
+            _boxPaging.verticalScrollPolicy = ScrollPolicy.OFF;
+            _boxPaging.setStyle("horizontalAlign", "left");
+            _boxPaging.setStyle("verticalAlign", "middle");
+            _boxPaging.setStyle("backgroundColor", 
+               StyleManagerUtility.getColorsValueByName(StyleManagerUtility.BACKGROUND_DIM_COLOR));
+            _boxPaging.setStyle("backgroundAlpha", 0.5);
+            _boxPaging.setStyle("showEffect", new WipeUp());
+            _boxPaging.setStyle("hideEffect", new WipeDown());
+            _boxPaging.visible = false;
+            
+            //insert hide button, link box (navigation bar), text info
+            //=====================
+            _boxPaging.addChild(hideButton);
+            
+            _cbPages.height = heighComboBoxPages;
+            _cbPages.setStyle("fontWeight", "normal");
+            _boxPaging.addChild(_cbPages);
+            
+            _boxNavigationButtons.horizontalScrollPolicy = ScrollPolicy.OFF;
+            _boxNavigationButtons.verticalScrollPolicy = ScrollPolicy.OFF;
+            _boxNavigationButtons.setStyle("horizontalAlign", "center");
+            _boxNavigationButtons.setStyle("verticalAlign", "middle");
+            _boxNavigationButtons.setStyle("horizontalGap", 0);
+            _boxPaging.addChild(_boxNavigationButtons);
+            
+            _textInfo.setStyle("fontSize", textInfoFontSize);
+            _textInfo.name = TEXT_INFO_NAME;
+            _boxPaging.addChild(_textInfo);
+            
+            //box image
+            //===============
+            _boxImage.horizontalScrollPolicy = ScrollPolicy.OFF;
+            _boxImage.verticalScrollPolicy = ScrollPolicy.OFF;
+            _boxImage.setStyle("horizontalAlign", "center");
+            _boxImage.setStyle("verticalAlign", "middle");
+            _boxImage.setStyle("backgroundColor", 
+               StyleManagerUtility.getColorsValueByName(StyleManagerUtility.BACKGROUND_DIM_COLOR));
+            _boxImage.setStyle("backgroundAlpha", 0.5);
+            _boxImage.buttonMode = true;
+            _boxImage.useHandCursor = true;
+            _boxImage.mouseChildren = false;
+            _boxImage.addChild(_pageImage);
+            _boxImage.visible = true;
+            updatePosition(_boxImage);
+            
+            addChild(_boxPaging);
+            addChild(_boxImage);
+         }
+         
+         private function callPreviousFunctions() : void
+         {
+            for each (var func : Function in _callLaterFunctions)
+            {
+               func();
+            }
+            _callLaterFunctions.removeAll();
+         }
+         
+         private function initEventListener() : void
+         {
+            _pageImage.addEventListener(MouseEvent.CLICK, handlePageImageClick);
+            _boxImage.addEventListener(MouseEvent.CLICK, handlePageImageClick);
+            addEventListener(Event.RESIZE, handleResizeEvent);
+            hideButton.addEventListener(MouseEvent.CLICK, handleHideButtonClick);
+            _boxNavigationButtons.addEventListener(ListEvent.ITEM_CLICK, handleNavigationButtonClick);
+            addEventListener(EVENT_START_PAGE_CHANGED, handleStartPageChanged);
+            addEventListener(EVENT_PAGE_NUMBER_CHANGED, handlePageNumberChanged);
+            _cbPages.addEventListener(ListEvent.CHANGE, handleComboBoxItemClick);
+         }
+         
+         private function handleComboBoxItemClick(event : ListEvent) : void
+         {
+            if ((_cbPages.dataProvider as ArrayCollection).length == 1)
+            {
+               return;
+            }
+            
+            var newStartNumber : int = _cbPages.selectedIndex * maxPageButton + 1;
+            if (newStartNumber != _startPageNumber)
+            {
+               startPageNumber = newStartNumber;
+            }
+         }
+         
+         private function handlePageNumberChanged(event : Event) : void
+         {
+            generateDataProviderPage();
+         }
+         
+         private function handleStartPageChanged(event : Event) : void
+         {
+            generateNavigateButtons();
+         }
+         
+         private function set pageNumber(value : int) : void
+         {
+            if (!isValidPage(value))
+            {
+               return;
+            }
+            _pageNumber = value;
+            dispatchEvent(new Event(EVENT_PAGE_NUMBER_CHANGED));
+         }
+         
+         private function isValidPage(value : int = 0) : Boolean
+         {
+            if (!_dataProvider || _dataProvider.length == 0 || value > maxNumberPage)
+            {
+               return false;
+            }
+            return true;
+         }
+         
+         private function set startPageNumber(value : int) : void
+         {
+            if (!isValidPage(value))
+            {
+               return;
+            }
+            _startPageNumber = value;
+            dispatchEvent(new Event(EVENT_START_PAGE_CHANGED));
+         }
+         
+         private function handleNavigationButtonClick(event : MouseEvent) : void
+         {
+            var button : LinkButton = event.target as LinkButton;
+            switch (button.label)
+            {
+               case PREVIOUS:
+                  startPageNumber = _startPageNumber - maxPageButton;
+                  break;
+               
+               case NEXT:
+                  startPageNumber = _startPageNumber + maxPageButton;
+                  break;
+               
+               default:
+                  var pageNumber : Number = parseInt(button.label);
+                  if (pageNumber)
+                  {
+                     _pageNumber = pageNumber;
+                     generateDataProviderPage();
+                  }
+                  break;
+            }
+         }
+         
+         public function set allowPaging(value : Boolean) : void
+         {
+            _allowPaging = value;
+            _boxImage.visible = value;
+            _boxPaging.visible = value;
+            dataProvider = _dataProvider;
+         }
+         
+         public override function set dataProvider(value:Object):void
+         {
+            if (!(value && value is ArrayCollection))
+            {
+               super.dataProvider = value;
+               allowPaging = false;
+               return;
+            }
+            
+            _dataProvider = value as ArrayCollection;
+            super.dataProvider = _dataProvider;
+            if (_allowPaging)
+            {
+               startPageNumber = 1;
+               pageNumber = 1;
+               generateComboBoxPages();
+               _callLaterFunctions.addItem(generateNavigateButtons);
+               _callLaterFunctions.addItem(generateDataProviderPage);
+            }
+         }
+         
+         private function generateComboBoxPages() : void
+         {
+            if (!isValidPage())
+            {
+               _cbPages.dataProvider = new ArrayCollection();
+               return;
+            }
+            
+            var pages : ArrayCollection = new ArrayCollection();
+            
+            var endPage : int = maxNumberPage;
+            var toPage : int = 1;
+            for (var index : int = 1; index < endPage; index += maxPageButton)
+            {
+               toPage = index + maxPageButton - 1;
+               pages.addItem(index.toString() + " - " + toPage.toString());
+            }
+            if (toPage < endPage)
+            {
+               pages.addItem((toPage +1).toString() + " - " + endPage.toString());
+            }
+            _cbPages.dataProvider = pages;
+         }
+         
+         private function get maxNumberPage() : int
+         {
+            if (!_dataProvider || _dataProvider.length == 0)
+            {
+               return 0;
+            }
+            var addPage : int = _dataProvider.length % maxNumberItemPerPage == 0 ? 0 : 1;
+            return _dataProvider.length / maxNumberItemPerPage + addPage;
+         }
+         
+         private function generateDataProviderPage() : void
+         {
+            var data : ArrayCollection = new ArrayCollection();
+            var beginIndex : int = (_pageNumber - 1) * maxNumberItemPerPage;
+            var endIndex : int = Math.min( beginIndex + maxNumberItemPerPage, _dataProvider.length);
+            for (var index : int = beginIndex; index < endIndex; ++index)
+            {
+               data.addItem(_dataProvider[index]);
+            }
+            
+            //update info for new data provider
+            //=============================================
+            _textInfo.htmlText = "Page <b>" + _pageNumber + "</b> of <i>" + maxNumberPage + 
+               "</i> - Total: <b>" + _dataProvider.length.toString() + "</b> item(s).";
+            
+            super.dataProvider = data;
+         }
+         
+         private function generateNavigateButtons() : void
+         {
+            if (!_boxNavigationButtons)
+            {
+               _callLaterFunctions.addItem(generateNavigateButtons);
+               return;
+            }
+            
+            _boxNavigationButtons.removeAllChildren();
+            
+            var button : LinkButton;
+            
+            if ( _startPageNumber > 1 )
+            {
+               createPageButton(PREVIOUS);
+            }
+            var endPageNumber : int = Math.min(_startPageNumber + maxPageButton - 1, maxNumberPage);
+            for (var value : int = _startPageNumber; value <= endPageNumber; ++value)
+            {
+               createPageButton(value.toString());
+            }
+            if (endPageNumber < (_dataProvider.length / maxNumberItemPerPage))
+            {
+               createPageButton(NEXT);
+            }
+         }
+         
+         private function createPageButton(label : String) : void
+         {
+            var button : LinkButton  = new LinkButton();
+            button.setStyle("paddingLeft", 0);
+            button.setStyle("paddingRight", 0);
+            button.setStyle("fontWeight", "normal");
+            button.setStyle("fontSize", pageButtonFontSize);
+            button.width = widthNavigationButton;
+            button.height = Math.min( heightNavigationButton, heighPagingBar);
+            button.label = label;
+            button.addEventListener(MouseEvent.CLICK, handleNavigationButtonClick);
+            _boxNavigationButtons.addChild(button);
+         }
+         
+         private function handleHideButtonClick(event : Event) : void
+         {
+            closePagingBar();
+         }
+         
+         private function updatePosition(displayObject : DisplayObject) : void
+         {
+            switch (displayObject)
+            {
+               case _boxImage:
+                  _boxImage.x = 0;
+                  _boxImage.y = height - _pageImage.height;
+                  _boxImage.height = _pageImage.height;
+                  _boxImage.width = width;
+                  break;
+                  
+               case _boxPaging:
+                  _boxPaging.x = 0;
+                  _boxPaging.y = height - heighPagingBar - _boxImage.height;
+                  _boxPaging.height = heighPagingBar;
+                  _boxPaging.width = width;
+                  break;
+            }
+         }
+         
+         private function handleResizeEvent(event : Event) : void
+         {
+            updatePosition(_boxPaging);
+            updatePosition(_boxImage);
+         }
+         
+         private function openPagingBar() : void
+         {
+            _visiblePage = true;
+            updatePosition(_boxPaging);
+            _boxPaging.visible = true;
+         }
+         
+         private function closePagingBar() : void
+         {
+            _visiblePage = false;
+            _boxPaging.visible = false;
+         }
+         
+         public function set pagingIcon(value : Class) : void
+         {
+            if (_pageImage)
+            {
+               var bitmap : Bitmap = new value() as Bitmap;
+               _pageImage.source = bitmap;
+               _pageImage.buttonMode = true;
+               _pageImage.useHandCursor = true;
+               _pageImage.mouseChildren = false;
+               
+               _pageImage.width = bitmap.width;
+               _pageImage.height = bitmap.height;
+               _pageImage.visible = true;
+            }
+            else
+            {
+               _pagingAsset = value;
+            }
+         }
+         
+         private function handlePageImageClick(event : Event) : void
+         {
+            if (_visiblePage)
+            {
+               closePagingBar();
+            }
+            else
+            {
+               openPagingBar();
+            }
+         }
+         
+         private function get hideButton() : Image
+         {
+            var button : Image = _boxPaging.getChildByName(HIDE_BUTTON_NAME) as Image;
+            if (button)
+            {
+               return button;
+            }
+            
+            button = new Image();
+            var bitmap : Bitmap = new _hideAsset() as Bitmap;
+            button.source = bitmap;
+            button.name = HIDE_BUTTON_NAME;
+            button.width = bitmap.width;
+            button.height = bitmap.height;
+            button.buttonMode = true;
+            button.useHandCursor = true;
+            button.mouseChildren = false;
+            return button;
+         }
+         
+      ]]>
+   </mx:Script>
+   
+</mx:DataGrid>
+

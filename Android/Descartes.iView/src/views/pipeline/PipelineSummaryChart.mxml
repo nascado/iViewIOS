@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:analytics="com.google.analytics.components.*"
+		xmlns:chartservice="services.chartservice.*"		
+		fontFamily="Helvetica" 
+		title="Pipeline Graph"
+		viewActivate="viewActivate_eventHandler()"
+		addedToStage="onComplete()">
+	
+	
+	<!-- SCRIPTS
+	**************************************************************************************************
+	-->	
+	<fx:Script>
+		<![CDATA[
+			import com.zeusbase.APIKey;
+			import com.zeusbase.AppInfoObject;
+			
+			import mx.charts.HitData;
+			import mx.charts.events.ChartItemEvent;
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			
+			import views.detail.ShipmentDetail;
+			import views.ies.LogoutView;
+			import views.tabs.PipelineTabHome;
+			
+			public var flipTrans:FlipViewTransition = new FlipViewTransition();	
+			
+			
+			/**
+			 * START OF GOOGLE ANALYTICS CODE
+			 */ 
+			import com.google.analytics.GATracker;
+			import com.google.analytics.AnalyticsTracker;
+			
+			public var tracker:AnalyticsTracker;
+			
+			public var googleAnalyticsId:String = AppInfoObject.instance.googleAnalyticsId;
+			
+			private function onComplete():void
+			{
+				tracker = new GATracker( this, googleAnalyticsId, "AS3", false );
+			}
+			
+			public function onLoginButtonClick():void
+			{
+				tracker.trackPageview("Pipeline Summary Chart");
+				
+			}
+			/**
+			 * END OF GOOGLE ANALYTICS CODE
+			 */ 
+			
+			
+			
+			protected function PipelineSummaryPie_creationCompleteHandler(event:FlexEvent):void
+			{			
+				//PipelineSummaryResults.token = chartService.getPipelineSummary('fe4e8cb337045dd7b3632013961e5b02', '25');
+				getChartData();
+			}
+			
+			public function refresh(): void {	
+				trace('View loaded with getSummary() data call');
+				getChartData();
+			}			
+			
+			protected function PipelineSummaryPie_itemClickHandler(event:ChartItemEvent):void
+			{
+				// TODO Auto-generated method stub
+				
+			}
+			
+			
+			public function getChartData():void{
+				busy.visible=true;
+				PipelineSummaryResults.token = chartService.getPipelineSummary('25', APIKey.getInstance().keyCode);
+			}
+			
+			private function resultHandler(event:ResultEvent):void
+			{
+				trace("HTTP Service RESPONSE executed successfully");
+				busy.visible=false;
+				//barchart1.dataProvider(getSummaryResult.lastResult.data);
+				
+			}
+			
+			private function faultHandler(event:FaultEvent):void
+			{
+				trace(event.fault.faultDetail, "Error");				
+			}
+			
+			
+			
+			protected function actionButtonClicked():void
+			{
+				var duration:int = 1;
+				var direction:String = 'left';
+				// up, down, left, right
+				var mode:String = 'card';
+				// cube, card
+				
+				flipTrans.duration = duration*1000; 
+				flipTrans.mode = mode;
+				flipTrans.direction = direction;
+				
+				//navigator.popToFirstView(flipTrans);
+				navigator.pushView(views.tabs.PipelineTabHome, null, null, flipTrans);
+				
+			}
+		
+			
+			protected function navigatorButtonClicked():void
+			{
+				trace("Logout Clicked - exiting application");
+				navigator.pushView(views.ies.LogoutView);
+			}
+			
+			
+			protected function formatDataTip(hitData:HitData):String {
+				var description:String = hitData.item.Description;
+				var quantity:String = hitData.item.Quantity;
+				return description + "/n Total: " + quantity;
+			}
+			
+			
+			protected function barchart_itemClickHandler(event:ChartItemEvent):void
+			{				
+				var description:String = event.hitData.item.Description;
+				var quantity:String = event.hitData.item.Quantity;
+				infoAlertBtn.label = description + " : " + quantity;
+				infoAlertBtn.visible = true;
+			}
+			
+			protected function barChart_doubleClick(event:MouseEvent):void
+			{
+				trace('User double tapped the bar');
+			}
+		
+			
+			protected function togglePopupVisibility(component:Button, isVisible:Boolean):void
+			{
+				if(isVisible){
+					component.visible = true;
+				} else {
+					component.visible = true;					
+				}
+			}
+			
+			protected function hideAlertInfoButton():void {
+				infoAlertBtn.visible = false;
+			}
+			
+			protected function viewActivate_eventHandler():void{
+				trace("Pipeline Summary Chart view has loaded - event handler message");
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<!-- DECLARATIONS
+	**************************************************************************************************
+	-->	
+	<fx:Declarations>
+		<s:CallResponder id="PipelineSummaryResults"/>
+		<chartservice:ChartService id="chartService"  
+								   		result="resultHandler(event)"
+										fault="faultHandler(event)"/>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		
+		<!-- Define custom colors for use as pie wedge fills. -->
+		<mx:SolidColor id="sc1" color="#004080" alpha=".1"/>
+		<mx:SolidColor id="sc2" color="#004080" alpha=".3"/>
+		<mx:SolidColor id="sc3" color="#004080" alpha=".6"/>
+		<mx:SolidColor id="sc4" color="#004080" alpha=".8"/>
+		<mx:SolidColor id="sc5" color="#004080" alpha="1"/>
+		<mx:SolidColor id="sc6" color="#004080" alpha=".9"/>
+		<mx:SolidColor id="sc7" color="#004080" alpha=".7"/>
+		
+		<!-- Define custom colors for use in Bar Chart fills. -->
+		<mx:SolidColorStroke id="bar1" color="#004080" weight="2"/>
+		<mx:SolidColorStroke id="bar2" color="#004080" weight="2"/>
+		<mx:SolidColorStroke id="bar3" color="#004080" weight="2"/>
+		<mx:SolidColorStroke id="bar4" color="#004080" weight="2"/>
+		<mx:SolidColorStroke id="bar5" color="#004080" weight="2"/>
+		<mx:SolidColorStroke id="bar6" color="#004080" weight="2"/>
+		<mx:SolidColorStroke id="bar7" color="#004080" weight="2"/>
+	
+		
+		<!-- Pop Up Window Component -->		
+		<fx:Component className="AlertMsg">			
+			<s:SkinnablePopUpContainer x="20" y="200" skinClass="com.zeusbase.skins.AlertWindowSkin">				
+				<s:VGroup paddingTop="8" paddingBottom="8" paddingLeft="8" paddingRight="8" horizontalAlign="center">
+					<s:Label text="" />
+					<s:Button label="Ok" click="this.close()"/>
+					<s:Button label="Cancel" click="this.close()"/>		
+				</s:VGroup>  
+			</s:SkinnablePopUpContainer>
+		</fx:Component>
+
+	</fx:Declarations>
+	
+	
+	<!-- NAVIGATION
+	**************************************************************************************************
+	-->	
+	<s:navigationContent>
+		<s:Button click="actionButtonClicked()" 			
+				  icon="@Embed('assets/glyphs/icon-back@2x.png')"/>				
+	</s:navigationContent>
+	
+	<s:actionContent>
+		<s:Button id="chartBtn" click="getChartData()"
+				  icon="@Embed('assets/glyphs/icon-refresh@2x.png')">
+		</s:Button>
+	</s:actionContent>		
+	
+
+	
+	
+	<!-- Custom Design Layer Overides
+	**************************************************************************************************
+	-->		
+	<!-- Background -->
+	<s:Rect left="0" right="0" height="100%" width="100%">
+		<s:fill>
+			<s:BitmapFill source="@Embed('assets/backgrounds/blueNoise.png')" fillMode="scale" />
+		</s:fill>
+	</s:Rect>
+	
+	<!-- UI Navbar : Custom -->	
+	<s:Image left="0" right="0" bottom="0" height="42" scaleMode="stretch"
+			 source="assets/backgrounds/UINavBar@2x.png"/>
+	
+
+	
+	<!-- Title for Custom Navbar -->
+	<s:Label left="22" right="10" bottom="4" height="27" color="#1E303D" fontFamily="Verdana"
+			 fontStyle="normal" fontWeight="normal" 
+			 visible="true"			 
+			 text="Tap on bars to see more info." textAlign="center"
+			 verticalAlign="middle"/>
+
+
+	
+	
+	<!-- CHART
+	**************************************************************************************************
+	-->
+	<mx:BarChart id="barchart1" visible="true" left="22" right="30" top="30" bottom="58"
+				 creationComplete="PipelineSummaryPie_creationCompleteHandler(event)"
+				 dataProvider="{PipelineSummaryResults.lastResult.data}"
+				 itemClick="barchart_itemClickHandler(event)" 
+				 dataTipCalloutStroke="{bar7}"
+				 dataTipFunction="formatDataTip"
+				 doubleClickEnabled="true" 
+				 doubleClick="barChart_doubleClick(event)" 
+				 color="#ffffff"				 
+				 showDataTips="false" 
+				 type="stacked">
+		
+
+		<mx:series>			
+			<mx:BarSeries id="barSeries" dataProvider="{data.Quantity}"  displayName="Pipeline" xField="Quantity"
+						  fills="{[sc1, sc2, sc3, sc4, sc5, sc6, sc7]}" />
+		</mx:series>
+		
+		<mx:verticalAxis>
+			<mx:CategoryAxis id="categoryAxis" categoryField="Description"/>
+		</mx:verticalAxis>
+		
+		
+		
+	</mx:BarChart>
+	
+	
+
+	
+	
+	<!-- Gradients (top and bottom) && Alert/Info Popup Component
+	**************************************************************************************************
+	-->	
+	<!-- Gradient BOTTOM -->
+	<s:Image left="0" right="0" bottom="41" height="19" scaleMode="stretch" smooth="true"
+			 source="@Embed('assets/backgrounds/GradientBottom.png')"/>
+	
+	<!-- Gradient TOP -->
+	<s:Image id="topGradient" left="0" right="0" top="0" height="20" scaleMode="stretch"
+			 source="assets/backgrounds/GradientTop.png"/>
+	
+	<!-- INFO ALERT -->
+	<s:Button id="infoAlertBtn" left="22" right="10" top="152" height="63" visible="false"
+			  label=""
+			  skinClass="skins.zeusbase.InfoMessageAlertSkin"			  
+			  horizontalCenter="0" verticalCenter="0" 
+			  click="hideAlertInfoButton()" />
+
+
+	<!-- Busy Indicator
+	**************************************************************************************************
+	-->
+	<s:BusyIndicator id="busy" visible="true" width="76" height="68" horizontalCenter="0"
+					 rotationInterval="50" symbolColor="#ffffff" verticalCenter="-65"/>		
+	
+	
+
+	
+</s:View>

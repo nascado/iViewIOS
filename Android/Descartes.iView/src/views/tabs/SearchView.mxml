@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:renderers="renderers.*"
+		xmlns:trackingservice="services.trackingservice.*"
+		chromeColor="0x004080" 
+		data="{data}" 
+		fontStyle="normal" 
+		fontWeight="normal"
+		menuKeyPressed="event_menuKeyPressed()" 
+		overlayControls="false" 
+		textDecoration="none"
+		title="Search" 
+		creationComplete="view_creationCompleteHandler(event)">
+		
+	<!--
+	** SCRIPTS
+	=====================================================================================================================================================
+	-->	
+	<fx:Script>
+		<![CDATA[
+			import com.adobe.serializers.utility.TypeUtility;
+			import com.zeusbase.APIKey;
+			
+			import mx.core.DPIClassification;
+			import mx.core.FlexGlobals;
+			import mx.events.CollectionEvent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.events.IndexChangeEvent;
+			import spark.events.TextOperationEvent;
+			
+			import views.detail.ShipmentDetail;
+			
+			
+			[Bindable]
+			protected var searchQualifier:String = "";
+			[Bindable]
+			protected var searchValue:String = "";
+			
+			/**	
+			[Bindable]
+			[Embed(source='assets/logo/ic_tab_32x32g')]			
+			public var fbIcon:Class;			
+			*/
+			
+			protected function view_creationCompleteHandler(event:FlexEvent):void
+			{
+				if (Capabilities.version.indexOf("IOS") == 0)
+				{
+					var padding:Number = (10 * FlexGlobals.topLevelApplication.applicationDPI / DPIClassification.DPI_160);
+					list.top = list.bottom = list.left = list.right = padding;
+				}			
+			}
+			
+			
+			private function resultHandler(event:ResultEvent):void
+			{
+				trace("HTTP Service RESPONSE executed successfully");
+				busy.visible=false;			
+				searchMessagePrompt.visible = false;
+				
+				var totalResults:int = SearchResults.lastResult.total;
+				trace("Total Results = " + totalResults);
+				
+				// Add message when result set is empty
+				if(totalResults == 0){
+					listMessageNoResults.text = "No Results Found.";
+					listMessageNoResults.visible=true;	
+				}
+				
+			}
+			
+			private function faultHandler(event:FaultEvent):void
+			{
+				busy.visible=false;
+				searchMessagePrompt.visible = false;
+				trace(event.fault.faultDetail, "Error");				
+			}
+			
+			protected function getListData(filter:String):void
+			{								
+				SearchResults.token = trackingService.getShipments(filter, APIKey.getInstance().keyCode);
+				
+				trace('apikey - ' + APIKey.getInstance().keyCode);
+				trace('Search Filter = ' + filter);
+			}			
+			
+			protected function asynclistview_Browse_collectionChangeHandler(event:CollectionEvent):void
+			{
+				busy.visible=false;						
+			}
+			
+			protected function list_creationCompleteHandler(event:FlexEvent):void				
+			{
+				trace('Search List Creation Complete - Event');
+				//var filter:String = '[{"property":"FileNumber","value":"SEHXMN11100027"}]';
+				//getListData(filter);
+			}
+	
+			public function refresh(): void {				
+				var filter:String = '[{"property":"FileNumber","value":"' + searchField.text + '"}]';
+				getListData(filter);
+			}			
+			
+			public function searchAction():void {
+				
+				if(searchQualifier == ""){
+					searchMessagePrompt.visible = true;
+					searchMessagePrompt.text = "You must select a Qualifier";
+				} else {
+					searchMessagePrompt.visible = true;
+					searchMessagePrompt.text = "Searching for " + searchQualifier + " " + searchField.text;
+					busy.visible=true;
+					var filter:String = '[{"property":"' + searchQualifier + '","value":"' + searchField.text + '"}]';
+					getListData(filter);
+				}
+			}
+			
+			public function pickerAction():void {
+				trace("pickerAction() function called.");	
+				
+			}			
+
+			protected function list_changeHandler(event:IndexChangeEvent):void
+			{				
+				navigator.pushView(views.detail.ShipmentDetail, list.selectedItem);
+			}
+			
+			protected function asynclistview1_collectionChangeHandler(event:CollectionEvent):void
+			{
+				busy.visible=false;					
+			}
+			
+		
+			
+			private function clientSideListFilter(item:Object):Boolean{
+				var isMatch:Boolean = false
+				if(item.name.toLowerCase().search(searchField.text.toLowerCase()) != -1){
+					isMatch = true
+				} 
+				return isMatch; 
+			}
+			
+			/**
+			 * View Level Event Handlers
+			 */			
+			public function event_menuKeyPressed():void
+			{
+				trace("Menu Key Pressed");	
+			}
+			
+			
+			
+			protected function onItemClick(event:MouseEvent):void
+			{
+				switch (event.currentTarget.label) {
+					case "File Number" :
+						searchQualifier = "FileNumber";
+						searchField.prompt = "File Number";
+						break;
+					case "Master Number" :
+						searchQualifier = "MasterNumber";
+						searchField.prompt = "Master Number";
+						break;
+					case "House Number" :
+						searchQualifier = "HouseNumber";
+						searchField.prompt = "House Number";
+						break;
+					case "PO Number" :
+						searchQualifier = "PO_Number";
+						searchField.prompt = "PO Number";
+						break;
+					case "Container Number" :
+						searchQualifier = "ContainerNumber";
+						searchField.prompt = "Container Number";
+						break;
+					case "Clear" :
+						searchQualifier = "";
+						searchField.prompt = "Select Qualifier";
+						break;
+					default :
+						searchQualifier = "";
+				}
+			}			
+			
+			
+			protected function searchField_changeHandler(event:TextOperationEvent):void
+			{
+				trace('User typed: ' + searchField.text);
+			}
+			
+		]]>
+	</fx:Script>
+
+	<!--
+	** DECLARATIONS
+	=====================================================================================================================================================
+	-->	
+	<fx:Declarations>
+		<s:CallResponder id="SearchResults"
+						 result="resultHandler(event)"
+						 fault="faultHandler(event)" />
+		<trackingservice:TrackingService id="trackingService"/>
+	</fx:Declarations>
+
+	<!--
+	** STYLES
+	=====================================================================================================================================================
+	-->	
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		
+		.viewResultsResponseList { 
+			fontSize: 12;
+			fontFamily: "Helvetica";
+			textDecoration: none;
+			color: #2468a2;
+		}
+
+		@media (os-platform: "IOS")
+		{
+			.listFormItemRenderer
+			{
+				borderStyle: rounded;
+				cornerRadius: 10;
+			}
+			
+			.listForm #titleDisplay
+			{
+				backgroundAlpha: 0;
+				color: #4C566C;
+				fontFamily: "Helvetica";
+				fontSize: 18;
+			}
+		}
+		
+		@media (os-platform: "IOS") and (application-dpi: 320)
+		{
+			.listFormItemRenderer
+			{
+				cornerRadius: 20;
+			}
+			
+			.listForm #titleDisplay
+			{
+				fontSize: 36;
+			}
+		}
+		
+	</fx:Style>
+	
+	
+
+	<!--
+	** View Menu Items
+	=====================================================================================================================================================
+	-->	
+	<s:viewMenuItems>
+		<s:ViewMenuItem label="File Number" click="onItemClick(event)"/>
+		<s:ViewMenuItem label="Master Number" click="onItemClick(event)"/>
+		<s:ViewMenuItem label="House Number" click="onItemClick(event)"/>
+		<s:ViewMenuItem label="PO Number" click="onItemClick(event)"/>
+		<s:ViewMenuItem label="Container Number" click="onItemClick(event)"/>				
+		<s:ViewMenuItem label="Clear" click="onItemClick(event)"/>		
+	</s:viewMenuItems>
+	
+	
+	<!--
+	** NAVIGATION
+	=====================================================================================================================================================
+	-->	
+	<s:actionContent>
+		<s:Button id="pickerBtn" click="mx.core.FlexGlobals.topLevelApplication.viewMenuOpen=true;"
+				  icon="@Embed('assets/glyphs/icon-info@2x.png')" styleName="NavigationButton">
+		</s:Button>		
+		<s:Button id="searchBtn" click="searchAction()"
+				  icon="@Embed('assets/glyphs/06-magnify.png')">
+		</s:Button>
+	</s:actionContent>	
+	
+	<s:titleContent>
+		<s:TextInput id="searchField" width="100%" enabled="true" fontFamily="Times New Roman" change="searchField_changeHandler(event)"
+					 fontStyle="italic" prompt="Select Search Type"/>
+	</s:titleContent>
+	
+	
+	<!-- Background -->
+	<s:Rect left="0" right="0" height="100%" width="100%">
+		<s:fill>
+			<s:BitmapFill source="@Embed('assets/backgrounds/chrome.png')" fillMode="scale" />
+		</s:fill>
+	</s:Rect>
+	
+	
+
+	
+	<!--
+	***  No Results Message
+	-->	
+	<s:Label id="listMessageNoResults" visible="false" width="319" height="33" color="#84130D"
+			 fontFamily="Helvetica" fontSize="13" fontStyle="italic" fontWeight="bold"
+			 text="No Results Found." textAlign="center" verticalAlign="middle"/>
+	
+	
+	
+	<!--
+	** LIST
+	=====================================================================================================================================================
+	-->	
+
+	<s:Scroller width="100%" height="100%">
+		<s:Group width="100%" height="100%">
+			
+			<!-- Custom List with optional title skin part -->
+			<s:ListForm id="list" left="0" right="0" top="0" bottom="0"
+						change="list_changeHandler(event)"
+						creationComplete="list_creationCompleteHandler(event)" styleName="listForm"
+						title="Total Records: {SearchResults.lastResult.total} ">
+				
+				<s:AsyncListView collectionChange="asynclistview_Browse_collectionChangeHandler(event)"
+								 list="{TypeUtility.convertToCollection(SearchResults.lastResult.data)}"/>
+				
+				<s:itemRenderer>
+					<fx:Component>
+						<renderers:StyledIconItemRenderer
+							styleName="listFormItemRenderer"
+							messageStyleName="viewResultsResponseList"
+							label="File#: {data.FileNumber}"
+							messageFunction="getDetails"					
+							verticalAlign="middle"
+							decorator="@Embed(source='assets/glyphs/Info.png')">
+							<fx:Script>
+								<![CDATA[
+									import assets.LoadingIcon;
+									private function getDetails(item: Object): String{																							
+										return "MBL: " + data.MasterNumber + " HBL: " + data.HouseNumber;									
+									}
+								]]>
+							</fx:Script>
+						</renderers:StyledIconItemRenderer>
+						
+					</fx:Component>
+				</s:itemRenderer>
+				
+				
+			</s:ListForm>
+			
+			<s:Label id="searchMessagePrompt" visible="false" width="251" color="#004080"
+					 fontStyle="normal" fontWeight="normal" horizontalCenter="1" text="Searching..."
+					 textAlign="center" verticalAlign="middle" verticalCenter="-105"/>
+			
+		</s:Group>
+	</s:Scroller>
+	
+	
+	<!--
+	** LOADER
+	=====================================================================================================================================================
+	-->	
+	<s:BusyIndicator id="busy" visible="false" width="86" height="87" horizontalCenter="0"
+					 rotationInterval="50" symbolColor="#004080" verticalCenter="-65"/>		
+	
+	
+</s:View>

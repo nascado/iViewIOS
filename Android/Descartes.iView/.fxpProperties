@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<fxpProperties abbreviated="false" authoringTool="Flex Builder" compiles="true" parentProject="fdc23f00-30a2-4cdf-8af0-5b1e5cb042ea" projectUUID="fdc23f00-30a2-4cdf-8af0-5b1e5cb042ea" pureCatalystProject="false" sdkVersion="4.6.0" uuid="52031620-d7ca-4aa2-818b-b120211b3625" version="15">
+  <projects/>
+  <src/>
+  <swc>
+    <linked location="sdkPlaceHolder" path="sdkPlaceHolder" position="0" uuid="52031620-d7ca-4aa2-818b-b120211b3625"/>
+    <linked location="${DCD_LIB_LOCATION}" path="${DCD_LIB_LOCATION}" position="1" uuid="bd7ef461-fe80-4e6d-bcb6-73e64f645a82"/>
+    <linked location="${DCD_LOCALE_LOCATION}" path="${DCD_LOCALE_LOCATION}" position="2" uuid="bd7ef461-fe80-4e6d-bcb6-73e64f645a82"/>
+    <linked location="${DCD_FIBER_LOCATION}/fiber.swc" path="${DCD_FIBER_LOCATION}/fiber.swc" position="3" uuid="bd7ef461-fe80-4e6d-bcb6-73e64f645a82"/>
+    <linked location="${DCD_FIBER_LOCALE_LOCATION}/fiber_rb.swc" path="${DCD_FIBER_LOCALE_LOCATION}/fiber_rb.swc" position="4" uuid="bd7ef461-fe80-4e6d-bcb6-73e64f645a82"/>
+    <linked location="${DCD_FIBER_LOCATION}/playerfds.swc" path="${DCD_FIBER_LOCATION}/playerfds.swc" position="5" uuid="bd7ef461-fe80-4e6d-bcb6-73e64f645a82"/>
+    <linked location="/libs" path="/libs" position="6" uuid="bd7ef461-fe80-4e6d-bcb6-73e64f645a82"/>
+    <linked location="/libs/Freezer" path="/libs/Freezer" position="7" uuid="7d6dcd5c-e953-437b-983f-03e6cab2be8b"/>
+    <linked location="${FLEXUNIT_LIB_LOCATION}/version4libs/Common" path="${FLEXUNIT_LIB_LOCATION}/version4libs/Common" position="8" uuid="c148beaf-99e5-4bef-b647-11299b10d3c4"/>
+    <linked location="${FLEXUNIT_LIB_LOCATION}/version4libs/FlexProject" path="${FLEXUNIT_LIB_LOCATION}/version4libs/FlexProject" position="9" uuid="c148beaf-99e5-4bef-b647-11299b10d3c4"/>
+    <linked location="${FLEXUNIT_LIB_LOCATION}/version4libs/FlexProject_Extended" path="${FLEXUNIT_LIB_LOCATION}/version4libs/FlexProject_Extended" position="10" uuid="c148beaf-99e5-4bef-b647-11299b10d3c4"/>
+    <linked location="${FLEXUNIT_LOCALE_LOCATION}/version4locale/" path="${FLEXUNIT_LOCALE_LOCATION}/version4locale/" position="11" uuid="c148beaf-99e5-4bef-b647-11299b10d3c4"/>
+  </swc>
+  <misc/>
+  <theme/>
+  <mxmlFormattingPrefs groupAttributesByState="true" maxLineWidth="100" mxmlAlignAttributes="true" mxmlAttributeOrder="id,userLabel,includeIn,excludeFrom,visible,x,y,z,left,right,top,bottom,width,height,minWidth,minHeight,maxWidth,maxHeight,label" mxmlKeepAttributeValuesOrganized="true"/>
+</fxpProperties>

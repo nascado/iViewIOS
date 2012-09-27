@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SkinnablePopUpContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+						   xmlns:s="library://ns.adobe.com/flex/spark"
+						   skinClass="com.zeusbase.components.PopupComponentSkin">
+		
+	<s:VGroup paddingTop="8" paddingBottom="8" paddingLeft="8" paddingRight="8" horizontalAlign="center">
+		<s:Label text="iView Alert Box"/>
+		<s:Button label="Close Alert Window" click="this.close()"/>			
+	</s:VGroup>  
+</s:SkinnablePopUpContainer>

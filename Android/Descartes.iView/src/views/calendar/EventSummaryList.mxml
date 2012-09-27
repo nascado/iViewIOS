@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"		
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:layout="com.zeusbase.layout.*"
+		xmlns:skins="com.zeusbase.skins.*"		
+		xmlns:components="com.zeusbase.components.*"
+		xmlns:renderers="renderers.*"
+		fontWeight="normal"
+		xmlns:calendarservice="services.calendarservice.*"
+		creationComplete="view_creationCompleteHandler(event)"
+		destructionPolicy="never"
+		title="Event Summary">
+	
+	<!-- =====================================================================================
+		SCRIPTS
+	===================================================================================== -->
+	<fx:Script>
+		<![CDATA[
+			/**
+			 * Zeusbase and Adobe Imports
+			 */ 
+			import com.adobe.serializers.utility.TypeUtility;
+			import com.zeusbase.APIKey;
+			/**
+			 * MX Imports
+			 */ 			
+			import mx.collections.ArrayCollection;
+			import mx.core.DPIClassification;
+			import mx.core.FlexGlobals;
+			import mx.events.CollectionEvent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			/**
+			 * Sparks Imports
+			 */ 					
+			import spark.events.IndexChangeEvent;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			/**
+			 * Views and Object Imports
+			 */ 					
+			import views.tabs.CalendarTabHome;	
+			import views.tabs.PipelineTabHome;
+			public var flipTrans:FlipViewTransition = new FlipViewTransition();
+
+			
+			/**
+			 * Navigation Button Functions
+			 */ 
+			protected function goBackOneView():void {
+					var duration:int = 1;
+					var direction:String = 'right';					
+					var mode:String = 'cube';					
+					flipTrans.duration = duration*1000; 
+					flipTrans.mode = mode;
+					flipTrans.direction = direction;
+					
+					//navigator.pushView(views.tabs.CalendarTabHome, data, null, flipTrans);
+					navigator.pushView(views.tabs.CalendarTabHome);
+					
+			}
+	
+			public function refresh(): void {		
+				busy.visible = true;				
+				getListData();				
+			}
+			
+			
+			/**
+			 * Data Access Functions
+			 */ 
+			private function resultHandler(event:ResultEvent):void
+			{
+				trace("HTTP Service RESPONSE executed successfully");
+				busy.visible=false;				
+				
+				var totalResults:int = SummaryResultsData.lastResult.total;
+				trace("Total Results = " + totalResults);
+				
+				// Add message when result set is empty
+				if(totalResults == 0){
+					listMessageNoResults.text = "No events found for this Month.";
+					listMessageNoResults.visible=true;	
+				}
+			}
+			
+			private function faultHandler(event:FaultEvent):void
+			{
+				trace(event.fault.faultDetail, "Error");				
+			}
+						
+			public function getListData():void{				
+				SummaryResultsData.token = calendarService.getSummary(APIKey.getInstance().keyCode);
+			}
+			
+			
+			/**
+			 * Event Handlers
+			 */ 
+			protected function list_creationCompleteHandler(event:FlexEvent):void
+			{	
+				getListData();				
+			}
+						
+			protected function view_creationCompleteHandler(event:FlexEvent):void
+			{
+				if (Capabilities.version.indexOf("IOS") == 0)
+				{
+					var padding:Number = (10 * FlexGlobals.topLevelApplication.applicationDPI / DPIClassification.DPI_160);
+					list.top = list.bottom = list.left = list.right = padding;
+				}				
+			}
+			
+			protected function asynclistview_collectionChangeHandler(event:CollectionEvent):void
+			{
+				busy.visible=false;						
+			}
+			
+			protected function list_changeHandler(event:IndexChangeEvent):void
+			{
+				navigator.pushView(views.calendar.DayView, list.selectedItem);
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<!-- =====================================================================================
+		DECLARATIONS
+	===================================================================================== -->
+	<fx:Declarations>
+		<s:CallResponder id="SummaryResultsData"
+						 result="resultHandler(event)" 
+						 fault="faultHandler(event)"/>
+		<calendarservice:CalendarService id="calendarService"/>
+	</fx:Declarations>
+
+	<!-- STYLES
+	**************************************************************************************************
+	-->	
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		
+		.viewResultsResponseList { 
+			fontSize: 12;
+			fontFamily: "Helvetica";
+			textDecoration: none;
+			color: #2468a2;
+		}
+		
+		@media (os-platform: "IOS")
+		{
+			.listFormItemRenderer
+			{
+				borderStyle: rounded;
+				cornerRadius: 10;
+			}
+			
+			.listForm #titleDisplay
+			{
+				backgroundAlpha: 0;
+				color: #4C566C;
+				fontFamily: "Helvetica";
+				fontSize: 18;
+			}
+		}
+		
+		@media (os-platform: "IOS") and (application-dpi: 320)
+		{
+			.listFormItemRenderer
+			{
+				cornerRadius: 20;
+			}
+			
+			.listForm #titleDisplay
+			{
+				fontSize: 36;
+			}
+		}
+		
+	</fx:Style>
+	
+	
+	<!-- =====================================================================================
+	***  Navigation
+	===================================================================================== -->
+	<s:navigationContent>
+		<s:Button icon="@Embed('assets/glyphs/icon-back@2x.png')" click="goBackOneView()"/>				
+	</s:navigationContent>
+	
+	<s:actionContent>
+		<s:Button id="refreshBtn" click="Object(navigator.activeView).refresh()"
+				  icon="@Embed('assets/glyphs/icon-refresh@2x.png')">
+		</s:Button>
+	</s:actionContent>
+	
+	
+	
+	<!-- Background -->
+	<s:Rect left="0" right="0" height="100%" width="100%">
+		<s:fill>
+			<s:BitmapFill source="@Embed('assets/backgrounds/chrome.png')" fillMode="scale" />
+		</s:fill>
+	</s:Rect>
+	
+	
+	
+	<!--
+	***  No Results Message
+	-->	
+	<s:Label id="listMessageNoResults" visible="false" width="319" height="33" color="#84130D"
+			 fontFamily="Helvetica" fontSize="13" fontStyle="italic" fontWeight="bold"
+			 text="No Results Found." textAlign="center" verticalAlign="middle"/>
+
+	
+	
+	<!-- =====================================================================================
+	***  LIST
+	===================================================================================== -->
+	<s:Scroller width="100%" height="100%">
+		<s:Group width="100%" height="100%">
+			
+			<s:ListForm id="list" left="0" right="0" top="0" bottom="0" width="100%" height="100%"
+					creationComplete="list_creationCompleteHandler(event)" 
+					change="list_changeHandler(event)"
+					styleName="listForm"
+					title="Total Shipments for Month: {SummaryResultsData.lastResult.total} ">
+				
+				
+				<s:AsyncListView collectionChange="asynclistview_collectionChangeHandler(event)" 
+								 list="{TypeUtility.convertToCollection(SummaryResultsData.lastResult.data)}"/>
+				
+				<s:itemRenderer>
+					<fx:Component>
+						<renderers:StyledIconItemRenderer
+							styleName="listFormItemRenderer"
+							messageStyleName="viewResultsResponseList"
+							labelFunction="getLabel"
+							messageFunction="getDetails"					
+							verticalAlign="middle"
+							decorator="@Embed(source='assets/buttonsweb/calendar.png')">
+							<fx:Script>
+								<![CDATA[
+									
+									
+									private function getLabel(item:Object): String {
+										//return "Date: " + item.EventDate + " Arrivals: " + item.NumArrivals;
+										return item.NumArrivals + " arrivals on " + item.EventDate;
+									}
+									
+									private function getDetails(item: Object): String{																					
+										return "Air: " + item.NumArrivalsAir + "  Ocean: " + item.NumArrivalsOcean + "  Other: " + item.NumArrivalsOther;
+										
+									}
+								]]>
+							</fx:Script>
+						</renderers:StyledIconItemRenderer>
+						
+					</fx:Component>
+				</s:itemRenderer>
+				
+				
+			</s:ListForm>
+					
+		</s:Group>
+	</s:Scroller>
+	
+	
+	<!-- =====================================================================================
+	***  BUSY INDICATOR
+	===================================================================================== -->
+	<s:BusyIndicator id="busy" visible="true" width="86" height="84" horizontalCenter="0"
+					 rotationInterval="50" symbolColor="#004080" verticalCenter="-65"/>		
+	
+
+	
+</s:View>

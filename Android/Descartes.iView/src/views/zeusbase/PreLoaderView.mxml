@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:ns1="*"
+		title="PreLoaderView">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		
+		<![CDATA[
+			import views.tabs.PipelineTabHome;
+		protected function actionButtonClicked():void
+		{
+			navigator.pushView(views.tabs.PipelineTabHome);
+		}
+		]]>
+		
+	</fx:Script>		
+	
+	<s:actionContent>
+		<s:Button id="chartBtn" click="actionButtonClicked()"
+				  icon="@Embed('assets/logo/Icon-72.png')">
+		</s:Button>
+	</s:actionContent>	
+	
+	<ns1:preLoaderIES id="flashPreLoader" left="11" right="10" top="10" bottom="10"/>
+	
+</s:View>

@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:components="components.*"			
+		creationComplete="creationComplete_EventHandler(event)"
+		destructionPolicy="never"
+		menuKeyPressed="event_menuKeyPressed()"
+		overlayControls="false" 
+		viewActivate="viewActivateHandler(event)"
+		title="PO# {data.PO_Number}">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.adobe.serializers.utility.TypeUtility;
+			
+			import mx.events.CollectionEvent;
+			import mx.events.FlexEvent;
+			
+			import spark.events.IndexChangeEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			
+			import views.pipeline.POItemsList;
+			import views.pipeline.POList;
+			import views.pipeline.POShippingOrdersList;
+			
+			public var flipTrans:FlipViewTransition = new FlipViewTransition();	
+			public var duration:int = 1;			
+			
+			import views.tabs.PipelineTabHome;			
+			
+			
+			
+			
+	
+			protected function viewActivateHandler(event:ViewNavigatorEvent):void
+			{				
+				if (navigator.poppedViewReturnedObject != null) {
+					data = navigator.poppedViewReturnedObject;
+				}
+			}
+
+			
+			
+			protected function poheader_addHandler(event:FlexEvent):void{
+				// not needed yet
+			}
+			
+			public function refresh(): void {		
+				// do something
+			}			
+			
+			protected function pushBackToList():void
+			{
+				flipTrans.duration = duration*1000; 
+				flipTrans.mode = 'card';
+				flipTrans.direction = 'right';				
+				navigator.pushView(views.pipeline.POList, data, null, flipTrans); 				
+			}
+			
+			protected function popBackToList():void
+			{
+				flipTrans.duration = duration*1000; 
+				flipTrans.mode = 'card';
+				flipTrans.direction = 'right';				
+				navigator.popView(flipTrans);
+			}
+			
+			protected function loadPOItemsView():void{
+				flipTrans.duration = duration*1000; 
+				flipTrans.mode = 'card';
+				flipTrans.direction = 'right';	
+				navigator.pushView(views.pipeline.POItemsList, data, null, flipTrans); 				
+			}
+			
+			protected function loadShippingOrdersView():void{
+				var duration:int = 1;
+				var direction:String = 'right';
+				// up, down, left, right
+				var mode:String = 'card';
+				// cube, card
+				
+				flipTrans.duration = duration*1000; 
+				flipTrans.mode = mode;
+				flipTrans.direction = direction;
+				navigator.pushView(views.pipeline.POShippingOrdersList, data, null, flipTrans); 
+								
+			}
+			
+			protected function pipelineFavoritesBtn_clickHandler(event:MouseEvent):void
+			{
+				
+				
+			}
+			
+			protected function getPOSummaryInfo():void {
+				
+			}
+			
+			
+			protected function creationComplete_EventHandler(event:FlexEvent):void{
+						trace("Loading PO Header for PONumber = " + data.PO_Number + " and POHeaderId = " + data.PO_HeaderId);
+			}
+			
+			/**
+			 * View Level Event Handlers
+			 */			
+			public function event_menuKeyPressed():void
+			{
+				trace("Menu Key Pressed");	
+			}
+			
+			
+			
+			protected function onItemClick(event:MouseEvent):void
+			{
+				switch (event.currentTarget.label) {
+					case "Add to Favorites" :
+						//navigator.pushView(views.list.CustomsResponseLoader);
+						break;
+					case "Email" :
+						//navigator.pushView(views.zeusbase.UserManagment);
+						break;
+					default :
+						// do something
+				}
+			}	
+			
+		]]>
+	</fx:Script>		
+
+	<!-- POP WINDOW
+		click="(new AddToFavoritesConfirm()).open(this, false)"
+	
+	<fx:Declarations>
+		<fx:Component className="AddToFavoritesConfirm">
+			<s:SkinnablePopUpContainer x="10" y="200">
+				<s:TitleWindow title="Confirm Action" close="close()">
+					<s:VGroup horizontalAlign="left" paddingTop="8" paddingBottom="8" paddingLeft="5" paddingRight="8" gap="5" width="30%">
+						<s:Label text="Are you sure you wish to add this to your favorties?"/>
+						<s:Button label="Yes" click="close()"/>
+						<s:Button label="No" click="close()"/>
+					</s:VGroup>
+				</s:TitleWindow>
+			</s:SkinnablePopUpContainer>
+		</fx:Component>
+	</fx:Declarations>
+	-->
+	
+	
+	
+	<!--
+	** View Menu Items
+	-->	
+	<s:viewMenuItems>
+		<s:ViewMenuItem label="Add to Favorites" click="onItemClick(event)"/>
+		<s:ViewMenuItem label="Email" click="onItemClick(event)"/>							
+	</s:viewMenuItems>
+	
+	<!--
+		Navbar
+		=====================================================
+	-->
+	<s:actionContent>
+		<s:Button id="pipelineFavoritesBtn" click="mx.core.FlexGlobals.topLevelApplication.viewMenuOpen=true;"
+				  icon="@Embed('assets/glyphs/icon-fav2@2x.png')">
+		</s:Button>
+	</s:actionContent>
+	
+	<s:navigationContent>
+		<s:Button icon="@Embed('assets/glyphs/icon-back@2x.png')" click="pushBackToList()"/>	
+	</s:navigationContent>
+	
+	
+	<!-- Background -->
+	<s:Rect left="0" right="0" height="100%" width="100%">
+		<s:fill>
+			<s:BitmapFill source="@Embed('assets/backgrounds/chrome.png')" fillMode="scale" />
+		</s:fill>
+	</s:Rect>
+	
+
+	<!--
+	List of Prompts and Data
+	=====================================================
+	-->	
+	<s:HGroup left="0" right="0" top="0" bottom="390" fontFamily="Arial" gap="12"
+			  horizontalAlign="center" verticalAlign="middle">
+		
+		
+		<s:VGroup x="27" y="8" width="267" height="358" horizontalAlign="center" paddingBottom="10"
+				  paddingLeft="20" paddingRight="20" paddingTop="6">
+
+			
+			<s:HGroup x="0" width="267" paddingTop="10" verticalAlign="middle">
+				<s:Label fontFamily="Helvetica" fontSize="12" fontWeight="bold" styleName="Prompt"
+						 text="PO:" textDecoration="underline"/>
+				<s:Label x="66" color="#004080" fontFamily="Helvetica" fontSize="12"
+						 fontWeight="normal" styleName="Data" text="{data.PO_Number} "
+						 textDecoration="none"/>
+			</s:HGroup>
+			
+			<s:HGroup x="0" width="267" paddingTop="10" verticalAlign="middle">
+				<s:Label fontFamily="Helvetica" fontSize="12" fontWeight="bold" styleName="Prompt"
+						 text="Date:" textDecoration="underline"/>
+				<s:Label x="66" color="#004080" fontFamily="Helvetica" fontSize="12"
+						 fontWeight="normal" styleName="Data" text="{data.PO_Date} "
+						 textDecoration="none"/>
+			</s:HGroup>
+			
+			<s:HGroup x="0" width="267" paddingTop="10" verticalAlign="middle">
+				<s:Label color="#000000" fontFamily="Helvetica" fontSize="12" fontWeight="bold"
+						 text="Buyer:" textDecoration="underline"/>
+				<s:Label x="66" color="#004080" fontFamily="Helvetica" fontSize="12"
+						 fontWeight="normal" text="{data.BuyerId} "/>
+			</s:HGroup>
+			
+			<s:HGroup x="0" width="267" paddingTop="10" verticalAlign="middle">
+				<s:Label color="#000000" fontFamily="Helvetica" fontSize="12" fontWeight="bold"
+						 text="Quantity:" textDecoration="underline"/>
+				<s:Label x="66" color="#004080" fontFamily="Helvetica" fontSize="12"
+						 fontWeight="normal" text="{data.PO_Quantity} "/>
+			</s:HGroup>
+			
+			<s:HGroup x="0" width="267" paddingTop="10" verticalAlign="middle">
+				<s:Label color="#000000" fontFamily="Helvetica" fontSize="12" fontWeight="bold"
+						 text="Vendor:" textDecoration="underline"/>
+				<s:Label x="66" color="#004080" fontFamily="Helvetica" fontSize="12"
+						 fontWeight="normal" text="{data.VendorId} "/>
+			</s:HGroup>
+			
+			<s:HGroup x="0" width="267" paddingTop="10" verticalAlign="middle">
+				<s:Label color="#000000" fontFamily="Helvetica" fontSize="12" fontWeight="bold"
+						 text="Place Delivery:" textDecoration="underline"/>
+				<s:Label x="66" color="#004080" fontFamily="Helvetica" fontSize="12"
+						 fontWeight="normal" text="{data.PlaceOfDelivery} "/>
+			</s:HGroup>
+			
+			
+			<s:HGroup x="0" width="267" paddingTop="10" verticalAlign="middle">
+				<s:Label color="#000000" fontFamily="Helvetica" fontSize="12" fontWeight="bold"
+						 text="Place Reciept:" textDecoration="underline"/>
+				<s:Label x="66" color="#004080" fontFamily="Helvetica" fontSize="12"
+						 fontWeight="normal" text="{data.PlaceOfReciept} "/>
+			</s:HGroup>
+			
+			<s:HGroup x="0" width="267" paddingTop="10" verticalAlign="middle">
+			</s:HGroup>
+			
+			<s:HGroup x="0" width="267" paddingTop="10" verticalAlign="middle"></s:HGroup>
+			
+			<!-- View PO Items -->		
+			<s:Button id="btnViewPOItems" x="16" width="236" label="View PO Items"
+					  click="loadPOItemsView()" color="#1B4F83" enabled="true"
+					  icon="@Embed('assets/buttons/CompassBlue.png')" styleName="LightBlueButton"/>
+			
+			<!-- View Shipping Orders -->
+			<s:Button id="btnViewShippingOrders" x="16" width="236" label="View Shipping Orders"
+					  click="loadShippingOrdersView()" color="#1B4F83" enabled="true"
+					  fontFamily="Helvetica" fontSize="13" fontWeight="normal"
+					  icon="@Embed('assets/buttons/CompassGreen.png')"/>
+			
+		</s:VGroup>
+		
+	</s:HGroup>	
+	
+</s:View>

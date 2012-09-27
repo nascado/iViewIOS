@@ -1,0 +1,3526 @@
+
+<model xmlns="http://ns.adobe.com/Fiber/1.0">
+  <annotation name="ActionScriptGeneration">
+    <item name="FullyQualifyReferences">true</item>
+  </annotation>
+  <annotation name="VisualModeler">
+    <item name="grid">true</item>
+    <item name="show-method-lines">false</item>
+  </annotation>
+  <entity name="PipelineSummaryData">
+    <annotation name="EntityProperties" EntityOriginalName="Data"/>
+    <annotation name="service Group" service="PipelineService"/>
+    <annotation name="ServerProperties" IncludeRemoteClass="nonempty"/>
+    <annotation name="ActionScriptGeneration" Package="valueObjects"/>
+    <annotation name="VisualModeler" x="10" y="30" width="115" height="238"/>
+    <property name="RemainingPieces" type="string" required="true"/>
+    <property name="Description" type="string" required="true"/>
+    <property name="Quantity" type="integer" required="true"/>
+    <property name="Packages" type="string" required="true"/>
+    <property name="CBM" type="string" required="true"/>
+    <property name="Pieces" type="string" required="true"/>
+    <property name="Code" type="string" required="true"/>
+    <property name="CFT" type="string" required="true"/>
+    <property name="RemainingPackages" type="string" required="true"/>
+    <property name="id" type="integer" required="true"/>
+    <property name="TEU" type="string" required="true"/>
+    <property name="Kilos" type="string" required="true"/>
+    <property name="LBS" type="string" required="true"/>
+  </entity>
+  <service name="CalendarService">
+    <annotation name="ActionScriptGeneration">
+      <item name="ServiceType">HTTPMultiService</item>
+      <item name="Package">services.calendarservice</item>
+      <item name="rootURL">http://demo.iesltd.com/iviewdev/rest/dashboard/</item>
+    </annotation>
+    <annotation name="ServiceTypeGroup">
+      <item name="ServiceBackendType">HTTPService</item>
+    </annotation>
+    <annotation name="ServiceConfig">
+      <item name="DEFAULT_ENTITY_PACKAGE">valueObjects</item>
+      <item name="LINKED_FILE"></item>
+    </annotation>
+    <annotation name="VisualModeler">
+      <item name="x">1660</item>
+      <item name="y">30</item>
+      <item name="width">115</item>
+      <item name="height">46</item>
+    </annotation>
+    <function name="getSummary" return-type="SummaryResults">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="ActionScriptGeneration">
+        <item name="method">GET</item>
+        <item name="url">Calendar</item>
+        <item name="SerializationFilter">com.adobe.serializers.json.JSONSerializationFilter</item>
+      </annotation>
+      <annotation name="url group">
+        <item name="completeURL">http://demo.iesltd.com/iviewdev/rest/dashboard/Calendar</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="returnType">opaque</item>
+        <item name="inputParamNames">apikey</item>
+        <item name="inputParams">string</item>
+      </annotation>
+      <annotation name="ValidProperties">
+        <item name="propertySpecifier">total,data,success</item>
+      </annotation>
+      <parameter name="apikey" type="string"/>
+    </function>
+    <function name="getEventsByDay" return-type="CalendarDayResults">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="ActionScriptGeneration">
+        <item name="SerializationFilter">com.adobe.serializers.json.JSONSerializationFilter</item>
+        <item name="method">GET</item>
+        <item name="url">Calendar/{datefilter}</item>
+      </annotation>
+      <annotation name="url group">
+        <item name="completeURL">http://demo.iesltd.com/iviewdev/rest/dashboard/Calendar/{datefilter}</item>
+      </annotation>
+      <annotation name="ValidProperties">
+        <item name="propertySpecifier">total,data,metaData</item>
+      </annotation>
+      <annotation name="Properties">
+        <item name="urlParamNames">datefilter</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParamNames">datefilter,apikey</item>
+        <item name="inputParams">string,string</item>
+        <item name="returnType">opaque</item>
+      </annotation>
+      <parameter name="datefilter" type="string"/>
+      <parameter name="apikey" type="string"/>
+    </function>
+  </service>
+  <entity name="CalendarDayResults">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">CalendarDayResults</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">CalendarService,CalendarServiceDummy</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="getEventsByDay">
+      <item name="propertySpecifier">total,data,metaData</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="total" type="integer" required="true"/>
+    <property name="data" type="CalendarDayData[]" required="true"/>
+    <property name="metaData" type="MetaData" required="true"/>
+  </entity>
+  <entity name="SummaryResultsData">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Data</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">CalendarService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <annotation name="VisualModeler">
+      <item name="x">1825</item>
+      <item name="y">30</item>
+      <item name="width">115</item>
+      <item name="height">110</item>
+    </annotation>
+    <property name="NumArrivalsOcean" type="integer" required="true"/>
+    <property name="NumArrivals" type="integer" required="true"/>
+    <property name="NumArrivalsOther" type="integer" required="true"/>
+    <property name="NumArrivalsAir" type="integer" required="true"/>
+    <property name="EventDate" type="string" required="true"/>
+  </entity>
+  <entity name="CalendarDayExpander">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Expander_type</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">CalendarService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="Items" type="opaque[]" required="true"/>
+    <property name="Packages" type="integer" required="true"/>
+    <property name="ContainerNumber" type="string" required="true"/>
+    <property name="CBM" type="string" required="true"/>
+    <property name="Lbs" type="string" required="true"/>
+    <property name="SizeType" type="string" required="true"/>
+    <property name="Comment" type="string" required="true"/>
+    <property name="ShipmentId" type="string" required="true"/>
+    <property name="Pieces" type="integer" required="true"/>
+    <property name="Seal2" type="string" required="true"/>
+    <property name="InputNumber" type="integer" required="true"/>
+    <property name="Seal" type="string" required="true"/>
+    <property name="CFT" type="string" required="true"/>
+    <property name="FileId" type="string" required="true"/>
+    <property name="Seal3" type="string" required="true"/>
+    <property name="Kgs" type="string" required="true"/>
+    <property name="Status" type="string" required="true"/>
+    <property name="ContainerId" type="string" required="true"/>
+  </entity>
+  <entity name="CalendarDayData">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Data</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">CalendarService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="StatusCode" type="string" required="true"/>
+    <property name="RequestedDeliveryDateTime" type="opaque" required="true"/>
+    <property name="ContactFax" type="opaque" required="true"/>
+    <property name="ConfirmedArrivalDate" type="opaque" required="true"/>
+    <property name="FileNumber" type="string" required="true"/>
+    <property name="Commodity" type="string" required="true"/>
+    <property name="ThirdParty" type="string" required="true"/>
+    <property name="No40HC" type="string" required="true"/>
+    <property name="PlaceOfReceipt" type="string" required="true"/>
+    <property name="ServiceType" type="string" required="true"/>
+    <property name="ShipmentId" type="string" required="true"/>
+    <property name="LCLFlag" type="integer" required="true"/>
+    <property name="Pieces" type="string" required="true"/>
+    <property name="CFT" type="string" required="true"/>
+    <property name="ClearedDateTime" type="opaque" required="true"/>
+    <property name="Module" type="string" required="true"/>
+    <property name="ReeferTemperature" type="string" required="true"/>
+    <property name="PieceType" type="string" required="true"/>
+    <property name="ETADateTime" type="string" required="true"/>
+    <property name="No40" type="string" required="true"/>
+    <property name="DoorETADateTime" type="opaque" required="true"/>
+    <property name="Shipper" type="string" required="true"/>
+    <property name="FileType" type="string" required="true"/>
+    <property name="POInputDate" type="opaque" required="true"/>
+    <property name="CODAmount" type="string" required="true"/>
+    <property name="UNContactNumber" type="string" required="true"/>
+    <property name="Master" type="string" required="true"/>
+    <property name="LoadingDock" type="integer" required="true"/>
+    <property name="PortOfDischarge" type="string" required="true"/>
+    <property name="UNFlag" type="integer" required="true"/>
+    <property name="RoutingParty" type="string" required="true"/>
+    <property name="No20" type="string" required="true"/>
+    <property name="Voyage" type="string" required="true"/>
+    <property name="DeliveryAddress" type="string" required="true"/>
+    <property name="Liftgate" type="integer" required="true"/>
+    <property name="PickupDateTime" type="opaque" required="true"/>
+    <property name="HazardousDescription" type="string" required="true"/>
+    <property name="Consignee" type="string" required="true"/>
+    <property name="MasterId" type="string" required="true"/>
+    <property name="FileId" type="string" required="true"/>
+    <property name="Forklift" type="integer" required="true"/>
+    <property name="Notes" type="string" required="true"/>
+    <property name="ContactPhoneFax" type="string" required="true"/>
+    <property name="ShipperName" type="string" required="true"/>
+    <property name="LastFreeDayDateTime" type="opaque" required="true"/>
+    <property name="OblRequired" type="string" required="true"/>
+    <property name="CustomsEntryNumber" type="string" required="true"/>
+    <property name="Kilos" type="string" required="true"/>
+    <property name="MasterNumber" type="string" required="true"/>
+    <property name="Notify" type="string" required="true"/>
+    <property name="TypeOfMove" type="string" required="true"/>
+    <property name="BookingNumber" type="string" required="true"/>
+    <property name="GoDateDateTime" type="opaque" required="true"/>
+    <property name="ConfirmedDepartureDate" type="opaque" required="true"/>
+    <property name="Account" type="string" required="true"/>
+    <property name="FORWARDERSRE" type="string" required="true"/>
+    <property name="DateFileOpen" type="string" required="true"/>
+    <property name="CargoLocation" type="string" required="true"/>
+    <property name="InBondNumber" type="string" required="true"/>
+    <property name="ReadyDateTime" type="opaque" required="true"/>
+    <property name="UltimateDestination" type="string" required="true"/>
+    <property name="ITDate" type="opaque" required="true"/>
+    <property name="Conveyance" type="string" required="true"/>
+    <property name="CustomerReferenceNumber" type="string" required="true"/>
+    <property name="CreatedDateTime" type="string" required="true"/>
+    <property name="TEU" type="string" required="true"/>
+    <property name="Upstairs" type="integer" required="true"/>
+    <property name="EntryFiledDate" type="opaque" required="true"/>
+    <property name="Vessel" type="string" required="true"/>
+    <property name="HouseNumber" type="string" required="true"/>
+    <property name="CODFlag" type="integer" required="true"/>
+    <property name="Pounds" type="string" required="true"/>
+    <property name="SiteId" type="string" required="true"/>
+    <property name="DeliveredDateTime" type="opaque" required="true"/>
+    <property name="PODate" type="opaque" required="true"/>
+    <property name="Downstairs" type="integer" required="true"/>
+    <property name="Expander" type="CalendarDayExpander[]" required="true"/>
+    <property name="CBM" type="string" required="true"/>
+    <property name="ClosingDateTime" type="opaque" required="true"/>
+    <property name="CompletedFlag" type="opaque" required="true"/>
+    <property name="ContactName" type="string" required="true"/>
+    <property name="ContactEmail" type="string" required="true"/>
+    <property name="ReturnDate" type="opaque" required="true"/>
+    <property name="Forwarder" type="string" required="true"/>
+    <property name="ClientId" type="string" required="true"/>
+    <property name="PickupAt" type="string" required="true"/>
+    <property name="PlaceOfDelivery" type="string" required="true"/>
+    <property name="Status" type="string" required="true"/>
+    <property name="Cartons" type="string" required="true"/>
+    <property name="Carrier" type="string" required="true"/>
+    <property name="UN_Number" type="string" required="true"/>
+    <property name="BookedDateTime" type="opaque" required="true"/>
+    <property name="PortOfLoad" type="string" required="true"/>
+    <property name="CutoffDateTime" type="opaque" required="true"/>
+    <property name="SailDateTime" type="string" required="true"/>
+  </entity>
+  <entity name="SummaryResults">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">SummaryResults</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">CalendarService,CalendarServiceDummy</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="getSummary">
+      <item name="propertySpecifier">total,data,success</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <annotation name="VisualModeler">
+      <item name="x">1990</item>
+      <item name="y">30</item>
+      <item name="width">115</item>
+      <item name="height">78</item>
+    </annotation>
+    <property name="total" type="integer" required="true"/>
+    <property name="data" type="SummaryResultsData[]" required="true"/>
+    <property name="success" type="boolean" required="true"/>
+  </entity>
+  <service name="TrackingService">
+    <annotation name="ActionScriptGeneration">
+      <item name="ServiceType">HTTPMultiService</item>
+      <item name="Package">services.trackingservice</item>
+      <item name="rootURL">http://demo.iesltd.com/iviewdev/rest/v2/</item>
+    </annotation>
+    <annotation name="ServiceTypeGroup">
+      <item name="ServiceBackendType">HTTPService</item>
+    </annotation>
+    <annotation name="ServiceConfig">
+      <item name="DEFAULT_ENTITY_PACKAGE">valueObjects</item>
+      <item name="LINKED_FILE"></item>
+    </annotation>
+    <annotation name="VisualModeler">
+      <item name="x">2155</item>
+      <item name="y">30</item>
+      <item name="width">115</item>
+      <item name="height">126</item>
+    </annotation>
+    <function name="getShipments" return-type="SearchResults">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="ActionScriptGeneration">
+        <item name="method">GET</item>
+        <item name="url">shipments</item>
+        <item name="SerializationFilter">com.adobe.serializers.json.JSONSerializationFilter</item>
+      </annotation>
+      <annotation name="url group">
+        <item name="completeURL">http://demo.iesltd.com/iviewdev/rest/v2/shipments</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="returnType">opaque</item>
+        <item name="inputParamNames">filter,apiKey</item>
+        <item name="inputParams">opaque,string</item>
+      </annotation>
+      <annotation name="ValidProperties">
+        <item name="propertySpecifier">total,data,success</item>
+      </annotation>
+      <parameter name="filter" type="opaque"/>
+      <parameter name="apiKey" type="string"/>
+    </function>
+    <function name="getShipment" return-type="ShipmentResult">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="ActionScriptGeneration">
+        <item name="method">GET</item>
+        <item name="url">shipment/{shipmentId}</item>
+        <item name="contentType">application/x-www-form-urlencoded</item>
+        <item name="requestBodyParameter">false</item>
+        <item name="SerializationFilter">com.adobe.serializers.json.JSONSerializationFilter</item>
+      </annotation>
+      <annotation name="url group">
+        <item name="completeURL">http://demo.iesltd.com/iviewdev/rest/v2/shipment/{shipmentId}</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="returnType">opaque</item>
+        <item name="inputParamNames">shipmentId,apiKey</item>
+        <item name="inputParams">string,string</item>
+      </annotation>
+      <annotation name="ValidProperties">
+        <item name="propertySpecifier">data,success</item>
+      </annotation>
+      <annotation name="Properties">
+        <item name="urlParamNames">shipmentId</item>
+      </annotation>
+      <parameter name="shipmentId" type="string"/>
+      <parameter name="apiKey" type="string"/>
+    </function>
+    <function name="getContainers" return-type="ContainerResults">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="ActionScriptGeneration">
+        <item name="method">GET</item>
+        <item name="url">shipment/{shipmentId}/containers</item>
+        <item name="SerializationFilter">com.adobe.serializers.json.JSONSerializationFilter</item>
+      </annotation>
+      <annotation name="url group">
+        <item name="completeURL">http://demo.iesltd.com/iviewdev/rest/v2/shipment/{shipmentId}/containers</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="returnType">opaque</item>
+        <item name="inputParamNames">shipmentId,apiKey</item>
+        <item name="inputParams">string,string</item>
+      </annotation>
+      <annotation name="ValidProperties">
+        <item name="propertySpecifier">total,data,success</item>
+      </annotation>
+      <annotation name="Properties">
+        <item name="urlParamNames">shipmentId</item>
+      </annotation>
+      <parameter name="shipmentId" type="string"/>
+      <parameter name="apiKey" type="string"/>
+    </function>
+    <function name="getEvents" return-type="ShipmentEventResults">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="ActionScriptGeneration">
+        <item name="method">GET</item>
+        <item name="url">shipment/{shipmentId}/events</item>
+        <item name="SerializationFilter">com.adobe.serializers.json.JSONSerializationFilter</item>
+      </annotation>
+      <annotation name="url group">
+        <item name="completeURL">http://demo.iesltd.com/iviewdev/rest/v2/shipment/{shipmentId}/events</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="returnType">opaque</item>
+        <item name="inputParamNames">shipmentId,apiKey</item>
+        <item name="inputParams">string,string</item>
+      </annotation>
+      <annotation name="ValidProperties">
+        <item name="propertySpecifier">total,data,success</item>
+      </annotation>
+      <annotation name="Properties">
+        <item name="urlParamNames">shipmentId</item>
+      </annotation>
+      <parameter name="shipmentId" type="string"/>
+      <parameter name="apiKey" type="string"/>
+    </function>
+    <function name="getPOItems" return-type="POItemResults">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="ActionScriptGeneration">
+        <item name="method">GET</item>
+        <item name="url">purchaseorder/{purchaseOrderId}/items</item>
+        <item name="SerializationFilter">com.adobe.serializers.json.JSONSerializationFilter</item>
+      </annotation>
+      <annotation name="url group">
+        <item name="completeURL">http://demo.iesltd.com/iviewdev/rest/v2/purchaseorder/{purchaseOrderId}/items</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="returnType">opaque</item>
+        <item name="inputParamNames">purchaseOrderId,apiKey</item>
+        <item name="inputParams">string,string</item>
+      </annotation>
+      <annotation name="ValidProperties">
+        <item name="propertySpecifier">total,data,success</item>
+      </annotation>
+      <annotation name="Properties">
+        <item name="urlParamNames">purchaseOrderId</item>
+      </annotation>
+      <parameter name="purchaseOrderId" type="string"/>
+      <parameter name="apiKey" type="string"/>
+    </function>
+    <function name="getShippingOrders" return-type="POShippingOrderResults">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="ActionScriptGeneration">
+        <item name="method">GET</item>
+        <item name="url">purchaseorder/{purchaseOrderId}/shippingorders</item>
+        <item name="SerializationFilter">com.adobe.serializers.json.JSONSerializationFilter</item>
+      </annotation>
+      <annotation name="url group">
+        <item name="completeURL">http://demo.iesltd.com/iviewdev/rest/v2/purchaseorder/{purchaseOrderId}/shippingorders</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="returnType">opaque</item>
+        <item name="inputParamNames">purchaseOrderId,apiKey</item>
+        <item name="inputParams">string,string</item>
+      </annotation>
+      <annotation name="ValidProperties">
+        <item name="propertySpecifier">total,data,success</item>
+      </annotation>
+      <annotation name="Properties">
+        <item name="urlParamNames">purchaseOrderId</item>
+      </annotation>
+      <parameter name="purchaseOrderId" type="string"/>
+      <parameter name="apiKey" type="string"/>
+    </function>
+    <function name="getPurchaseOrders" return-type="SOPurchaseOrderResults">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="ActionScriptGeneration">
+        <item name="method">GET</item>
+        <item name="url">purchaseorder/{shippingOrderId}/purchaseorders</item>
+        <item name="SerializationFilter">com.adobe.serializers.json.JSONSerializationFilter</item>
+      </annotation>
+      <annotation name="url group">
+        <item name="completeURL">http://demo.iesltd.com/iviewdev/rest/v2/purchaseorder/{shippingOrderId}/purchaseorders</item>
+      </annotation>
+      <annotation name="Properties">
+        <item name="urlParamNames">shippingOrderId</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="returnType">opaque</item>
+        <item name="inputParamNames">shippingOrderId,apiKey</item>
+        <item name="inputParams">string,string</item>
+      </annotation>
+      <annotation name="ValidProperties">
+        <item name="propertySpecifier">total,data</item>
+      </annotation>
+      <parameter name="shippingOrderId" type="string"/>
+      <parameter name="apiKey" type="string"/>
+    </function>
+  </service>
+  <entity name="SOPurchaseOrderResults">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">SOPurchaseOrderResults</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">TrackingService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="getPurchaseOrders">
+      <item name="propertySpecifier">total,data</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="total" type="integer" required="true"/>
+    <property name="data" type="SOPurchaseOrderData[]" required="true"/>
+  </entity>
+  <entity name="ContainerResults">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">ContainerResults</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">PipelineService,ChartService,TrackingService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="getContainers">
+      <item name="propertySpecifier">total,data,success</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <annotation name="VisualModeler">
+      <item name="x">10</item>
+      <item name="y">318</item>
+      <item name="width">115</item>
+      <item name="height">78</item>
+    </annotation>
+    <property name="total" type="integer" required="true"/>
+    <property name="data" type="ContainerResultData[]" required="true"/>
+    <property name="success" type="boolean" required="true"/>
+  </entity>
+  <entity name="ShipmentEventData">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Data</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">TrackingService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="EDIStatusCode" type="string" required="true"/>
+    <property name="StatusCode" type="string" required="true"/>
+    <property name="Place" type="string" required="true"/>
+    <property name="PrimaryValue" type="string" required="true"/>
+    <property name="StatusDefinition" type="opaque" required="true"/>
+    <property name="FlightMonth" type="string" required="true"/>
+    <property name="Comment" type="string" required="true"/>
+    <property name="Qualifier" type="string" required="true"/>
+    <property name="FlightTime" type="string" required="true"/>
+    <property name="SortDate" type="string" required="true"/>
+    <property name="FlightDay" type="string" required="true"/>
+    <property name="FileId" type="string" required="true"/>
+    <property name="EventDate" type="string" required="true"/>
+    <property name="DisplayHyperLink" type="string" required="true"/>
+    <property name="AWBNumber" type="opaque" required="true"/>
+    <property name="Time" type="string" required="true"/>
+    <property name="SortId" type="string" required="true"/>
+    <property name="FlightNumber" type="string" required="true"/>
+    <property name="Container" type="string" required="true"/>
+  </entity>
+  <entity name="SearchData">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Data</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">TrackingService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="StatusCode" type="string" required="true"/>
+    <property name="RequestedDeliveryDateTime" type="opaque" required="true"/>
+    <property name="ContactFax" type="opaque" required="true"/>
+    <property name="ConfirmedArrivalDate" type="opaque" required="true"/>
+    <property name="FileNumber" type="string" required="true"/>
+    <property name="Commodity" type="string" required="true"/>
+    <property name="ThirdParty" type="string" required="true"/>
+    <property name="No40HC" type="string" required="true"/>
+    <property name="PlaceOfReceipt" type="string" required="true"/>
+    <property name="ServiceType" type="string" required="true"/>
+    <property name="ShipmentId" type="string" required="true"/>
+    <property name="LCLFlag" type="string" required="true"/>
+    <property name="Pieces" type="string" required="true"/>
+    <property name="CFT" type="string" required="true"/>
+    <property name="ClearedDateTime" type="opaque" required="true"/>
+    <property name="Module" type="string" required="true"/>
+    <property name="ReeferTemperature" type="string" required="true"/>
+    <property name="PieceType" type="string" required="true"/>
+    <property name="ETADateTime" type="opaque" required="true"/>
+    <property name="No40" type="string" required="true"/>
+    <property name="DoorETADateTime" type="opaque" required="true"/>
+    <property name="Shipper" type="string" required="true"/>
+    <property name="FileType" type="string" required="true"/>
+    <property name="POInputDate" type="opaque" required="true"/>
+    <property name="CODAmount" type="string" required="true"/>
+    <property name="UNContactNumber" type="string" required="true"/>
+    <property name="Master" type="string" required="true"/>
+    <property name="LoadingDock" type="string" required="true"/>
+    <property name="PortOfDischarge" type="string" required="true"/>
+    <property name="UNFlag" type="string" required="true"/>
+    <property name="RoutingParty" type="string" required="true"/>
+    <property name="No20" type="string" required="true"/>
+    <property name="Voyage" type="string" required="true"/>
+    <property name="DeliveryAddress" type="string" required="true"/>
+    <property name="Liftgate" type="string" required="true"/>
+    <property name="PickupDateTime" type="opaque" required="true"/>
+    <property name="HazardousDescription" type="string" required="true"/>
+    <property name="Consignee" type="string" required="true"/>
+    <property name="MasterId" type="string" required="true"/>
+    <property name="FileId" type="string" required="true"/>
+    <property name="Forklift" type="string" required="true"/>
+    <property name="Notes" type="string" required="true"/>
+    <property name="ContactPhoneFax" type="string" required="true"/>
+    <property name="LastFreeDayDateTime" type="opaque" required="true"/>
+    <property name="OblRequired" type="string" required="true"/>
+    <property name="CustomsEntryNumber" type="string" required="true"/>
+    <property name="Kilos" type="string" required="true"/>
+    <property name="MasterNumber" type="string" required="true"/>
+    <property name="Notify" type="string" required="true"/>
+    <property name="TypeOfMove" type="string" required="true"/>
+    <property name="BookingNumber" type="string" required="true"/>
+    <property name="GoDateDateTime" type="opaque" required="true"/>
+    <property name="ConfirmedDepartureDate" type="opaque" required="true"/>
+    <property name="Account" type="string" required="true"/>
+    <property name="FORWARDERSRE" type="string" required="true"/>
+    <property name="DateFileOpen" type="opaque" required="true"/>
+    <property name="CargoLocation" type="string" required="true"/>
+    <property name="InBondNumber" type="string" required="true"/>
+    <property name="ReadyDateTime" type="opaque" required="true"/>
+    <property name="UltimateDestination" type="string" required="true"/>
+    <property name="ITDate" type="opaque" required="true"/>
+    <property name="Conveyance" type="string" required="true"/>
+    <property name="CustomerReferenceNumber" type="string" required="true"/>
+    <property name="CreatedDateTime" type="string" required="true"/>
+    <property name="TEU" type="string" required="true"/>
+    <property name="Upstairs" type="string" required="true"/>
+    <property name="EntryFiledDate" type="opaque" required="true"/>
+    <property name="Vessel" type="string" required="true"/>
+    <property name="HouseNumber" type="string" required="true"/>
+    <property name="CODFlag" type="string" required="true"/>
+    <property name="Pounds" type="string" required="true"/>
+    <property name="SiteId" type="string" required="true"/>
+    <property name="DeliveredDateTime" type="opaque" required="true"/>
+    <property name="PODate" type="opaque" required="true"/>
+    <property name="Downstairs" type="string" required="true"/>
+    <property name="CBM" type="string" required="true"/>
+    <property name="ClosingDateTime" type="opaque" required="true"/>
+    <property name="CompletedFlag" type="opaque" required="true"/>
+    <property name="ContactName" type="string" required="true"/>
+    <property name="ContactEmail" type="string" required="true"/>
+    <property name="ReturnDate" type="opaque" required="true"/>
+    <property name="Forwarder" type="string" required="true"/>
+    <property name="ClientId" type="string" required="true"/>
+    <property name="PickupAt" type="string" required="true"/>
+    <property name="PlaceOfDelivery" type="string" required="true"/>
+    <property name="Status" type="string" required="true"/>
+    <property name="Cartons" type="string" required="true"/>
+    <property name="Carrier" type="string" required="true"/>
+    <property name="UN_Number" type="string" required="true"/>
+    <property name="BookedDateTime" type="opaque" required="true"/>
+    <property name="PortOfLoad" type="string" required="true"/>
+    <property name="CutoffDateTime" type="opaque" required="true"/>
+    <property name="SailDateTime" type="string" required="true"/>
+  </entity>
+  <entity name="POShippingOrderResults">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">POShippingOrderResults</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">TrackingService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="getShippingOrders">
+      <item name="propertySpecifier">total,data,success</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <annotation name="VisualModeler">
+      <item name="x">835</item>
+      <item name="y">318</item>
+      <item name="width">115</item>
+      <item name="height">78</item>
+    </annotation>
+    <property name="total" type="integer" required="true"/>
+    <property name="data" type="Data[]" required="true"/>
+    <property name="success" type="boolean" required="true"/>
+  </entity>
+  <entity name="ShipmentEventResults">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">ShipmentEventResults</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">TrackingService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="getEvents">
+      <item name="propertySpecifier">total,data,success</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="total" type="integer" required="true"/>
+    <property name="data" type="ShipmentEventData[]" required="true"/>
+    <property name="success" type="boolean" required="true"/>
+  </entity>
+  <entity name="ShipmentResult">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">ShipmentResult</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">TrackingService,TrackingServiceDummy</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="getShipment">
+      <item name="propertySpecifier">data,success</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <annotation name="VisualModeler">
+      <item name="x">2320</item>
+      <item name="y">30</item>
+      <item name="width">115</item>
+      <item name="height">62</item>
+    </annotation>
+    <property name="data" type="ShipmentResultData[]"/>
+    <property name="success" type="boolean"/>
+  </entity>
+  <entity name="POItemResults">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">POItemResults</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">TrackingService,TrackingServiceDummy</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="getPOItems">
+      <item name="propertySpecifier">total,data,success</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <annotation name="VisualModeler">
+      <item name="x">175</item>
+      <item name="y">318</item>
+      <item name="width">115</item>
+      <item name="height">78</item>
+    </annotation>
+    <property name="total" type="integer" required="true"/>
+    <property name="data" type="POItemData[]" required="true"/>
+    <property name="success" type="boolean" required="true"/>
+  </entity>
+  <entity name="SOPurchaseOrderData">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Data</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">TrackingService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="PO_Number" type="string" required="true"/>
+    <property name="Quantity" type="integer" required="true"/>
+    <property name="PO_Date" type="string" required="true"/>
+    <property name="PO_HeaderId" type="string" required="true"/>
+    <property name="RowNumber" type="integer" required="true"/>
+    <property name="UOM" type="string" required="true"/>
+    <property name="PartNumber" type="string" required="true"/>
+    <property name="PartDescription" type="string" required="true"/>
+  </entity>
+  <entity name="SearchResults">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">SearchResults</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">TrackingService,TrackingServiceDummy</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="getShipments">
+      <item name="propertySpecifier">total,data,success</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="total" type="integer" required="true"/>
+    <property name="data" type="SearchData[]" required="true"/>
+    <property name="success" type="boolean" required="true"/>
+  </entity>
+  <entity name="POItemData">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Data</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">TrackingService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <annotation name="VisualModeler">
+      <item name="x">505</item>
+      <item name="y">318</item>
+      <item name="width">115</item>
+      <item name="height">670</item>
+    </annotation>
+    <property name="LoadPlanNeeded" type="string" required="true"/>
+    <property name="PO_PartId" type="string" required="true"/>
+    <property name="PO_HeaderId" type="string" required="true"/>
+    <property name="KGS" type="string" required="true"/>
+    <property name="ShipNeeded" type="string" required="true"/>
+    <property name="PartNumber" type="string" required="true"/>
+    <property name="Packing" type="string" required="true"/>
+    <property name="CFT" type="string" required="true"/>
+    <property name="StyleDescription" type="string" required="true"/>
+    <property name="LicenseNumber" type="string" required="true"/>
+    <property name="RCV_Quantity" type="string" required="true"/>
+    <property name="LineNumber" type="string" required="true"/>
+    <property name="ShippingOrderNeeded" type="string" required="true"/>
+    <property name="SizeDescription" type="string" required="true"/>
+    <property name="ECCN_Number" type="string" required="true"/>
+    <property name="LBS" type="string" required="true"/>
+    <property name="Sequence" type="string" required="true"/>
+    <property name="LP_Quantity" type="string" required="true"/>
+    <property name="PO_ItemId" type="string" required="true"/>
+    <property name="LicenseType" type="string" required="true"/>
+    <property name="PO_Item_XUID" type="string" required="true"/>
+    <property name="Quantity" type="string" required="true"/>
+    <property name="CBM" type="string" required="true"/>
+    <property name="SubUOM" type="string" required="true"/>
+    <property name="StyleNumber" type="string" required="true"/>
+    <property name="SO_Quantity" type="string" required="true"/>
+    <property name="ColorDescription" type="string" required="true"/>
+    <property name="UnitPrice" type="string" required="true"/>
+    <property name="LicenseStatus" type="string" required="true"/>
+    <property name="PartDescription" type="string" required="true"/>
+    <property name="LicenseAmount" type="string" required="true"/>
+    <property name="LicenseDescription" type="string" required="true"/>
+    <property name="RequisitionNumber" type="opaque" required="true"/>
+    <property name="SubQuantity" type="string" required="true"/>
+    <property name="ReadyDate" type="opaque" required="true"/>
+    <property name="Status" type="string" required="true"/>
+    <property name="ReceiveNeeded" type="string" required="true"/>
+    <property name="UOM" type="string" required="true"/>
+    <property name="SHP_Quantity" type="string" required="true"/>
+    <property name="LicenseDate" type="opaque" required="true"/>
+  </entity>
+  <entity name="ContainerResultData">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Data</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">TrackingService,ChartService,PipelineService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <annotation name="VisualModeler">
+      <item name="x">340</item>
+      <item name="y">318</item>
+      <item name="width">115</item>
+      <item name="height">302</item>
+    </annotation>
+    <property name="Packages" type="string" required="true"/>
+    <property name="ContainerNumber" type="string" required="true"/>
+    <property name="CBM" type="string" required="true"/>
+    <property name="Lbs" type="string" required="true"/>
+    <property name="SizeType" type="string" required="true"/>
+    <property name="Comment" type="string" required="true"/>
+    <property name="ShipmentId" type="string" required="true"/>
+    <property name="Pieces" type="string" required="true"/>
+    <property name="Seal2" type="string" required="true"/>
+    <property name="InputNumber" type="string" required="true"/>
+    <property name="Seal" type="string" required="true"/>
+    <property name="CFT" type="string" required="true"/>
+    <property name="FileId" type="string" required="true"/>
+    <property name="Seal3" type="string" required="true"/>
+    <property name="Kgs" type="string" required="true"/>
+    <property name="Status" type="string" required="true"/>
+    <property name="ContainerId" type="string" required="true"/>
+  </entity>
+  <entity name="ShipmentResultData">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Data</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">TrackingService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <annotation name="VisualModeler">
+      <item name="x">670</item>
+      <item name="y">318</item>
+      <item name="width">115</item>
+      <item name="height">1518</item>
+    </annotation>
+    <property name="StatusCode" type="string" required="true"/>
+    <property name="RequestedDeliveryDateTime" type="opaque" required="true"/>
+    <property name="ContactFax" type="opaque" required="true"/>
+    <property name="ConfirmedArrivalDate" type="opaque" required="true"/>
+    <property name="FileNumber" type="string" required="true"/>
+    <property name="Commodity" type="string" required="true"/>
+    <property name="ThirdParty" type="string" required="true"/>
+    <property name="No40HC" type="string" required="true"/>
+    <property name="PlaceOfReceipt" type="string" required="true"/>
+    <property name="ServiceType" type="string" required="true"/>
+    <property name="ShipmentId" type="string" required="true"/>
+    <property name="LCLFlag" type="string" required="true"/>
+    <property name="Pieces" type="string" required="true"/>
+    <property name="CFT" type="string" required="true"/>
+    <property name="ClearedDateTime" type="opaque" required="true"/>
+    <property name="Module" type="string" required="true"/>
+    <property name="ReeferTemperature" type="string" required="true"/>
+    <property name="PieceType" type="string" required="true"/>
+    <property name="ETADateTime" type="opaque" required="true"/>
+    <property name="No40" type="string" required="true"/>
+    <property name="DoorETADateTime" type="opaque" required="true"/>
+    <property name="Shipper" type="string" required="true"/>
+    <property name="FileType" type="string" required="true"/>
+    <property name="POInputDate" type="opaque" required="true"/>
+    <property name="CODAmount" type="string" required="true"/>
+    <property name="UNContactNumber" type="string" required="true"/>
+    <property name="Master" type="string" required="true"/>
+    <property name="LoadingDock" type="string" required="true"/>
+    <property name="PortOfDischarge" type="string" required="true"/>
+    <property name="UNFlag" type="string" required="true"/>
+    <property name="RoutingParty" type="string" required="true"/>
+    <property name="No20" type="string" required="true"/>
+    <property name="Voyage" type="string" required="true"/>
+    <property name="DeliveryAddress" type="string" required="true"/>
+    <property name="Liftgate" type="string" required="true"/>
+    <property name="PickupDateTime" type="opaque" required="true"/>
+    <property name="HazardousDescription" type="string" required="true"/>
+    <property name="Consignee" type="string" required="true"/>
+    <property name="MasterId" type="string" required="true"/>
+    <property name="FileId" type="string" required="true"/>
+    <property name="Forklift" type="string" required="true"/>
+    <property name="Notes" type="string" required="true"/>
+    <property name="ContactPhoneFax" type="string" required="true"/>
+    <property name="LastFreeDayDateTime" type="opaque" required="true"/>
+    <property name="OblRequired" type="string" required="true"/>
+    <property name="CustomsEntryNumber" type="string" required="true"/>
+    <property name="Kilos" type="string" required="true"/>
+    <property name="MasterNumber" type="string" required="true"/>
+    <property name="Notify" type="string" required="true"/>
+    <property name="TypeOfMove" type="string" required="true"/>
+    <property name="BookingNumber" type="string" required="true"/>
+    <property name="GoDateDateTime" type="opaque" required="true"/>
+    <property name="ConfirmedDepartureDate" type="opaque" required="true"/>
+    <property name="Account" type="string" required="true"/>
+    <property name="FORWARDERSRE" type="string" required="true"/>
+    <property name="DateFileOpen" type="opaque" required="true"/>
+    <property name="CargoLocation" type="string" required="true"/>
+    <property name="InBondNumber" type="string" required="true"/>
+    <property name="ReadyDateTime" type="opaque" required="true"/>
+    <property name="UltimateDestination" type="string" required="true"/>
+    <property name="ITDate" type="opaque" required="true"/>
+    <property name="Conveyance" type="string" required="true"/>
+    <property name="CustomerReferenceNumber" type="string" required="true"/>
+    <property name="CreatedDateTime" type="string" required="true"/>
+    <property name="TEU" type="string" required="true"/>
+    <property name="Upstairs" type="string" required="true"/>
+    <property name="EntryFiledDate" type="opaque" required="true"/>
+    <property name="Vessel" type="string" required="true"/>
+    <property name="HouseNumber" type="string" required="true"/>
+    <property name="CODFlag" type="string" required="true"/>
+    <property name="Pounds" type="string" required="true"/>
+    <property name="SiteId" type="string" required="true"/>
+    <property name="DeliveredDateTime" type="opaque" required="true"/>
+    <property name="PODate" type="opaque" required="true"/>
+    <property name="Downstairs" type="string" required="true"/>
+    <property name="CBM" type="string" required="true"/>
+    <property name="ClosingDateTime" type="opaque" required="true"/>
+    <property name="CompletedFlag" type="opaque" required="true"/>
+    <property name="ContactName" type="string" required="true"/>
+    <property name="ContactEmail" type="string" required="true"/>
+    <property name="ReturnDate" type="opaque" required="true"/>
+    <property name="Forwarder" type="string" required="true"/>
+    <property name="ClientId" type="string" required="true"/>
+    <property name="PickupAt" type="string" required="true"/>
+    <property name="PlaceOfDelivery" type="string" required="true"/>
+    <property name="Status" type="string" required="true"/>
+    <property name="Cartons" type="string" required="true"/>
+    <property name="Carrier" type="string" required="true"/>
+    <property name="UN_Number" type="string" required="true"/>
+    <property name="BookedDateTime" type="opaque" required="true"/>
+    <property name="PortOfLoad" type="string" required="true"/>
+    <property name="CutoffDateTime" type="opaque" required="true"/>
+    <property name="SailDateTime" type="string" required="true"/>
+  </entity>
+  <service name="PipelineService">
+    <annotation name="ActionScriptGeneration">
+      <item name="ServiceType">HTTPMultiService</item>
+      <item name="Package">services.pipelineservice</item>
+      <item name="rootURL">http://demo.iesltd.com/iviewdev/rest/dashboard/</item>
+    </annotation>
+    <annotation name="ServiceTypeGroup">
+      <item name="ServiceBackendType">HTTPService</item>
+    </annotation>
+    <annotation name="ServiceConfig">
+      <item name="DEFAULT_ENTITY_PACKAGE">valueObjects</item>
+      <item name="LINKED_FILE"></item>
+    </annotation>
+    <annotation name="VisualModeler">
+      <item name="x">1000</item>
+      <item name="y">318</item>
+      <item name="width">115</item>
+      <item name="height">190</item>
+    </annotation>
+    <function name="getSummary" return-type="PipelineSummaryResultsData">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="ActionScriptGeneration">
+        <item name="method">GET</item>
+        <item name="url">Pipeline</item>
+        <item name="SerializationFilter">com.adobe.serializers.json.JSONSerializationFilter</item>
+      </annotation>
+      <annotation name="url group">
+        <item name="completeURL">http://demo.iesltd.com/iviewdev/rest/dashboard/Pipeline</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="returnType">opaque</item>
+        <item name="inputParamNames">limit,apikey</item>
+        <item name="inputParams">string,string</item>
+      </annotation>
+      <annotation name="ValidProperties">
+        <item name="propertySpecifier">data,success,rows</item>
+      </annotation>
+      <parameter name="limit" type="string"/>
+      <parameter name="apikey" type="string"/>
+    </function>
+    <function name="getPOList" return-type="POListResults">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="ActionScriptGeneration">
+        <item name="SerializationFilter">com.adobe.serializers.json.JSONSerializationFilter</item>
+        <item name="method">GET</item>
+        <item name="url">pipeline/PIPE_PO</item>
+      </annotation>
+      <annotation name="url group">
+        <item name="completeURL">http://demo.iesltd.com/iviewdev/rest/dashboard/pipeline/PIPE_PO</item>
+      </annotation>
+      <annotation name="ValidProperties">
+        <item name="propertySpecifier">total,data,metaData</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="returnType">opaque</item>
+        <item name="inputParamNames">viewName,limit,apikey</item>
+        <item name="inputParams">string,string,string</item>
+      </annotation>
+      <parameter name="viewName" type="string"/>
+      <parameter name="limit" type="string"/>
+      <parameter name="apikey" type="string"/>
+    </function>
+    <function name="getSOList" return-type="SOResults">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="ActionScriptGeneration">
+        <item name="SerializationFilter">com.adobe.serializers.json.JSONSerializationFilter</item>
+        <item name="method">GET</item>
+        <item name="url">pipeline/PIPE_SO</item>
+      </annotation>
+      <annotation name="url group">
+        <item name="completeURL">http://demo.iesltd.com/iviewdev/rest/dashboard/pipeline/PIPE_SO</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="returnType">opaque</item>
+        <item name="inputParamNames">viewName,limit,apikey</item>
+        <item name="inputParams">string,string,string</item>
+      </annotation>
+      <annotation name="ValidProperties">
+        <item name="propertySpecifier">total,data,metaData</item>
+      </annotation>
+      <parameter name="viewName" type="string"/>
+      <parameter name="limit" type="string"/>
+      <parameter name="apikey" type="string"/>
+    </function>
+    <function name="getInTransit" return-type="GetInTransitResults">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="ActionScriptGeneration">
+        <item name="SerializationFilter">com.adobe.serializers.json.JSONSerializationFilter</item>
+        <item name="method">GET</item>
+        <item name="url">pipeline/PIPE_IN_TRANSIT</item>
+      </annotation>
+      <annotation name="url group">
+        <item name="completeURL">http://demo.iesltd.com/iviewdev/rest/dashboard/pipeline/PIPE_IN_TRANSIT</item>
+      </annotation>
+      <annotation name="ValidProperties">
+        <item name="propertySpecifier">total,data,metaData</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="returnType">opaque</item>
+        <item name="inputParamNames">viewName,limit,apikey</item>
+        <item name="inputParams">string,string,string</item>
+      </annotation>
+      <parameter name="viewName" type="string"/>
+      <parameter name="limit" type="string"/>
+      <parameter name="apikey" type="string"/>
+    </function>
+    <function name="getEntryCreated" return-type="EntryViewResults">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="ActionScriptGeneration">
+        <item name="SerializationFilter">com.adobe.serializers.json.JSONSerializationFilter</item>
+        <item name="method">GET</item>
+        <item name="url">pipeline/PIPE_ENTRY_CREATED</item>
+      </annotation>
+      <annotation name="url group">
+        <item name="completeURL">http://demo.iesltd.com/iviewdev/rest/dashboard/pipeline/PIPE_ENTRY_CREATED</item>
+      </annotation>
+      <annotation name="ValidProperties">
+        <item name="propertySpecifier">total,data,metaData</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="returnType">opaque</item>
+        <item name="inputParamNames">viewName,limit,apikey</item>
+        <item name="inputParams">string,string,string</item>
+      </annotation>
+      <parameter name="viewName" type="string"/>
+      <parameter name="limit" type="string"/>
+      <parameter name="apikey" type="string"/>
+    </function>
+    <function name="getEntryDlvd" return-type="EntryDlvdResults">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="ActionScriptGeneration">
+        <item name="SerializationFilter">com.adobe.serializers.json.JSONSerializationFilter</item>
+        <item name="method">GET</item>
+        <item name="url">pipeline/PIPE_ENTRY_DELIVERED_YTD</item>
+      </annotation>
+      <annotation name="url group">
+        <item name="completeURL">http://demo.iesltd.com/iviewdev/rest/dashboard/pipeline/PIPE_ENTRY_DELIVERED_YTD</item>
+      </annotation>
+      <annotation name="ValidProperties">
+        <item name="propertySpecifier">total,data,metaData</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="returnType">opaque</item>
+        <item name="inputParamNames">viewName,limit,apikey</item>
+        <item name="inputParams">string,string,string</item>
+      </annotation>
+      <parameter name="viewName" type="string"/>
+      <parameter name="limit" type="string"/>
+      <parameter name="apikey" type="string"/>
+    </function>
+    <function name="getInProgress" return-type="InProgressResults">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="ActionScriptGeneration">
+        <item name="SerializationFilter">com.adobe.serializers.json.JSONSerializationFilter</item>
+        <item name="method">GET</item>
+        <item name="url">pipeline/PIPE_IN_PROGRESS</item>
+      </annotation>
+      <annotation name="url group">
+        <item name="completeURL">http://demo.iesltd.com/iviewdev/rest/dashboard/pipeline/PIPE_IN_PROGRESS</item>
+      </annotation>
+      <annotation name="ValidProperties">
+        <item name="propertySpecifier">total,data,metaData</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="returnType">opaque</item>
+        <item name="inputParamNames">viewName,limit,apikey</item>
+        <item name="inputParams">string,string,string</item>
+      </annotation>
+      <parameter name="viewName" type="string"/>
+      <parameter name="limit" type="string"/>
+      <parameter name="apikey" type="string"/>
+    </function>
+    <function name="getNotArrived" return-type="NotArrivedResults">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="ActionScriptGeneration">
+        <item name="SerializationFilter">com.adobe.serializers.json.JSONSerializationFilter</item>
+        <item name="method">GET</item>
+        <item name="url">pipeline/PIPE_ENTRY_NOT_ARRIVED</item>
+      </annotation>
+      <annotation name="url group">
+        <item name="completeURL">http://demo.iesltd.com/iviewdev/rest/dashboard/pipeline/PIPE_ENTRY_NOT_ARRIVED</item>
+      </annotation>
+      <annotation name="ValidProperties">
+        <item name="propertySpecifier">total,data,metaData</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="returnType">opaque</item>
+        <item name="inputParamNames">viewName,limit,apikey</item>
+        <item name="inputParams">string,string,string</item>
+      </annotation>
+      <parameter name="viewName" type="string"/>
+      <parameter name="limit" type="string"/>
+      <parameter name="apikey" type="string"/>
+    </function>
+    <function name="getPlanning" return-type="PlanningResults">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="ActionScriptGeneration">
+        <item name="SerializationFilter">com.adobe.serializers.json.JSONSerializationFilter</item>
+        <item name="method">GET</item>
+        <item name="url">pipeline/PIPE_PLANNING</item>
+      </annotation>
+      <annotation name="url group">
+        <item name="completeURL">http://demo.iesltd.com/iviewdev/rest/dashboard/pipeline/PIPE_PLANNING</item>
+      </annotation>
+      <annotation name="ValidProperties">
+        <item name="propertySpecifier">total,data,metaData</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="returnType">opaque</item>
+        <item name="inputParamNames">viewName,limit,apikey</item>
+        <item name="inputParams">string,string,string</item>
+      </annotation>
+      <parameter name="viewName" type="string"/>
+      <parameter name="limit" type="string"/>
+      <parameter name="apikey" type="string"/>
+    </function>
+    <function name="getReleased" return-type="ReleasedResults">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="ActionScriptGeneration">
+        <item name="SerializationFilter">com.adobe.serializers.json.JSONSerializationFilter</item>
+        <item name="method">GET</item>
+        <item name="url">pipeline/PIPE_ENTRY_RELEASED</item>
+      </annotation>
+      <annotation name="url group">
+        <item name="completeURL">http://demo.iesltd.com/iviewdev/rest/dashboard/pipeline/PIPE_ENTRY_RELEASED</item>
+      </annotation>
+      <annotation name="ValidProperties">
+        <item name="propertySpecifier">total,data,metaData</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="returnType">opaque</item>
+        <item name="inputParamNames">viewName,limit,apikey</item>
+        <item name="inputParams">string,string,string</item>
+      </annotation>
+      <parameter name="viewName" type="string"/>
+      <parameter name="limit" type="string"/>
+      <parameter name="apikey" type="string"/>
+    </function>
+    <function name="getDlvdYTD" return-type="DlvdYTDResults">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="ActionScriptGeneration">
+        <item name="method">GET</item>
+        <item name="url">pipeline/PIPE_DELIVERED_YTD</item>
+        <item name="SerializationFilter">com.adobe.serializers.json.JSONSerializationFilter</item>
+      </annotation>
+      <annotation name="url group">
+        <item name="completeURL">http://demo.iesltd.com/iviewdev/rest/dashboard/pipeline/PIPE_DELIVERED_YTD</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="returnType">opaque</item>
+        <item name="inputParamNames">viewName,limit,apikey</item>
+        <item name="inputParams">string,string,string</item>
+      </annotation>
+      <annotation name="ValidProperties">
+        <item name="propertySpecifier">total,data,metaData</item>
+      </annotation>
+      <parameter name="viewName" type="string"/>
+      <parameter name="limit" type="string"/>
+      <parameter name="apikey" type="string"/>
+    </function>
+  </service>
+  <entity name="POMetaData">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">MetaData</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">PipelineService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="totalProperty" type="string" required="true"/>
+    <property name="root" type="string" required="true"/>
+    <property name="sortInfo" type="POSortInfo[]" required="true"/>
+    <property name="fields" type="POFields[]" required="true"/>
+  </entity>
+  <entity name="InProgressResults">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">InProgressResults</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">PipelineService,PipelineServiceDummy</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="getInProgress">
+      <item name="propertySpecifier">total,data,metaData</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <annotation name="VisualModeler">
+      <item name="x">1495</item>
+      <item name="y">318</item>
+      <item name="width">115</item>
+      <item name="height">78</item>
+    </annotation>
+    <property name="total" type="integer" required="true"/>
+    <property name="data" type="Data[]" required="true"/>
+    <property name="metaData" type="MetaData[]" required="true"/>
+  </entity>
+  <entity name="POSortInfo">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">SortInfo</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">PipelineService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="field" type="string" required="true"/>
+    <property name="direction" type="string" required="true"/>
+  </entity>
+  <entity name="PipelineSummaryResultsData">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Data</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">PipelineService,ChartService,PipelineServiceDummy</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <annotation name="getSummary">
+      <item name="propertySpecifier">data,success,rows</item>
+    </annotation>
+    <annotation name="VisualModeler">
+      <item name="x">1990</item>
+      <item name="y">318</item>
+      <item name="width">115</item>
+      <item name="height">286</item>
+    </annotation>
+    <property name="RemainingPieces" type="string"/>
+    <property name="Description" type="string"/>
+    <property name="Quantity" type="integer"/>
+    <property name="Packages" type="string"/>
+    <property name="CBM" type="string"/>
+    <property name="Pieces" type="string"/>
+    <property name="Code" type="string"/>
+    <property name="CFT" type="string"/>
+    <property name="RemainingPackages" type="string"/>
+    <property name="id" type="integer"/>
+    <property name="TEU" type="string"/>
+    <property name="Kilos" type="string"/>
+    <property name="LBS" type="string"/>
+    <property name="data" type="Data[]"/>
+    <property name="success" type="boolean"/>
+    <property name="rows" type="integer"/>
+  </entity>
+  <entity name="PlanningResults">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">PlanningResults</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">PipelineService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="getPlanning">
+      <item name="propertySpecifier">total,data,metaData</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <annotation name="VisualModeler">
+      <item name="x">2320</item>
+      <item name="y">318</item>
+      <item name="width">115</item>
+      <item name="height">78</item>
+    </annotation>
+    <property name="total" type="integer" required="true"/>
+    <property name="data" type="Data[]" required="true"/>
+    <property name="metaData" type="MetaData[]" required="true"/>
+  </entity>
+  <entity name="POData_Expander_type">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Expander_type</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">PipelineService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="ShippingOrders" type="opaque[]" required="true"/>
+    <property name="PurchaseOrderItems" type="PurchaseOrderItems_type[]" required="true"/>
+  </entity>
+  <entity name="SOResults">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">SOResults</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">PipelineService,PipelineServiceDummy</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="getSOList">
+      <item name="propertySpecifier">total,data,metaData</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <annotation name="VisualModeler">
+      <item name="x">10</item>
+      <item name="y">1886</item>
+      <item name="width">115</item>
+      <item name="height">78</item>
+    </annotation>
+    <property name="total" type="integer" required="true"/>
+    <property name="data" type="SOData[]" required="true"/>
+    <property name="metaData" type="MetaData" required="true"/>
+  </entity>
+  <entity name="GetInTransitResults">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">GetInTransitResults</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">PipelineService,PipelineServiceDummy</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="getInTransit">
+      <item name="propertySpecifier">total,data,metaData</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <annotation name="VisualModeler">
+      <item name="x">340</item>
+      <item name="y">1886</item>
+      <item name="width">115</item>
+      <item name="height">78</item>
+    </annotation>
+    <property name="total" type="integer" required="true"/>
+    <property name="data" type="InTransitData[]" required="true"/>
+    <property name="metaData" type="MetaData" required="true"/>
+  </entity>
+  <entity name="POFields">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Fields</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">PipelineService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="hidden" type="integer" required="true"/>
+    <property name="sortable" type="boolean" required="true"/>
+    <property name="width" type="integer" required="true"/>
+    <property name="name" type="string" required="true"/>
+    <property name="type" type="string" required="true"/>
+    <property name="header" type="string" required="true"/>
+  </entity>
+  <entity name="DlvdYTDResults">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">DlvdYTDResults</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">PipelineService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="getDlvdYTD">
+      <item name="propertySpecifier">total,data,metaData</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="total" type="integer" required="true"/>
+    <property name="data" type="DlvdYTDData[]" required="true"/>
+    <property name="metaData" type="MetaData[]" required="true"/>
+  </entity>
+  <entity name="POListResults">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">POListResults</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">PipelineService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="getPOList">
+      <item name="propertySpecifier">total,data,metaData</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="total" type="integer" required="true"/>
+    <property name="data" type="POData[]" required="true"/>
+    <property name="metaData" type="POMetaData[]" required="true"/>
+  </entity>
+  <entity name="EntryViewResults">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">EntryViewResults</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">PipelineService,PipelineServiceDummy</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="getEntryCreated">
+      <item name="propertySpecifier">total,data,metaData</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <annotation name="VisualModeler">
+      <item name="x">1165</item>
+      <item name="y">1886</item>
+      <item name="width">115</item>
+      <item name="height">78</item>
+    </annotation>
+    <property name="total" type="integer" required="true"/>
+    <property name="data" type="opaque[]" required="true"/>
+    <property name="metaData" type="MetaData" required="true"/>
+  </entity>
+  <entity name="SOData">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Data</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">PipelineService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <annotation name="VisualModeler">
+      <item name="x">1165</item>
+      <item name="y">318</item>
+      <item name="width">115</item>
+      <item name="height">1470</item>
+    </annotation>
+    <property name="ImportFacility" type="string" required="true"/>
+    <property name="FactoryLoadSODate" type="string" required="true"/>
+    <property name="PlaceOfReceipt" type="string" required="true"/>
+    <property name="BookingSODateTime" type="opaque" required="true"/>
+    <property name="ShipmentId" type="string" required="true"/>
+    <property name="SONumber" type="string" required="true"/>
+    <property name="PromiseSODate" type="string" required="true"/>
+    <property name="DeliveryLocation" type="opaque" required="true"/>
+    <property name="ResponsibleTrucking" type="opaque" required="true"/>
+    <property name="NoOfBLsRequired" type="integer" required="true"/>
+    <property name="PO_WarehouseId" type="string" required="true"/>
+    <property name="AllocatedSODateTime" type="opaque" required="true"/>
+    <property name="Shipper" type="string" required="true"/>
+    <property name="DropShipmentPURequestSODateTime" type="opaque" required="true"/>
+    <property name="KPI_Early" type="opaque" required="true"/>
+    <property name="ContainerType" type="string" required="true"/>
+    <property name="MOT" type="string" required="true"/>
+    <property name="SoldToID" type="string" required="true"/>
+    <property name="KPI_Late" type="opaque" required="true"/>
+    <property name="ApprovalSODate" type="opaque" required="true"/>
+    <property name="IES_ConsigneeID" type="string" required="true"/>
+    <property name="VendorReprintNeeded" type="opaque" required="true"/>
+    <property name="WhseLabelsPrintSODate" type="opaque" required="true"/>
+    <property name="PortOfDischarge" type="string" required="true"/>
+    <property name="FactoryPrinted" type="integer" required="true"/>
+    <property name="WhseLabelsPrinted" type="integer" required="true"/>
+    <property name="ForceClosed" type="opaque" required="true"/>
+    <property name="UploadSODateTime" type="opaque" required="true"/>
+    <property name="TypeOfService" type="string" required="true"/>
+    <property name="Terms" type="string" required="true"/>
+    <property name="FactoryPrintSODateTime" type="opaque" required="true"/>
+    <property name="Consignee" type="string" required="true"/>
+    <property name="PortOfloadVIA" type="string" required="true"/>
+    <property name="DocumentsReceived" type="opaque" required="true"/>
+    <property name="SODate" type="string" required="true"/>
+    <property name="BookingContactId" type="string" required="true"/>
+    <property name="LabelsConfirmedSODateTime" type="opaque" required="true"/>
+    <property name="Controller" type="string" required="true"/>
+    <property name="ProductionWorkGroup" type="opaque" required="true"/>
+    <property name="FactoryDepartSODateTime" type="opaque" required="true"/>
+    <property name="DocumentsSent" type="opaque" required="true"/>
+    <property name="ShipToLocation" type="opaque" required="true"/>
+    <property name="Notify" type="string" required="true"/>
+    <property name="OpenFlag" type="integer" required="true"/>
+    <property name="ApprovalLocation" type="opaque" required="true"/>
+    <property name="HouseShipment_UID" type="opaque" required="true"/>
+    <property name="ExportFacility" type="string" required="true"/>
+    <property name="TypeOfMove" type="string" required="true"/>
+    <property name="DropShipmentReadySODateTime" type="opaque" required="true"/>
+    <property name="UploadController" type="string" required="true"/>
+    <property name="IntendedVoyage" type="string" required="true"/>
+    <property name="LabelsPublishedSODateTime" type="opaque" required="true"/>
+    <property name="NewPromiseSODate" type="opaque" required="true"/>
+    <property name="ReceiveSODateTime" type="opaque" required="true"/>
+    <property name="QuantityLoadPlan" type="opaque" required="true"/>
+    <property name="QuantityShipped" type="opaque" required="true"/>
+    <property name="VendorReferenceSONumber" type="string" required="true"/>
+    <property name="ActualDeliverySODateTime" type="opaque" required="true"/>
+    <property name="IES_ShipperID" type="string" required="true"/>
+    <property name="OrderQuantity" type="integer" required="true"/>
+    <property name="FinalDestination" type="string" required="true"/>
+    <property name="WhseDeliverySODate" type="opaque" required="true"/>
+    <property name="SailingScheduleId" type="string" required="true"/>
+    <property name="FactoryLoaded" type="integer" required="true"/>
+    <property name="ASNReceivedSODateTime" type="opaque" required="true"/>
+    <property name="Expander" type="Expander_type[]" required="true"/>
+    <property name="QuantityAllocated" type="opaque" required="true"/>
+    <property name="Container_InputNo" type="string" required="true"/>
+    <property name="ShipmentWorkgroup" type="opaque" required="true"/>
+    <property name="ApprovalName" type="string" required="true"/>
+    <property name="ReceivedQuantity" type="integer" required="true"/>
+    <property name="FactoryLabelsAuthorizedToPrint" type="integer" required="true"/>
+    <property name="FL_BL_Type" type="opaque" required="true"/>
+    <property name="FactoryDepartedFlag" type="opaque" required="true"/>
+    <property name="Booking_UID" type="opaque" required="true"/>
+    <property name="InlandTrucker" type="string" required="true"/>
+    <property name="PickUpSODate" type="opaque" required="true"/>
+    <property name="PreAdviceId" type="string" required="true"/>
+    <property name="PO_ShippingOrderId" type="string" required="true"/>
+    <property name="AgentID" type="string" required="true"/>
+    <property name="ImportFacility_UID" type="opaque" required="true"/>
+    <property name="Status" type="string" required="true"/>
+    <property name="ASNCreatedPINV" type="integer" required="true"/>
+    <property name="Carrier" type="string" required="true"/>
+    <property name="Vendor" type="string" required="true"/>
+    <property name="IntendedVessel" type="string" required="true"/>
+    <property name="PortOfLoad" type="string" required="true"/>
+    <property name="TruckerNotes" type="string" required="true"/>
+    <property name="OpenPreAdviceFlag" type="integer" required="true"/>
+    <property name="DropShipment" type="opaque" required="true"/>
+  </entity>
+  <entity name="POData">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Data</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">PipelineService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="PO_Number" type="string" required="true"/>
+    <property name="PO_HeaderId" type="string" required="true"/>
+    <property name="ImportFacility" type="string" required="true"/>
+    <property name="AltSailingScheduleUID" type="string" required="true"/>
+    <property name="PlaceOfReceipt" type="string" required="true"/>
+    <property name="ShipNeeded" type="integer" required="true"/>
+    <property name="Ship2Template_UID" type="string" required="true"/>
+    <property name="Open_Flag" type="integer" required="true"/>
+    <property name="PurchasingGroup" type="string" required="true"/>
+    <property name="ShippingServices" type="string" required="true"/>
+    <property name="RCV_Quantity" type="string" required="true"/>
+    <property name="ShippingOrderNeeded" type="integer" required="true"/>
+    <property name="BuyerId" type="string" required="true"/>
+    <property name="FCRDate" type="opaque" required="true"/>
+    <property name="KPI_Early" type="integer" required="true"/>
+    <property name="PO_UserGroupId" type="string" required="true"/>
+    <property name="HouseInstructions" type="string" required="true"/>
+    <property name="Project" type="string" required="true"/>
+    <property name="Revisions" type="integer" required="true"/>
+    <property name="Currency" type="string" required="true"/>
+    <property name="SupplierID" type="string" required="true"/>
+    <property name="KPI_Late" type="integer" required="true"/>
+    <property name="Equipment" type="string" required="true"/>
+    <property name="KPI_NoBooking" type="integer" required="true"/>
+    <property name="Voyage" type="string" required="true"/>
+    <property name="Terms" type="string" required="true"/>
+    <property name="ModeOfTransport" type="string" required="true"/>
+    <property name="AltVoyage" type="string" required="true"/>
+    <property name="PO_Quantity" type="string" required="true"/>
+    <property name="Notes" type="string" required="true"/>
+    <property name="ImportWarehouseServices" type="string" required="true"/>
+    <property name="VendorId" type="string" required="true"/>
+    <property name="ReleaseNumber" type="string" required="true"/>
+    <property name="POI" type="string" required="true"/>
+    <property name="ReceiveNeeded" type="integer" required="true"/>
+    <property name="POE" type="string" required="true"/>
+    <property name="ShipDate" type="string" required="true"/>
+    <property name="Reference" type="string" required="true"/>
+    <property name="IncotermsLocation" type="string" required="true"/>
+    <property name="CountryOrigin" type="string" required="true"/>
+    <property name="SHP_Quantity" type="string" required="true"/>
+    <property name="KPI_OnTime" type="integer" required="true"/>
+    <property name="AltVessel" type="string" required="true"/>
+    <property name="LC_Number" type="string" required="true"/>
+    <property name="ExportFacility" type="string" required="true"/>
+    <property name="TypeOfMove" type="string" required="true"/>
+    <property name="LastRevisionDateTime" type="opaque" required="true"/>
+    <property name="Incoterms" type="string" required="true"/>
+    <property name="LC_Notes" type="string" required="true"/>
+    <property name="LoadPlanNeeded" type="integer" required="true"/>
+    <property name="Type" type="string" required="true"/>
+    <property name="SailingScheduleUID" type="string" required="true"/>
+    <property name="FreightTerms" type="string" required="true"/>
+    <property name="Docs_Sent_Date" type="opaque" required="true"/>
+    <property name="CancelDate" type="string" required="true"/>
+    <property name="BuyerLocationID" type="string" required="true"/>
+    <property name="AmendCutoffDate" type="opaque" required="true"/>
+    <property name="AltCarrier" type="string" required="true"/>
+    <property name="PO_Date" type="string" required="true"/>
+    <property name="Vessel" type="string" required="true"/>
+    <property name="MasterInstructions" type="string" required="true"/>
+    <property name="CreateMethod" type="string" required="true"/>
+    <property name="LP_Quantity" type="string" required="true"/>
+    <property name="FactoryLoaded" type="integer" required="true"/>
+    <property name="Expander" type="POData_Expander_type[]" required="true"/>
+    <property name="SO_Quantity" type="string" required="true"/>
+    <property name="SupplierIdx" type="string" required="true"/>
+    <property name="DestinationSiteID" type="integer" required="true"/>
+    <property name="AgentID" type="string" required="true"/>
+    <property name="ExportWarehouseServices" type="string" required="true"/>
+    <property name="PlaceOfDelivery" type="string" required="true"/>
+    <property name="LC_ClientId" type="string" required="true"/>
+    <property name="Docs_Received_Date" type="opaque" required="true"/>
+    <property name="ReadyDate" type="opaque" required="true"/>
+    <property name="Status" type="string" required="true"/>
+    <property name="LC_Date" type="opaque" required="true"/>
+    <property name="PO_SubQuantity" type="string" required="true"/>
+    <property name="Carrier" type="string" required="true"/>
+    <property name="VendorConfirmationNeeded" type="integer" required="true"/>
+    <property name="LC_Expire" type="opaque" required="true"/>
+  </entity>
+  <entity name="ReleasedResults">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">ReleasedResults</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">PipelineService,PipelineServiceDummy</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="getReleased">
+      <item name="propertySpecifier">total,data,metaData</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <annotation name="VisualModeler">
+      <item name="x">1660</item>
+      <item name="y">318</item>
+      <item name="width">115</item>
+      <item name="height">78</item>
+    </annotation>
+    <property name="total" type="integer" required="true"/>
+    <property name="data" type="opaque[]" required="true"/>
+    <property name="metaData" type="MetaData" required="true"/>
+  </entity>
+  <entity name="NotArrivedResults">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">NotArrivedResults</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">PipelineService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="getNotArrived">
+      <item name="propertySpecifier">total,data,metaData</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <annotation name="VisualModeler">
+      <item name="x">1825</item>
+      <item name="y">318</item>
+      <item name="width">115</item>
+      <item name="height">78</item>
+    </annotation>
+    <property name="total" type="integer" required="true"/>
+    <property name="data" type="opaque[]" required="true"/>
+    <property name="metaData" type="MetaData" required="true"/>
+  </entity>
+  <entity name="DlvdYTDData">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Data</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">PipelineService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="StatusCode" type="string" required="true"/>
+    <property name="RequestedDeliveryDateTime" type="opaque" required="true"/>
+    <property name="ContactFax" type="opaque" required="true"/>
+    <property name="ConfirmedArrivalDate" type="opaque" required="true"/>
+    <property name="FileNumber" type="string" required="true"/>
+    <property name="Commodity" type="string" required="true"/>
+    <property name="ThirdParty" type="string" required="true"/>
+    <property name="No40HC" type="string" required="true"/>
+    <property name="PlaceOfReceipt" type="string" required="true"/>
+    <property name="ServiceType" type="string" required="true"/>
+    <property name="ShipmentId" type="string" required="true"/>
+    <property name="LCLFlag" type="integer" required="true"/>
+    <property name="Pieces" type="string" required="true"/>
+    <property name="CFT" type="string" required="true"/>
+    <property name="ClearedDateTime" type="opaque" required="true"/>
+    <property name="Module" type="string" required="true"/>
+    <property name="ReeferTemperature" type="string" required="true"/>
+    <property name="PieceType" type="string" required="true"/>
+    <property name="ETADateTime" type="string" required="true"/>
+    <property name="No40" type="string" required="true"/>
+    <property name="DoorETADateTime" type="opaque" required="true"/>
+    <property name="Shipper" type="string" required="true"/>
+    <property name="FileType" type="string" required="true"/>
+    <property name="POInputDate" type="opaque" required="true"/>
+    <property name="CODAmount" type="string" required="true"/>
+    <property name="UNContactNumber" type="string" required="true"/>
+    <property name="Master" type="string" required="true"/>
+    <property name="LoadingDock" type="integer" required="true"/>
+    <property name="PortOfDischarge" type="string" required="true"/>
+    <property name="UNFlag" type="integer" required="true"/>
+    <property name="RoutingParty" type="string" required="true"/>
+    <property name="No20" type="string" required="true"/>
+    <property name="Voyage" type="string" required="true"/>
+    <property name="DeliveryAddress" type="string" required="true"/>
+    <property name="Liftgate" type="integer" required="true"/>
+    <property name="PickupDateTime" type="opaque" required="true"/>
+    <property name="HazardousDescription" type="string" required="true"/>
+    <property name="Consignee" type="string" required="true"/>
+    <property name="MasterId" type="string" required="true"/>
+    <property name="FileId" type="string" required="true"/>
+    <property name="Forklift" type="integer" required="true"/>
+    <property name="Notes" type="string" required="true"/>
+    <property name="ContactPhoneFax" type="string" required="true"/>
+    <property name="ShipperName" type="string" required="true"/>
+    <property name="LastFreeDayDateTime" type="opaque" required="true"/>
+    <property name="OblRequired" type="string" required="true"/>
+    <property name="CustomsEntryNumber" type="string" required="true"/>
+    <property name="Kilos" type="string" required="true"/>
+    <property name="MasterNumber" type="string" required="true"/>
+    <property name="Notify" type="string" required="true"/>
+    <property name="TypeOfMove" type="string" required="true"/>
+    <property name="BookingNumber" type="string" required="true"/>
+    <property name="GoDateDateTime" type="opaque" required="true"/>
+    <property name="ConfirmedDepartureDate" type="opaque" required="true"/>
+    <property name="Account" type="string" required="true"/>
+    <property name="FORWARDERSRE" type="string" required="true"/>
+    <property name="DateFileOpen" type="string" required="true"/>
+    <property name="CargoLocation" type="string" required="true"/>
+    <property name="InBondNumber" type="string" required="true"/>
+    <property name="ReadyDateTime" type="opaque" required="true"/>
+    <property name="UltimateDestination" type="string" required="true"/>
+    <property name="ITDate" type="opaque" required="true"/>
+    <property name="Conveyance" type="string" required="true"/>
+    <property name="CustomerReferenceNumber" type="string" required="true"/>
+    <property name="CreatedDateTime" type="string" required="true"/>
+    <property name="TEU" type="string" required="true"/>
+    <property name="Upstairs" type="integer" required="true"/>
+    <property name="EntryFiledDate" type="opaque" required="true"/>
+    <property name="Vessel" type="string" required="true"/>
+    <property name="HouseNumber" type="string" required="true"/>
+    <property name="CODFlag" type="integer" required="true"/>
+    <property name="Pounds" type="string" required="true"/>
+    <property name="SiteId" type="string" required="true"/>
+    <property name="DeliveredDateTime" type="string" required="true"/>
+    <property name="PODate" type="opaque" required="true"/>
+    <property name="Downstairs" type="integer" required="true"/>
+    <property name="Expander" type="Expander_type[]" required="true"/>
+    <property name="CBM" type="string" required="true"/>
+    <property name="ClosingDateTime" type="opaque" required="true"/>
+    <property name="CompletedFlag" type="opaque" required="true"/>
+    <property name="ContactName" type="string" required="true"/>
+    <property name="ContactEmail" type="string" required="true"/>
+    <property name="ReturnDate" type="opaque" required="true"/>
+    <property name="Forwarder" type="string" required="true"/>
+    <property name="ClientId" type="string" required="true"/>
+    <property name="PickupAt" type="string" required="true"/>
+    <property name="PlaceOfDelivery" type="string" required="true"/>
+    <property name="Status" type="string" required="true"/>
+    <property name="Cartons" type="string" required="true"/>
+    <property name="Carrier" type="string" required="true"/>
+    <property name="UN_Number" type="string" required="true"/>
+    <property name="BookedDateTime" type="string" required="true"/>
+    <property name="PortOfLoad" type="string" required="true"/>
+    <property name="CutoffDateTime" type="opaque" required="true"/>
+    <property name="SailDateTime" type="string" required="true"/>
+  </entity>
+  <entity name="EntryDlvdResults">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">EntryDlvdResults</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">PipelineService,PipelineServiceDummy</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="getEntryDlvd">
+      <item name="propertySpecifier">total,data,metaData</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="total" type="integer" required="true"/>
+    <property name="data" type="Data[]" required="true"/>
+    <property name="metaData" type="MetaData[]" required="true"/>
+  </entity>
+  <entity name="InTransitData">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Data</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">PipelineService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <annotation name="VisualModeler">
+      <item name="x">1825</item>
+      <item name="y">1886</item>
+      <item name="width">115</item>
+      <item name="height">1550</item>
+    </annotation>
+    <property name="StatusCode" type="string" required="true"/>
+    <property name="RequestedDeliveryDateTime" type="opaque" required="true"/>
+    <property name="ContactFax" type="opaque" required="true"/>
+    <property name="ConfirmedArrivalDate" type="opaque" required="true"/>
+    <property name="FileNumber" type="string" required="true"/>
+    <property name="Commodity" type="string" required="true"/>
+    <property name="ThirdParty" type="string" required="true"/>
+    <property name="No40HC" type="string" required="true"/>
+    <property name="PlaceOfReceipt" type="string" required="true"/>
+    <property name="ServiceType" type="string" required="true"/>
+    <property name="ShipmentId" type="string" required="true"/>
+    <property name="LCLFlag" type="integer" required="true"/>
+    <property name="Pieces" type="string" required="true"/>
+    <property name="CFT" type="string" required="true"/>
+    <property name="ClearedDateTime" type="opaque" required="true"/>
+    <property name="Module" type="string" required="true"/>
+    <property name="ReeferTemperature" type="string" required="true"/>
+    <property name="PieceType" type="string" required="true"/>
+    <property name="ETADateTime" type="string" required="true"/>
+    <property name="No40" type="string" required="true"/>
+    <property name="DoorETADateTime" type="opaque" required="true"/>
+    <property name="Shipper" type="string" required="true"/>
+    <property name="FileType" type="string" required="true"/>
+    <property name="POInputDate" type="opaque" required="true"/>
+    <property name="CODAmount" type="string" required="true"/>
+    <property name="UNContactNumber" type="string" required="true"/>
+    <property name="Master" type="string" required="true"/>
+    <property name="LoadingDock" type="integer" required="true"/>
+    <property name="PortOfDischarge" type="string" required="true"/>
+    <property name="UNFlag" type="integer" required="true"/>
+    <property name="RoutingParty" type="string" required="true"/>
+    <property name="No20" type="string" required="true"/>
+    <property name="Voyage" type="string" required="true"/>
+    <property name="DeliveryAddress" type="string" required="true"/>
+    <property name="Liftgate" type="integer" required="true"/>
+    <property name="PickupDateTime" type="opaque" required="true"/>
+    <property name="HazardousDescription" type="string" required="true"/>
+    <property name="Consignee" type="string" required="true"/>
+    <property name="MasterId" type="string" required="true"/>
+    <property name="FileId" type="string" required="true"/>
+    <property name="Forklift" type="integer" required="true"/>
+    <property name="Notes" type="string" required="true"/>
+    <property name="ContactPhoneFax" type="string" required="true"/>
+    <property name="ShipperName" type="string" required="true"/>
+    <property name="LastFreeDayDateTime" type="opaque" required="true"/>
+    <property name="OblRequired" type="string" required="true"/>
+    <property name="CustomsEntryNumber" type="string" required="true"/>
+    <property name="Kilos" type="string" required="true"/>
+    <property name="MasterNumber" type="string" required="true"/>
+    <property name="Notify" type="string" required="true"/>
+    <property name="TypeOfMove" type="string" required="true"/>
+    <property name="BookingNumber" type="string" required="true"/>
+    <property name="GoDateDateTime" type="opaque" required="true"/>
+    <property name="ConfirmedDepartureDate" type="opaque" required="true"/>
+    <property name="Account" type="string" required="true"/>
+    <property name="FORWARDERSRE" type="string" required="true"/>
+    <property name="DateFileOpen" type="string" required="true"/>
+    <property name="CargoLocation" type="string" required="true"/>
+    <property name="InBondNumber" type="string" required="true"/>
+    <property name="ReadyDateTime" type="opaque" required="true"/>
+    <property name="UltimateDestination" type="string" required="true"/>
+    <property name="ITDate" type="opaque" required="true"/>
+    <property name="Conveyance" type="string" required="true"/>
+    <property name="CustomerReferenceNumber" type="string" required="true"/>
+    <property name="CreatedDateTime" type="string" required="true"/>
+    <property name="TEU" type="string" required="true"/>
+    <property name="Upstairs" type="integer" required="true"/>
+    <property name="EntryFiledDate" type="opaque" required="true"/>
+    <property name="Vessel" type="string" required="true"/>
+    <property name="HouseNumber" type="string" required="true"/>
+    <property name="CODFlag" type="integer" required="true"/>
+    <property name="Pounds" type="string" required="true"/>
+    <property name="SiteId" type="string" required="true"/>
+    <property name="DeliveredDateTime" type="string" required="true"/>
+    <property name="PODate" type="opaque" required="true"/>
+    <property name="Downstairs" type="integer" required="true"/>
+    <property name="Expander" type="Expander_type[]" required="true"/>
+    <property name="CBM" type="string" required="true"/>
+    <property name="ClosingDateTime" type="opaque" required="true"/>
+    <property name="CompletedFlag" type="opaque" required="true"/>
+    <property name="ContactName" type="string" required="true"/>
+    <property name="ContactEmail" type="string" required="true"/>
+    <property name="ReturnDate" type="opaque" required="true"/>
+    <property name="Forwarder" type="string" required="true"/>
+    <property name="ClientId" type="string" required="true"/>
+    <property name="PickupAt" type="string" required="true"/>
+    <property name="PlaceOfDelivery" type="string" required="true"/>
+    <property name="Status" type="string" required="true"/>
+    <property name="Cartons" type="string" required="true"/>
+    <property name="Carrier" type="string" required="true"/>
+    <property name="UN_Number" type="string" required="true"/>
+    <property name="BookedDateTime" type="opaque" required="true"/>
+    <property name="PortOfLoad" type="string" required="true"/>
+    <property name="CutoffDateTime" type="opaque" required="true"/>
+    <property name="SailDateTime" type="string" required="true"/>
+  </entity>
+  <service name="ZeusbaseService">
+    <annotation name="ActionScriptGeneration">
+      <item name="ServiceType">HTTPMultiService</item>
+      <item name="Package">services.zeusbaseservice</item>
+    </annotation>
+    <annotation name="ServiceTypeGroup">
+      <item name="ServiceBackendType">HTTPService</item>
+    </annotation>
+    <annotation name="ServiceConfig">
+      <item name="DEFAULT_ENTITY_PACKAGE">valueObjects</item>
+      <item name="LINKED_FILE"></item>
+    </annotation>
+    <annotation name="VisualModeler">
+      <item name="x">835</item>
+      <item name="y">30</item>
+      <item name="width">115</item>
+      <item name="height">62</item>
+    </annotation>
+    <function name="validateLogin" return-type="LoginSubmitResults">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="ActionScriptGeneration">
+        <item name="method">GET</item>
+        <item name="url">http://demo.iesltd.com/iviewdev/rest/zeusbase/apikey/{username}</item>
+        <item name="SerializationFilter">com.adobe.serializers.json.JSONSerializationFilter</item>
+      </annotation>
+      <annotation name="url group">
+        <item name="completeURL">http://demo.iesltd.com/iviewdev/rest/zeusbase/apikey/{username}</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="returnType">opaque</item>
+        <item name="inputParamNames">username,password</item>
+        <item name="inputParams">string,string</item>
+      </annotation>
+      <annotation name="ValidProperties">
+        <item name="propertySpecifier">data,success</item>
+      </annotation>
+      <annotation name="Properties">
+        <item name="urlParamNames">username</item>
+      </annotation>
+      <parameter name="username" type="string"/>
+      <parameter name="password" type="string"/>
+    </function>
+    <function name="generateAPIKey" return-type="APIKeyResults">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="ActionScriptGeneration">
+        <item name="SerializationFilter">com.adobe.serializers.json.JSONSerializationFilter</item>
+        <item name="method">POST</item>
+        <item name="contentType">application/x-www-form-urlencoded</item>
+        <item name="requestBodyParameter">false</item>
+        <item name="url">http://demo.iesltd.com/iviewdev/rest/zeusbase/apikey</item>
+      </annotation>
+      <annotation name="url group">
+        <item name="completeURL">http://demo.iesltd.com/iviewdev/rest/zeusbase/apikey</item>
+      </annotation>
+      <annotation name="ValidProperties">
+        <item name="propertySpecifier">data,success</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParamNames">login,password</item>
+        <item name="inputParams">string,string</item>
+        <item name="returnType">opaque</item>
+      </annotation>
+      <parameter name="login" type="string"/>
+      <parameter name="password" type="string"/>
+    </function>
+  </service>
+  <entity name="APIKeyData">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Data</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">ZeusbaseService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <annotation name="VisualModeler">
+      <item name="x">1000</item>
+      <item name="y">30</item>
+      <item name="width">115</item>
+      <item name="height">46</item>
+    </annotation>
+    <property name="apikey" type="string" required="true"/>
+  </entity>
+  <entity name="APIKeyResults">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">APIKeyResults</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">ZeusbaseService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="generateAPIKey">
+      <item name="propertySpecifier">data,success</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <annotation name="VisualModeler">
+      <item name="x">1165</item>
+      <item name="y">30</item>
+      <item name="width">115</item>
+      <item name="height">62</item>
+    </annotation>
+    <property name="data" type="APIKeyData[]" required="true"/>
+    <property name="success" type="boolean" required="true"/>
+  </entity>
+  <entity name="LoginSubmitData">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Data</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">ZeusbaseService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <annotation name="VisualModeler">
+      <item name="x">1330</item>
+      <item name="y">30</item>
+      <item name="width">115</item>
+      <item name="height">46</item>
+    </annotation>
+    <property name="apiKey" type="string" required="true"/>
+  </entity>
+  <entity name="LoginSubmitResults">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">LoginSubmitResults</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">ZeusbaseService,ZeusbaseServiceDummy</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="validateLogin">
+      <item name="propertySpecifier">data,success</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <annotation name="VisualModeler">
+      <item name="x">1495</item>
+      <item name="y">30</item>
+      <item name="width">115</item>
+      <item name="height">62</item>
+    </annotation>
+    <property name="data" type="LoginSubmitData[]"/>
+    <property name="success" type="boolean"/>
+  </entity>
+  <service name="ChartService">
+    <annotation name="ActionScriptGeneration">
+      <item name="ServiceType">HTTPMultiService</item>
+      <item name="Package">services.chartservice</item>
+      <item name="rootURL">http://demo.iesltd.com/iviewdev/rest/dashboard/</item>
+    </annotation>
+    <annotation name="ServiceTypeGroup">
+      <item name="ServiceBackendType">HTTPService</item>
+    </annotation>
+    <annotation name="ServiceConfig">
+      <item name="DEFAULT_ENTITY_PACKAGE">valueObjects</item>
+      <item name="LINKED_FILE"></item>
+    </annotation>
+    <annotation name="VisualModeler">
+      <item name="x">175</item>
+      <item name="y">30</item>
+      <item name="width">115</item>
+      <item name="height">94</item>
+    </annotation>
+    <function name="getTopTenConsignee" return-type="Top10ConsigneeResults">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="ActionScriptGeneration">
+        <item name="method">GET</item>
+        <item name="url">Chart/TOP_10_CONSIGNEE_FCL</item>
+        <item name="SerializationFilter">com.adobe.serializers.json.JSONSerializationFilter</item>
+      </annotation>
+      <annotation name="url group">
+        <item name="completeURL">http://demo.iesltd.com/iviewdev/rest/dashboard/Chart/TOP_10_CONSIGNEE_FCL</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="returnType">opaque</item>
+        <item name="inputParamNames">apikey,chartCode,chartPeriod,filters</item>
+        <item name="inputParams">string,string,string,opaque</item>
+      </annotation>
+      <annotation name="ValidProperties">
+        <item name="propertySpecifier">total,data</item>
+      </annotation>
+      <parameter name="apikey" type="string"/>
+      <parameter name="chartCode" type="string"/>
+      <parameter name="chartPeriod" type="string"/>
+      <parameter name="filters" type="opaque"/>
+    </function>
+    <function name="getEquipmentUtil" return-type="EquipmentUtilizationFCLResults">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="ActionScriptGeneration">
+        <item name="method">GET</item>
+        <item name="url">Chart/EQUIPMENT_UTILIZATION_FCL</item>
+        <item name="SerializationFilter">com.adobe.serializers.json.JSONSerializationFilter</item>
+      </annotation>
+      <annotation name="url group">
+        <item name="completeURL">http://demo.iesltd.com/iviewdev/rest/dashboard/Chart/EQUIPMENT_UTILIZATION_FCL</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="returnType">opaque</item>
+        <item name="inputParamNames">apikey,filters</item>
+        <item name="inputParams">string,opaque</item>
+      </annotation>
+      <annotation name="ValidProperties">
+        <item name="propertySpecifier">total,data</item>
+      </annotation>
+      <parameter name="apikey" type="string"/>
+      <parameter name="filters" type="opaque"/>
+    </function>
+    <function name="getPipelineSummary" return-type="PiplineSummaryResults">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="ActionScriptGeneration">
+        <item name="SerializationFilter">com.adobe.serializers.json.JSONSerializationFilter</item>
+        <item name="method">GET</item>
+        <item name="url">Pipeline</item>
+      </annotation>
+      <annotation name="url group">
+        <item name="completeURL">http://demo.iesltd.com/iviewdev/rest/dashboard/Pipeline</item>
+      </annotation>
+      <annotation name="ValidProperties">
+        <item name="propertySpecifier">data,success,rows</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="returnType">opaque</item>
+        <item name="inputParamNames">limit,apikey</item>
+        <item name="inputParams">string,string</item>
+      </annotation>
+      <parameter name="limit" type="string"/>
+      <parameter name="apikey" type="string"/>
+    </function>
+    <function name="getCalendarSummary" return-type="ChartCalendarSummaryResults">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="ActionScriptGeneration">
+        <item name="SerializationFilter">com.adobe.serializers.json.JSONSerializationFilter</item>
+        <item name="method">GET</item>
+        <item name="url">Calendar</item>
+      </annotation>
+      <annotation name="url group">
+        <item name="completeURL">http://demo.iesltd.com/iviewdev/rest/dashboard/Calendar</item>
+      </annotation>
+      <annotation name="ValidProperties">
+        <item name="propertySpecifier">total,data,success</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="returnType">opaque</item>
+        <item name="inputParamNames">apikey</item>
+        <item name="inputParams">string</item>
+      </annotation>
+      <parameter name="apikey" type="string"/>
+    </function>
+    <function name="getTonTenPortPairs" return-type="Top10PortPairResults">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="ActionScriptGeneration">
+        <item name="method">GET</item>
+        <item name="url">Chart/TOP10_PORTPAIR_FCL</item>
+        <item name="SerializationFilter">com.adobe.serializers.json.JSONSerializationFilter</item>
+      </annotation>
+      <annotation name="url group">
+        <item name="completeURL">http://demo.iesltd.com/iviewdev/rest/dashboard/Chart/TOP10_PORTPAIR_FCL</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="returnType">opaque</item>
+        <item name="inputParamNames">apikey,filters</item>
+        <item name="inputParams">string,opaque</item>
+      </annotation>
+      <annotation name="ValidProperties">
+        <item name="propertySpecifier">total,data</item>
+      </annotation>
+      <parameter name="apikey" type="string"/>
+      <parameter name="filters" type="opaque"/>
+    </function>
+    <function name="getTopTenPortPairsSummary" return-type="Top10PortPairSummaryResults">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="ActionScriptGeneration">
+        <item name="SerializationFilter">com.adobe.serializers.json.JSONSerializationFilter</item>
+        <item name="method">GET</item>
+        <item name="url">ChartSummaryDrilldown/TOP10_PORTPAIR_FCL</item>
+      </annotation>
+      <annotation name="url group">
+        <item name="completeURL">http://demo.iesltd.com/iviewdev/rest/dashboard/ChartSummaryDrilldown/TOP10_PORTPAIR_FCL</item>
+      </annotation>
+      <annotation name="ValidProperties">
+        <item name="propertySpecifier">total,data</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="returnType">opaque</item>
+        <item name="inputParamNames">apikey,filters,rollupDimensionValue</item>
+        <item name="inputParams">string,opaque,string</item>
+      </annotation>
+      <parameter name="apikey" type="string"/>
+      <parameter name="filters" type="opaque"/>
+      <parameter name="rollupDimensionValue" type="string"/>
+    </function>
+    <function name="getTopTenPortPairsSummaryDetail" return-type="Top10PortPairsSummaryDetailResults">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="ActionScriptGeneration">
+        <item name="SerializationFilter">com.adobe.serializers.json.JSONSerializationFilter</item>
+        <item name="method">GET</item>
+        <item name="url">ChartSummaryDetail/TOP10_PORTPAIR_FCL</item>
+      </annotation>
+      <annotation name="url group">
+        <item name="completeURL">http://demo.iesltd.com/iviewdev/rest/dashboard/ChartSummaryDetail/TOP10_PORTPAIR_FCL</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="returnType">opaque</item>
+        <item name="inputParamNames">apikey,filters,limit,rollupDate</item>
+        <item name="inputParams">string,opaque,string,string</item>
+      </annotation>
+      <annotation name="ValidProperties">
+        <item name="propertySpecifier">total,data,metaData</item>
+      </annotation>
+      <parameter name="apikey" type="string"/>
+      <parameter name="filters" type="opaque"/>
+      <parameter name="limit" type="string"/>
+      <parameter name="rollupDate" type="string"/>
+    </function>
+    <function name="getTopTenShippers" return-type="Top10ShipperResults">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="ActionScriptGeneration">
+        <item name="SerializationFilter">com.adobe.serializers.json.JSONSerializationFilter</item>
+        <item name="method">GET</item>
+        <item name="url">Chart/TOP10_SHIPPER_FCL</item>
+      </annotation>
+      <annotation name="url group">
+        <item name="completeURL">http://demo.iesltd.com/iviewdev/rest/dashboard/Chart/TOP10_SHIPPER_FCL</item>
+      </annotation>
+      <annotation name="ValidProperties">
+        <item name="propertySpecifier">total,data</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="returnType">opaque</item>
+        <item name="inputParamNames">apikey,filters</item>
+        <item name="inputParams">string,opaque</item>
+      </annotation>
+      <parameter name="apikey" type="string"/>
+      <parameter name="filters" type="opaque"/>
+    </function>
+    <function name="getTopTenShippersDetail" return-type="Top10ShipperDetailResults">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="ActionScriptGeneration">
+        <item name="SerializationFilter">com.adobe.serializers.json.JSONSerializationFilter</item>
+        <item name="method">GET</item>
+        <item name="url">ChartSummaryDrilldown/TOP10_SHIPPER_FCL</item>
+      </annotation>
+      <annotation name="url group">
+        <item name="completeURL">http://demo.iesltd.com/iviewdev/rest/dashboard/ChartSummaryDrilldown/TOP10_SHIPPER_FCL</item>
+      </annotation>
+      <annotation name="ValidProperties">
+        <item name="propertySpecifier">total,data</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="returnType">opaque</item>
+        <item name="inputParamNames">apikey,filters,rollupDimensionValue</item>
+        <item name="inputParams">string,opaque,string</item>
+      </annotation>
+      <parameter name="apikey" type="string"/>
+      <parameter name="filters" type="opaque"/>
+      <parameter name="rollupDimensionValue" type="string"/>
+    </function>
+    <function name="getEquipmentUsageFCL" return-type="EquipmentUsageFCLResults">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="ActionScriptGeneration">
+        <item name="method">GET</item>
+        <item name="url">Chart/EQUIPMENT_USAGE_FCL</item>
+        <item name="SerializationFilter">com.adobe.serializers.json.JSONSerializationFilter</item>
+      </annotation>
+      <annotation name="url group">
+        <item name="completeURL">http://demo.iesltd.com/iviewdev/rest/dashboard/Chart/EQUIPMENT_USAGE_FCL</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="returnType">opaque</item>
+        <item name="inputParamNames">apikey,filters</item>
+        <item name="inputParams">string,opaque</item>
+      </annotation>
+      <annotation name="ValidProperties">
+        <item name="propertySpecifier">total,data</item>
+      </annotation>
+      <parameter name="apikey" type="string"/>
+      <parameter name="filters" type="opaque"/>
+    </function>
+    <function name="getEquipmentUsageDetailsFCL" return-type="EquipmentUsageFCLDetailResults">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="ActionScriptGeneration">
+        <item name="method">GET</item>
+        <item name="url">ChartSummaryDrilldown/EQUIPMENT_USAGE_FCL</item>
+        <item name="SerializationFilter">com.adobe.serializers.json.JSONSerializationFilter</item>
+      </annotation>
+      <annotation name="url group">
+        <item name="completeURL">http://demo.iesltd.com/iviewdev/rest/dashboard/ChartSummaryDrilldown/EQUIPMENT_USAGE_FCL</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="returnType">opaque</item>
+        <item name="inputParamNames">apikey,filters,rollupDimensionValue</item>
+        <item name="inputParams">string,opaque,string</item>
+      </annotation>
+      <annotation name="ValidProperties">
+        <item name="propertySpecifier">total,data</item>
+      </annotation>
+      <parameter name="apikey" type="string"/>
+      <parameter name="filters" type="opaque"/>
+      <parameter name="rollupDimensionValue" type="string"/>
+    </function>
+  </service>
+  <entity name="Top10PortPairsSummaryDetailData">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Data</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">ChartService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="ContactFax" type="opaque" required="true"/>
+    <property name="Commodity" type="string" required="true"/>
+    <property name="No40HC" type="string" required="true"/>
+    <property name="LCLFlag" type="integer" required="true"/>
+    <property name="Module" type="string" required="true"/>
+    <property name="CFT" type="string" required="true"/>
+    <property name="ReeferTemperature" type="string" required="true"/>
+    <property name="ETADateTime" type="string" required="true"/>
+    <property name="DoorETADateTime" type="opaque" required="true"/>
+    <property name="FileType" type="string" required="true"/>
+    <property name="POInputDate" type="opaque" required="true"/>
+    <property name="Master" type="string" required="true"/>
+    <property name="LoadingDock" type="integer" required="true"/>
+    <property name="RoutingParty" type="string" required="true"/>
+    <property name="No20" type="string" required="true"/>
+    <property name="PickupDateTime" type="opaque" required="true"/>
+    <property name="MasterId" type="string" required="true"/>
+    <property name="Consignee" type="string" required="true"/>
+    <property name="FileId" type="string" required="true"/>
+    <property name="LastFreeDayDateTime" type="opaque" required="true"/>
+    <property name="ShipperName" type="string" required="true"/>
+    <property name="OblRequired" type="string" required="true"/>
+    <property name="CustomsEntryNumber" type="string" required="true"/>
+    <property name="MasterNumber" type="string" required="true"/>
+    <property name="Kilos" type="string" required="true"/>
+    <property name="TypeOfMove" type="string" required="true"/>
+    <property name="BookingNumber" type="string" required="true"/>
+    <property name="GoDateDateTime" type="opaque" required="true"/>
+    <property name="ReadyDateTime" type="opaque" required="true"/>
+    <property name="UltimateDestination" type="string" required="true"/>
+    <property name="Upstairs" type="integer" required="true"/>
+    <property name="Vessel" type="string" required="true"/>
+    <property name="Pounds" type="string" required="true"/>
+    <property name="DeliveredDateTime" type="string" required="true"/>
+    <property name="SiteId" type="string" required="true"/>
+    <property name="PODate" type="opaque" required="true"/>
+    <property name="Expander" type="Expander_type[]" required="true"/>
+    <property name="ContactName" type="string" required="true"/>
+    <property name="CompletedFlag" type="opaque" required="true"/>
+    <property name="ReturnDate" type="opaque" required="true"/>
+    <property name="ClientId" type="string" required="true"/>
+    <property name="PlaceOfDelivery" type="string" required="true"/>
+    <property name="Carrier" type="string" required="true"/>
+    <property name="UN_Number" type="string" required="true"/>
+    <property name="PortOfLoad" type="string" required="true"/>
+    <property name="StatusCode" type="string" required="true"/>
+    <property name="RollupDate" type="string" required="true"/>
+    <property name="RequestedDeliveryDateTime" type="opaque" required="true"/>
+    <property name="FileNumber" type="string" required="true"/>
+    <property name="ConfirmedArrivalDate" type="opaque" required="true"/>
+    <property name="PlaceOfReceipt" type="string" required="true"/>
+    <property name="ThirdParty" type="string" required="true"/>
+    <property name="ServiceType" type="string" required="true"/>
+    <property name="ShipmentId" type="string" required="true"/>
+    <property name="Pieces" type="string" required="true"/>
+    <property name="ClearedDateTime" type="opaque" required="true"/>
+    <property name="PieceType" type="string" required="true"/>
+    <property name="Shipper" type="string" required="true"/>
+    <property name="No40" type="string" required="true"/>
+    <property name="CODAmount" type="string" required="true"/>
+    <property name="UNContactNumber" type="string" required="true"/>
+    <property name="PortOfDischarge" type="string" required="true"/>
+    <property name="UNFlag" type="integer" required="true"/>
+    <property name="DeliveryAddress" type="string" required="true"/>
+    <property name="Voyage" type="string" required="true"/>
+    <property name="Liftgate" type="integer" required="true"/>
+    <property name="HazardousDescription" type="string" required="true"/>
+    <property name="Notes" type="string" required="true"/>
+    <property name="Forklift" type="integer" required="true"/>
+    <property name="ContactPhoneFax" type="string" required="true"/>
+    <property name="Notify" type="string" required="true"/>
+    <property name="ConfirmedDepartureDate" type="opaque" required="true"/>
+    <property name="Account" type="string" required="true"/>
+    <property name="FORWARDERSRE" type="string" required="true"/>
+    <property name="DateFileOpen" type="string" required="true"/>
+    <property name="CargoLocation" type="string" required="true"/>
+    <property name="InBondNumber" type="string" required="true"/>
+    <property name="Conveyance" type="string" required="true"/>
+    <property name="ITDate" type="opaque" required="true"/>
+    <property name="CustomerReferenceNumber" type="string" required="true"/>
+    <property name="CreatedDateTime" type="string" required="true"/>
+    <property name="TEU" type="string" required="true"/>
+    <property name="HouseNumber" type="string" required="true"/>
+    <property name="EntryFiledDate" type="opaque" required="true"/>
+    <property name="CODFlag" type="integer" required="true"/>
+    <property name="Downstairs" type="integer" required="true"/>
+    <property name="CBM" type="string" required="true"/>
+    <property name="ClosingDateTime" type="opaque" required="true"/>
+    <property name="RollupName" type="string" required="true"/>
+    <property name="ContactEmail" type="string" required="true"/>
+    <property name="Forwarder" type="string" required="true"/>
+    <property name="PickupAt" type="string" required="true"/>
+    <property name="Status" type="string" required="true"/>
+    <property name="Cartons" type="string" required="true"/>
+    <property name="BookedDateTime" type="opaque" required="true"/>
+    <property name="CutoffDateTime" type="opaque" required="true"/>
+    <property name="SailDateTime" type="string" required="true"/>
+  </entity>
+  <entity name="Top10ConsigneeData">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Data</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">ChartService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="Fact1" type="integer" required="true"/>
+    <property name="Fact2" type="string" required="true"/>
+    <property name="RollupDimensionValue" type="string" required="true"/>
+  </entity>
+  <entity name="Top10ShipperDetailData">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Data</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">ChartService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="DateDimensionValue" type="string" required="true"/>
+    <property name="Fact1" type="integer" required="true"/>
+    <property name="Fact2" type="string" required="true"/>
+  </entity>
+  <entity name="Top10PortPairData">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Data</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">ChartService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="Fact1" type="integer" required="true"/>
+    <property name="Fact2" type="string" required="true"/>
+    <property name="RollupDimensionValue" type="string" required="true"/>
+  </entity>
+  <entity name="PurchaseOrderItems_type">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">PurchaseOrderItems_type</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">PipelineService,ChartService,TrackingService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <annotation name="VisualModeler">
+      <item name="x">2155</item>
+      <item name="y">318</item>
+      <item name="width">115</item>
+      <item name="height">110</item>
+    </annotation>
+    <property name="Quantity" type="integer"/>
+    <property name="LineNumber" type="string"/>
+    <property name="UOM" type="string"/>
+    <property name="PartNumber" type="string"/>
+    <property name="PartDescription" type="string"/>
+  </entity>
+  <entity name="ChartCalendarSummaryResults">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">ChartCalendarSummaryResults</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">ChartService,ChartServiceDummy</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="getCalendarSummary">
+      <item name="propertySpecifier">total,data,success</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <annotation name="VisualModeler">
+      <item name="x">505</item>
+      <item name="y">30</item>
+      <item name="width">115</item>
+      <item name="height">78</item>
+    </annotation>
+    <property name="total" type="integer" required="true"/>
+    <property name="data" type="ChartCalendarSummaryData[]" required="true"/>
+    <property name="success" type="boolean" required="true"/>
+  </entity>
+  <entity name="EquipmentUsageFCLData">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Data</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">ChartService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="Fact1" type="integer" required="true"/>
+    <property name="Fact2" type="string" required="true"/>
+    <property name="RollupDimensionValue" type="string" required="true"/>
+  </entity>
+  <entity name="EquipmentUtilizationFCLData">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Data</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">ChartService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="Fact1" type="double" required="true" default="0"/>
+    <property name="Fact2" type="opaque" required="true"/>
+    <property name="RollupDimensionValue" type="string" required="true"/>
+  </entity>
+  <entity name="Data">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Data</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">TrackingService,ChartService,PipelineService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <annotation name="VisualModeler">
+      <item name="x">175</item>
+      <item name="y">1886</item>
+      <item name="width">115</item>
+      <item name="height">1662</item>
+    </annotation>
+    <property name="apiKey" type="string" required="true"/>
+    <property name="RemainingPieces" type="string"/>
+    <property name="Description" type="string"/>
+    <property name="Quantity" type="integer"/>
+    <property name="Packages" type="string"/>
+    <property name="Code" type="string"/>
+    <property name="RemainingPackages" type="string"/>
+    <property name="id" type="integer"/>
+    <property name="LBS" type="string"/>
+    <property name="StatusCode" type="string" required="true"/>
+    <property name="RequestedDeliveryDateTime" type="opaque" required="true"/>
+    <property name="ContactFax" type="opaque" required="true"/>
+    <property name="ConfirmedArrivalDate" type="opaque" required="true"/>
+    <property name="FileNumber" type="string" required="true"/>
+    <property name="Commodity" type="string" required="true"/>
+    <property name="ThirdParty" type="string" required="true"/>
+    <property name="No40HC" type="string" required="true"/>
+    <property name="PlaceOfReceipt" type="string" required="true"/>
+    <property name="ServiceType" type="string" required="true"/>
+    <property name="ShipmentId" type="string" required="true"/>
+    <property name="LCLFlag" type="integer" required="true"/>
+    <property name="Pieces" type="string" required="true"/>
+    <property name="CFT" type="string" required="true"/>
+    <property name="ClearedDateTime" type="opaque" required="true"/>
+    <property name="Module" type="string" required="true"/>
+    <property name="ReeferTemperature" type="string" required="true"/>
+    <property name="PieceType" type="string" required="true"/>
+    <property name="ETADateTime" type="string" required="true"/>
+    <property name="No40" type="string" required="true"/>
+    <property name="DoorETADateTime" type="opaque" required="true"/>
+    <property name="Shipper" type="string" required="true"/>
+    <property name="FileType" type="string" required="true"/>
+    <property name="POInputDate" type="opaque" required="true"/>
+    <property name="CODAmount" type="string" required="true"/>
+    <property name="UNContactNumber" type="string" required="true"/>
+    <property name="Master" type="string" required="true"/>
+    <property name="LoadingDock" type="integer" required="true"/>
+    <property name="PortOfDischarge" type="string" required="true"/>
+    <property name="UNFlag" type="integer" required="true"/>
+    <property name="RoutingParty" type="string" required="true"/>
+    <property name="No20" type="string" required="true"/>
+    <property name="Voyage" type="string" required="true"/>
+    <property name="DeliveryAddress" type="string" required="true"/>
+    <property name="Liftgate" type="integer" required="true"/>
+    <property name="PickupDateTime" type="opaque" required="true"/>
+    <property name="HazardousDescription" type="string" required="true"/>
+    <property name="Consignee" type="string" required="true"/>
+    <property name="MasterId" type="string" required="true"/>
+    <property name="FileId" type="string" required="true"/>
+    <property name="Forklift" type="integer" required="true"/>
+    <property name="Notes" type="string" required="true"/>
+    <property name="ContactPhoneFax" type="string" required="true"/>
+    <property name="ShipperName" type="opaque" required="true"/>
+    <property name="LastFreeDayDateTime" type="opaque" required="true"/>
+    <property name="OblRequired" type="string" required="true"/>
+    <property name="CustomsEntryNumber" type="string" required="true"/>
+    <property name="Kilos" type="string" required="true"/>
+    <property name="MasterNumber" type="string" required="true"/>
+    <property name="Notify" type="string" required="true"/>
+    <property name="TypeOfMove" type="string" required="true"/>
+    <property name="BookingNumber" type="string" required="true"/>
+    <property name="GoDateDateTime" type="string" required="true"/>
+    <property name="ConfirmedDepartureDate" type="opaque" required="true"/>
+    <property name="Account" type="string" required="true"/>
+    <property name="FORWARDERSRE" type="string" required="true"/>
+    <property name="DateFileOpen" type="string" required="true"/>
+    <property name="CargoLocation" type="string" required="true"/>
+    <property name="InBondNumber" type="string" required="true"/>
+    <property name="ReadyDateTime" type="opaque" required="true"/>
+    <property name="UltimateDestination" type="string" required="true"/>
+    <property name="ITDate" type="opaque" required="true"/>
+    <property name="Conveyance" type="string" required="true"/>
+    <property name="CustomerReferenceNumber" type="string" required="true"/>
+    <property name="CreatedDateTime" type="string" required="true"/>
+    <property name="TEU" type="string" required="true"/>
+    <property name="Upstairs" type="integer" required="true"/>
+    <property name="EntryFiledDate" type="opaque" required="true"/>
+    <property name="Vessel" type="string" required="true"/>
+    <property name="HouseNumber" type="string" required="true"/>
+    <property name="CODFlag" type="integer" required="true"/>
+    <property name="Pounds" type="string" required="true"/>
+    <property name="SiteId" type="string" required="true"/>
+    <property name="DeliveredDateTime" type="opaque" required="true"/>
+    <property name="PODate" type="opaque" required="true"/>
+    <property name="Downstairs" type="integer" required="true"/>
+    <property name="Expander" type="Expander_type[]" required="true"/>
+    <property name="CBM" type="string" required="true"/>
+    <property name="ClosingDateTime" type="opaque" required="true"/>
+    <property name="CompletedFlag" type="opaque" required="true"/>
+    <property name="ContactName" type="string" required="true"/>
+    <property name="ContactEmail" type="string" required="true"/>
+    <property name="ReturnDate" type="opaque" required="true"/>
+    <property name="Forwarder" type="string" required="true"/>
+    <property name="ClientId" type="string" required="true"/>
+    <property name="PickupAt" type="string" required="true"/>
+    <property name="PlaceOfDelivery" type="string" required="true"/>
+    <property name="Status" type="string" required="true"/>
+    <property name="Cartons" type="string" required="true"/>
+    <property name="Carrier" type="string" required="true"/>
+    <property name="UN_Number" type="string" required="true"/>
+    <property name="BookedDateTime" type="opaque" required="true"/>
+    <property name="PortOfLoad" type="string" required="true"/>
+    <property name="CutoffDateTime" type="opaque" required="true"/>
+    <property name="SailDateTime" type="string" required="true"/>
+  </entity>
+  <entity name="EquipmentUsageFCLDetailData">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Data</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">ChartService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="DateDimensionValue" type="string" required="true"/>
+    <property name="Fact1" type="integer" required="true"/>
+    <property name="Fact2" type="string" required="true"/>
+  </entity>
+  <entity name="EquipmentUsageFCLResults">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">EquipmentUsageFCLResults</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">ChartService,ChartServiceDummy</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="getEquipmentUsageFCL">
+      <item name="propertySpecifier">total,data</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="total" type="integer" required="true"/>
+    <property name="data" type="EquipmentUsageFCLData[]" required="true"/>
+  </entity>
+  <entity name="Top10PortPairSummaryData">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Data</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">ChartService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="DateDimensionValue" type="string" required="true"/>
+    <property name="Fact1" type="integer" required="true"/>
+    <property name="Fact2" type="string" required="true"/>
+  </entity>
+  <entity name="SortInfo">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">SortInfo</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">ChartService,PipelineService,CalendarService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <annotation name="VisualModeler">
+      <item name="x">1330</item>
+      <item name="y">1886</item>
+      <item name="width">115</item>
+      <item name="height">62</item>
+    </annotation>
+    <property name="field" type="string" required="true"/>
+    <property name="direction" type="string" required="true"/>
+  </entity>
+  <entity name="Expander_type">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Expander_type</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">PipelineService,ChartService,TrackingService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <annotation name="VisualModeler">
+      <item name="x">1660</item>
+      <item name="y">1886</item>
+      <item name="width">115</item>
+      <item name="height">478</item>
+    </annotation>
+    <property name="ShippingOrders" type="opaque[]"/>
+    <property name="PurchaseOrderItems" type="PurchaseOrderItems_type[]"/>
+    <property name="PO_SODate" type="string" required="true"/>
+    <property name="PartSONumber" type="string" required="true"/>
+    <property name="Quantity" type="integer" required="true"/>
+    <property name="PO_SONumber" type="string" required="true"/>
+    <property name="PO_HeaderId" type="string" required="true"/>
+    <property name="RowSONumber" type="integer" required="true"/>
+    <property name="UOM" type="string" required="true"/>
+    <property name="PartDescription" type="string" required="true"/>
+    <property name="Items" type="Items_type[]" required="true"/>
+    <property name="Packages" type="integer" required="true"/>
+    <property name="ContainerNumber" type="string" required="true"/>
+    <property name="CBM" type="string" required="true"/>
+    <property name="Lbs" type="string" required="true"/>
+    <property name="SizeType" type="string" required="true"/>
+    <property name="Comment" type="string" required="true"/>
+    <property name="ShipmentId" type="string" required="true"/>
+    <property name="Pieces" type="integer" required="true"/>
+    <property name="Seal2" type="string" required="true"/>
+    <property name="InputNumber" type="integer" required="true"/>
+    <property name="Seal" type="string" required="true"/>
+    <property name="CFT" type="string" required="true"/>
+    <property name="FileId" type="string" required="true"/>
+    <property name="Seal3" type="string" required="true"/>
+    <property name="Kgs" type="string" required="true"/>
+    <property name="Status" type="string" required="true"/>
+    <property name="ContainerId" type="string" required="true"/>
+  </entity>
+  <entity name="ChartCalendarSummaryData">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Data</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">ChartService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <annotation name="VisualModeler">
+      <item name="x">670</item>
+      <item name="y">30</item>
+      <item name="width">115</item>
+      <item name="height">110</item>
+    </annotation>
+    <property name="NumArrivalsOcean" type="integer" required="true"/>
+    <property name="NumArrivals" type="integer" required="true"/>
+    <property name="NumArrivalsOther" type="integer" required="true"/>
+    <property name="NumArrivalsAir" type="integer" required="true"/>
+    <property name="EventDate" type="string" required="true"/>
+  </entity>
+  <entity name="Top10ShipperResults">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Top10ShipperResults</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">ChartService,ChartServiceDummy</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="getTopTenShippers">
+      <item name="propertySpecifier">total,data</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="total" type="integer" required="true"/>
+    <property name="data" type="TopTenShipperData[]" required="true"/>
+  </entity>
+  <entity name="Top10PortPairsSummaryDetailResults">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Top10PortPairsSummaryDetailResults</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">ChartService,ChartServiceDummy</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="getTopTenPortPairsSummaryDetail">
+      <item name="propertySpecifier">total,data,metaData</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="total" type="integer" required="true"/>
+    <property name="data" type="Top10PortPairsSummaryDetailData[]" required="true"/>
+    <property name="metaData" type="MetaData" required="true"/>
+  </entity>
+  <entity name="Fields">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Fields</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">ChartService,PipelineService,CalendarService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <annotation name="VisualModeler">
+      <item name="x">1330</item>
+      <item name="y">318</item>
+      <item name="width">115</item>
+      <item name="height">126</item>
+    </annotation>
+    <property name="hidden" type="integer" required="true"/>
+    <property name="sortable" type="boolean" required="true"/>
+    <property name="width" type="integer" required="true"/>
+    <property name="name" type="string" required="true"/>
+    <property name="type" type="string" required="true"/>
+    <property name="header" type="string" required="true"/>
+  </entity>
+  <entity name="PiplineSummaryResults">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">PiplineSummaryResults</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">ChartService,PipelineService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="getSummary">
+      <item name="propertySpecifier">data,success,rows</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <annotation name="getPipelineSummary">
+      <item name="propertySpecifier">data,success,rows</item>
+    </annotation>
+    <annotation name="VisualModeler">
+      <item name="x">340</item>
+      <item name="y">30</item>
+      <item name="width">115</item>
+      <item name="height">78</item>
+    </annotation>
+    <property name="data" type="Data[]"/>
+    <property name="success" type="boolean"/>
+    <property name="rows" type="integer"/>
+  </entity>
+  <entity name="TopTenShipperData">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Data</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">ChartService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="Fact1" type="integer" required="true"/>
+    <property name="Fact2" type="string" required="true"/>
+    <property name="RollupDimensionValue" type="string" required="true"/>
+  </entity>
+  <entity name="Top10ConsigneeResults">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Top10ConsigneeResults</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">ChartService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="getTopTenConsignee">
+      <item name="propertySpecifier">total,data</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="total" type="integer" required="true"/>
+    <property name="data" type="Top10ConsigneeData[]" required="true"/>
+  </entity>
+  <entity name="EquipmentUtilizationFCLResults">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">EquipmentUtilizationFCLResults</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">ChartService,ChartServiceDummy</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="getEquipmentUtil">
+      <item name="propertySpecifier">total,data</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="total" type="integer" required="true"/>
+    <property name="data" type="EquipmentUtilizationFCLData[]" required="true"/>
+  </entity>
+  <entity name="Top10ShipperDetailResults">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Top10ShipperDetailResults</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">ChartService,ChartServiceDummy</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="getTopTenShippersDetail">
+      <item name="propertySpecifier">total,data</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="total" type="integer" required="true"/>
+    <property name="data" type="Top10ShipperDetailData[]" required="true"/>
+  </entity>
+  <entity name="Top10PortPairResults">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Top10PortPairResults</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">ChartService,ChartServiceDummy</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="getTonTenPortPairs">
+      <item name="propertySpecifier">total,data</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="total" type="integer" required="true"/>
+    <property name="data" type="Top10PortPairData[]" required="true"/>
+  </entity>
+  <entity name="MetaData">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">MetaData</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">ChartService,PipelineService,CalendarService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <annotation name="VisualModeler">
+      <item name="x">670</item>
+      <item name="y">1886</item>
+      <item name="width">115</item>
+      <item name="height">94</item>
+    </annotation>
+    <property name="totalProperty" type="string" required="true"/>
+    <property name="root" type="string" required="true"/>
+    <property name="sortInfo" type="SortInfo[]" required="true"/>
+    <property name="fields" type="Fields[]" required="true"/>
+  </entity>
+  <entity name="Items_type">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Items_type</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">PipelineService,ChartService,TrackingService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <annotation name="VisualModeler">
+      <item name="x">1000</item>
+      <item name="y">1886</item>
+      <item name="width">115</item>
+      <item name="height">158</item>
+    </annotation>
+    <property name="PO_Number" type="string" required="true"/>
+    <property name="Quantity" type="string" required="true"/>
+    <property name="CBM" type="integer" required="true"/>
+    <property name="PO_Date" type="string" required="true"/>
+    <property name="PO_HeaderId" type="string" required="true"/>
+    <property name="PartNumber" type="string" required="true"/>
+    <property name="Kilos" type="string" required="true"/>
+    <property name="PartDescription" type="string" required="true"/>
+  </entity>
+  <entity name="EquipmentUsageFCLDetailResults">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">EquipmentUsageFCLDetailResults</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">ChartService,ChartServiceDummy</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="getEquipmentUsageDetailsFCL">
+      <item name="propertySpecifier">total,data</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="total" type="integer" required="true"/>
+    <property name="data" type="EquipmentUsageFCLDetailData[]" required="true"/>
+  </entity>
+  <entity name="Top10PortPairSummaryResults">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Top10PortPairSummaryResults</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">ChartService,ChartServiceDummy</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="getTopTenPortPairsSummary">
+      <item name="propertySpecifier">total,data</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="total" type="integer" required="true"/>
+    <property name="data" type="Top10PortPairSummaryData[]" required="true"/>
+  </entity>
+  <service name="IViewService">
+    <annotation name="ActionScriptGeneration">
+      <item name="ServiceType">HTTPMultiService</item>
+      <item name="Package">services.iviewservice</item>
+      <item name="rootURL">http://iviewservice.zeusdeveloper.com/index.php/mobile/</item>
+    </annotation>
+    <annotation name="ServiceTypeGroup">
+      <item name="ServiceBackendType">HTTPService</item>
+    </annotation>
+    <annotation name="ServiceConfig">
+      <item name="DEFAULT_ENTITY_PACKAGE">valueObjects</item>
+      <item name="LINKED_FILE"></item>
+    </annotation>
+    <function name="getShipmentParties" return-type="ShipmentPartiesResult">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="ActionScriptGeneration">
+        <item name="method">GET</item>
+        <item name="url">getShipmentParties</item>
+        <item name="SerializationFilter">com.adobe.serializers.json.JSONSerializationFilter</item>
+      </annotation>
+      <annotation name="url group">
+        <item name="completeURL">http://iviewservice.zeusdeveloper.com/index.php/mobile/getShipmentParties?shipmentId={shipmentId}</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="returnType">opaque</item>
+        <item name="inputParamNames">shipmentId</item>
+        <item name="inputParams">string</item>
+      </annotation>
+      <annotation name="ValidProperties">
+        <item name="propertySpecifier">data,records,success</item>
+      </annotation>
+      <parameter name="shipmentId" type="string"/>
+    </function>
+    <function name="getShipmentPartyByType" return-type="ShipmentPartyResult">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="ActionScriptGeneration">
+        <item name="method">GET</item>
+        <item name="url">getShipmentPartyByType</item>
+        <item name="SerializationFilter">com.adobe.serializers.json.JSONSerializationFilter</item>
+      </annotation>
+      <annotation name="url group">
+        <item name="completeURL">http://iviewservice.zeusdeveloper.com/index.php/mobile/getShipmentPartyByType</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="returnType">opaque</item>
+        <item name="inputParamNames">shipmentId,type</item>
+        <item name="inputParams">string,string</item>
+      </annotation>
+      <annotation name="ValidProperties">
+        <item name="propertySpecifier">data,records,success</item>
+      </annotation>
+      <parameter name="shipmentId" type="string"/>
+      <parameter name="type" type="string"/>
+    </function>
+    <function name="getPOShippingOrders" return-type="opaque">
+      <annotation name="analyze group">
+        <item name="analyzed">false</item>
+      </annotation>
+      <annotation name="ActionScriptGeneration">
+        <item name="method">GET</item>
+        <item name="url">getPOShippingOrders</item>
+        <item name="SerializationFilter">com.adobe.serializers.json.JSONSerializationFilter</item>
+      </annotation>
+      <annotation name="url group">
+        <item name="completeURL">http://iviewservice.zeusdeveloper.com/index.php/mobile/getPOShippingOrders</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="returnType">opaque</item>
+        <item name="inputParamNames">poHeaderId</item>
+        <item name="inputParams">string</item>
+      </annotation>
+      <parameter name="poHeaderId" type="string"/>
+    </function>
+  </service>
+  <entity name="ShipmentPartyResult">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">ShipmentPartyResult</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">IViewService,IViewServiceDummy</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="getShipmentPartyByType">
+      <item name="propertySpecifier">data,records,success</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="data" type="ShipmentPartyData[]" required="true"/>
+    <property name="records" type="integer" required="true"/>
+    <property name="success" type="boolean" required="true"/>
+  </entity>
+  <entity name="ShipmentPartiesResult">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">ShipmentPartiesResult</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">IViewService,IViewServiceDummy</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="getShipmentParties">
+      <item name="propertySpecifier">data,records,success</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="data" type="ShipmentPartiesData[]" required="true"/>
+    <property name="records" type="integer" required="true"/>
+    <property name="success" type="boolean" required="true"/>
+  </entity>
+  <entity name="ShipmentPartiesData">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Data</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">IViewService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="Phone" type="string" required="true"/>
+    <property name="PartyType" type="string" required="true"/>
+    <property name="Contact" type="string" required="true"/>
+    <property name="Address4" type="string" required="true"/>
+    <property name="ShipmentId" type="string" required="true"/>
+    <property name="Address5" type="string" required="true"/>
+    <property name="Country" type="string" required="true"/>
+    <property name="ClientId" type="string" required="true"/>
+    <property name="ShipmentPartyId" type="string" required="true"/>
+    <property name="ZipCode" type="string" required="true"/>
+    <property name="FileId" type="opaque" required="true"/>
+    <property name="City" type="string" required="true"/>
+    <property name="Name" type="string" required="true"/>
+    <property name="Email" type="string" required="true"/>
+    <property name="Address3" type="string" required="true"/>
+    <property name="State" type="string" required="true"/>
+    <property name="Address2" type="string" required="true"/>
+    <property name="Address1" type="string" required="true"/>
+  </entity>
+  <entity name="ShipmentPartyData">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Data</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">IViewService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="Phone" type="string" required="true"/>
+    <property name="PartyType" type="string" required="true"/>
+    <property name="Contact" type="string" required="true"/>
+    <property name="Address4" type="string" required="true"/>
+    <property name="ShipmentId" type="string" required="true"/>
+    <property name="Address5" type="string" required="true"/>
+    <property name="Country" type="string" required="true"/>
+    <property name="ClientId" type="string" required="true"/>
+    <property name="ShipmentPartyId" type="string" required="true"/>
+    <property name="ZipCode" type="string" required="true"/>
+    <property name="FileId" type="opaque" required="true"/>
+    <property name="City" type="string" required="true"/>
+    <property name="Name" type="string" required="true"/>
+    <property name="Email" type="string" required="true"/>
+    <property name="Address3" type="string" required="true"/>
+    <property name="State" type="string" required="true"/>
+    <property name="Address2" type="string" required="true"/>
+    <property name="Address1" type="string" required="true"/>
+  </entity>
+</model>

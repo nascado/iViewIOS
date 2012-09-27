@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:renderers="renderers.*"
+		fontWeight="normal"
+		xmlns:pipelineservice="services.pipelineservice.*"
+		creationComplete="POBrowse_creationCompleteHandler(event)" 
+		destructionPolicy="never"
+		title="Purchase Orders">
+	
+	
+	<!-- SCRIPTS
+	**************************************************************************************************
+	-->
+	<fx:Script>
+		<![CDATA[
+			import views.detail.POHeader;
+			import com.adobe.serializers.utility.TypeUtility;
+			import com.zeusbase.APIKey;
+			
+			import mx.events.CollectionEvent;
+			import mx.collections.ArrayCollection;
+			import mx.core.DPIClassification;
+			import mx.core.FlexGlobals;
+			import mx.events.CollectionEvent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.components.supportClasses.ViewReturnObject;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			
+			import views.tabs.PipelineTabHome;
+			
+			public var ro:ViewReturnObject = null;
+			
+			public var flipTrans:FlipViewTransition = new FlipViewTransition();	
+			
+			public function refresh(): void {		
+				busy.visible = true;				
+				getListData();				
+			}
+
+			protected function getListData():void{
+				POListResults.token = pipelineService.getPOList('PO_VIEW', '50', APIKey.getInstance().keyCode);
+			}
+			
+			
+			private function resultHandler(event:ResultEvent):void
+			{
+				trace("HTTP Service RESPONSE executed successfully");
+				busy.visible=false;				
+				
+				var totalResults:int = POListResults.lastResult.total;
+				trace("Total Results = " + totalResults);
+				
+				// Add message when result set is empty
+				if(totalResults == 0){
+					listMessageNoResults.text = "No Results Found.";
+					listMessageNoResults.visible=true;	
+				}
+			}
+			
+			private function faultHandler(event:FaultEvent):void
+			{
+				trace(event.fault.faultDetail, "Error");				
+			}			
+			
+			
+			
+			protected function POBrowse_creationCompleteHandler(event:FlexEvent):void
+			{				
+				if (Capabilities.version.indexOf("IOS") == 0)
+				{
+					var padding:Number = (10 * FlexGlobals.topLevelApplication.applicationDPI / DPIClassification.DPI_160);
+					list.top = list.bottom = list.left = list.right = padding;
+				}
+				getListData();
+			}
+
+			
+			
+			public function view1_addHandler(event:FlexEvent):void
+			{
+				//public var ro:ViewReturnObject = navigator.returnObject;
+				/**
+				if (ro)
+				{
+				
+					resultField.text = "Your favorite " + ro.context + " is " + ro.object;
+					
+					if (ro.context == "color")
+						resultField.setStyle("color", ro.object);
+					
+				}
+				else
+				{
+					resultGroup.includeInLayout = false;
+					resultGroup.visible = false;
+				}
+				 */
+			}
+
+			protected function list_changeHandler(event:IndexChangeEvent):void
+			{				
+				/**
+				var duration:int = 1;
+				var direction:String = 'left';
+				var mode:String = 'card';				
+				flipTrans.duration = duration*1000; 
+				flipTrans.mode = mode;
+				flipTrans.direction = direction;
+				navigator.pushView(views.pipeline.POHeader, list.selectedItem, null, flipTrans);
+				*/
+				navigator.pushView(views.detail.POHeader, list.selectedItem);
+			}
+			
+			protected function asynclistview_POBrowse_collectionChangeHandler(event:CollectionEvent):void
+			{
+				busy.visible=false;						
+			}
+			
+			
+			protected function goBackOneView():void {
+				/**
+				var duration:int = 1;
+				var direction:String = 'right';				
+				var mode:String = 'cube';
+				
+				
+				flipTrans.duration = duration*1000; 
+				flipTrans.mode = mode;
+				flipTrans.direction = direction;
+				
+				 		
+				navigator.pushView(views.tabs.PipelineTabHome, data, null, flipTrans);
+				*/ 
+				navigator.pushView(views.tabs.PipelineTabHome, null, null, null);
+			}
+			
+		]]>
+	</fx:Script>
+		
+	
+	
+	
+	<!-- DECLARATION
+	**************************************************************************************************
+	-->
+	<fx:Declarations>
+		<s:CallResponder id="POListResults"
+						 result="resultHandler(event)" 
+						 fault="faultHandler(event)"/>
+		<pipelineservice:PipelineService id="pipelineService"/>
+	</fx:Declarations>
+
+	<!-- STYLES
+	**************************************************************************************************
+	-->	
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		
+		.viewResultsResponseList { 
+			fontSize: 12;
+			fontFamily: "Helvetica";
+			textDecoration: none;
+			color: #2468a2;
+		}
+		
+		@media (os-platform: "IOS")
+		{
+			.listFormItemRenderer
+			{
+				borderStyle: rounded;
+				cornerRadius: 10;
+			}
+			
+			.listForm #titleDisplay
+			{
+				backgroundAlpha: 0;
+				color: #4C566C;
+				fontFamily: "Helvetica";
+				fontSize: 18;
+			}
+		}
+		
+		@media (os-platform: "IOS") and (application-dpi: 320)
+		{
+			.listFormItemRenderer
+			{
+				cornerRadius: 20;
+			}
+			
+			.listForm #titleDisplay
+			{
+				fontSize: 36;
+			}
+		}
+		
+	</fx:Style>
+	
+		
+
+	
+	<!-- Navigation Top Bar
+	**************************************************************************************************
+	-->
+	<s:navigationContent>
+		<s:Button icon="@Embed('assets/glyphs/icon-back@2x.png')" click="goBackOneView()"/>				
+	</s:navigationContent>
+	
+	<s:actionContent>
+		<s:Button id="refreshBtn" click="Object(navigator.activeView).refresh()"
+				  icon="@Embed('assets/glyphs/icon-refresh@2x.png')">
+		</s:Button>
+	</s:actionContent>
+
+	
+	<!-- Background -->
+	<s:Rect left="0" right="0" height="100%">
+		<s:fill>
+			<s:BitmapFill source="@Embed('assets/backgrounds/chrome.png')" fillMode="clip" />
+		</s:fill>
+	</s:Rect>
+	
+	
+	
+	<!--
+	***  No Results Message
+	-->	
+	<s:Label id="listMessageNoResults" visible="false" width="319" height="33" color="#84130D"
+			 fontFamily="Helvetica" fontSize="13" fontStyle="italic" fontWeight="bold"
+			 text="No Results Found." textAlign="center" verticalAlign="middle"/>
+
+	
+	
+	<!-- List
+	**************************************************************************************************
+	-->	
+	<s:Scroller width="100%" height="100%">
+		<s:Group width="100%" height="100%">
+	
+				<s:ListForm id="list" left="0" right="0" top="0" bottom="0" width="100%" height="100%"
+							change="list_changeHandler(event)" 
+							contentBackgroundColor="0xCBD2D8"
+							styleName="listForm"
+							title="Total Records: {POListResults.lastResult.total}">
+					
+							
+					<s:AsyncListView collectionChange="asynclistview_POBrowse_collectionChangeHandler(event)"
+									 list="{TypeUtility.convertToCollection(POListResults.lastResult.data)}"/>
+				
+
+					
+					<s:itemRenderer>
+						<fx:Component>
+							<renderers:StyledIconItemRenderer
+								styleName="listFormItemRenderer"
+								messageStyleName="viewResultsResponseList"
+								label="PO#: {data.PO_Number}"
+								messageFunction="getShipmentDetails"					
+								verticalAlign="middle"
+								decorator="@Embed(source='assets/buttonsweb/msg_info.png')">
+								<fx:Script>
+									<![CDATA[
+										import assets.LoadingIcon;
+										private function getShipmentDetails(item: Object): String{													
+											return "Qty: " + item.PO_Quantity + " ShipDate: " + item.ShipDate;
+										}
+									]]>
+								</fx:Script>
+							</renderers:StyledIconItemRenderer>
+						</fx:Component>
+					</s:itemRenderer>						
+					
+				</s:ListForm>
+
+		</s:Group>
+	</s:Scroller>
+	
+	<!-- Busy Indicator
+	**************************************************************************************************
+	-->
+	<s:BusyIndicator id="busy" visible="true" width="86" height="86" horizontalCenter="0"
+					 rotationInterval="100" symbolColor="#004080" verticalCenter="-65"/>			
+</s:View>

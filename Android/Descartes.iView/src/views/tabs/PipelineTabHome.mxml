@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:pipelineservice="services.pipelineservice.*"
+		color="#0C0101" 
+		currentState="normal" 
+		destructionPolicy="never" 
+		title="Pipeline Summary"
+		viewActivate="view1_viewActivateHandler(event)">
+
+	<fx:Script>
+		<![CDATA[
+			import com.zeusbase.APIKey;
+			
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.events.ViewNavigatorEvent;
+			
+			import views.pipeline.PipelineSummaryChart;
+			import views.ies.LogoutView;
+			import views.pipeline.*;
+			
+
+			[Bindable]
+			//[Embed(source='assets/glyphs/icon-driving.png')]
+			[Embed(source='assets/buttonsweb/support_alt.png')]
+			public var fbIcon:Class;
+
+			[Bindable]
+			//[Embed(source='assets/glyphs/icon-barcode.png')]
+			[Embed(source='assets/buttonsweb/support.png')]
+			public var poIcon:Class;		
+			
+			[Bindable]
+			//[Embed(source='assets/glyphs/icon-globe3.png')]
+			[Embed(source='assets/buttonsweb/support_alt.png')]
+			public var soIcon:Class;					
+
+			[Bindable]
+			//[Embed(source='assets/glyphs/icon-driving.png')]
+			[Embed(source='assets/buttonsweb/success.gif')]
+			public var entriesIcon:Class;
+			
+			[Bindable]
+			//[Embed(source='assets/glyphs/icon-dial@2x.png')]
+			[Embed(source='assets/buttonsweb/st_warning.png')]
+			public var notarrivedIcon:Class;		
+			
+			[Bindable]
+			//[Embed(source='assets/glyphs/icon-ok.png')]
+			[Embed(source='assets/buttonsweb/st_online.png')]
+			public var releasedIcon:Class;								
+			
+			[Bindable]
+			//[Embed(source='assets/glyphs/icon-chartup.png')]
+			[Embed(source='assets/buttonsweb/clipboard.png')]
+			public var dlvdIcon:Class;		
+			
+			[Bindable]
+			//[Embed(source='assets/glyphs/icon-chartside.png')]
+			[Embed(source='assets/buttonsweb/pages.png')]
+			public var planningIcon:Class;					
+			
+			[Bindable]
+			//[Embed(source='assets/glyphs/icon-globe.png')]
+			[Embed(source='assets/buttonsweb/maps.png')]
+			public var intransitIcon:Class;
+			
+			[Bindable]
+			//[Embed(source='assets/glyphs/icon-settings2.png')]
+			[Embed(source='assets/buttonsweb/calendar.png')]
+			public var inprogressIcon:Class;		
+			
+			[Bindable]
+			//[Embed(source='assets/glyphs/icon-compose.png')]
+			[Embed(source='assets/buttonsweb/downloads.png')]
+			public var entdlvdIcon:Class;								
+			
+			
+			[Bindable]
+			protected var viewsAC:ArrayCollection = new ArrayCollection(); 
+
+			/** @HYOKOS
+			 * Flip View Transition
+			 */
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;			
+			public var flipTrans:FlipViewTransition = new FlipViewTransition();			
+			
+			
+			protected function view1_viewActivateHandler(event:ViewNavigatorEvent):void
+			{
+				trace("PipelineTabHome - view called");
+								
+				trace("PipelineTabHome - make sure data array is empty");
+				
+				viewsAC.source = null;
+				
+				//trace("PipelineTabHome - Retrieving Data from Database");				
+				//getPipelineSummaryData('25', APIKey.getInstance().keyCode);
+				
+				trace("PipelineTabHome - Building Array for data content");
+				//viewsAC.addItem({label:"Favorites", icon:fbIcon});
+				
+				viewsAC.addItem({label:"PO", icon:poIcon});
+				viewsAC.addItem({label:"SO", icon:soIcon});
+				viewsAC.addItem({label:"Entries Created", icon:entriesIcon});
+				viewsAC.addItem({label:"Not Arrived", icon:notarrivedIcon});
+				viewsAC.addItem({label:"Released", icon:releasedIcon});
+				viewsAC.addItem({label:"Dlvd YTD", icon:dlvdIcon});
+				viewsAC.addItem({label:"Planning", icon:planningIcon});
+				viewsAC.addItem({label:"In Transit", icon:intransitIcon});
+				viewsAC.addItem({label:"In Progress", icon:inprogressIcon});
+				viewsAC.addItem({label:"Ent Dlvrd", icon:entdlvdIcon});
+				
+				busy.visible=false;		
+
+			}
+			
+			
+			
+			protected function onListItemSelect():void
+			{
+				// for flipping the screen				
+				var duration:int = 1;
+				var direction:String = 'left';				
+				var mode:String = 'cube';				
+				flipTrans.duration = duration*1000; 
+				flipTrans.mode = mode;
+				flipTrans.direction = direction;
+				
+				var apikey:String = APIKey.getInstance().keyCode;
+				trace('Pass along to each row and view the following apikey = ' + apikey);
+
+				// assign actions to each list row
+				if (viewsList.selectedItem.label=="Favorites")
+					navigator.pushView(views.pipeline.FavoritesList);
+				
+				if (viewsList.selectedItem.label=="PO")
+					navigator.pushView(views.pipeline.POList);
+				
+				if (viewsList.selectedItem.label=="SO")
+					navigator.pushView(views.pipeline.SOList);
+				
+				if (viewsList.selectedItem.label=="Entries Created")
+					navigator.pushView(views.pipeline.EntryCreatedList);
+				
+				if (viewsList.selectedItem.label=="Not Arrived")
+					navigator.pushView(views.pipeline.ArrivedList);
+				
+				if (viewsList.selectedItem.label=="Released")
+					navigator.pushView(views.pipeline.ReleasedList);
+				
+				if (viewsList.selectedItem.label=="Dlvd YTD")
+					navigator.pushView(views.pipeline.DlvdYTDList);
+					// NOT WORKING - WAITING FOR BOBO TO FIX
+				
+				if (viewsList.selectedItem.label=="Planning")
+					navigator.pushView(views.pipeline.PlanningList);
+				
+				if (viewsList.selectedItem.label=="In Transit")
+					navigator.pushView(views.pipeline.InTransitList);
+				
+				if (viewsList.selectedItem.label=="In Progress")
+					navigator.pushView(views.pipeline.InProgressList);
+
+				if (viewsList.selectedItem.label=="Ent Dlvrd")					
+					navigator.pushView(views.pipeline.EntryDeliveredYTD);
+					// NOT WORKING - WAITING FOR BOBO TO FIX
+			}
+			
+			protected function actionButtonClicked():void 
+			{
+				trace('Flip to Chart View for Pipeline Summary');
+				var duration:int = 1;
+				var direction:String = 'right';				
+				var mode:String = 'card';				
+				flipTrans.duration = duration*1000; 
+				flipTrans.mode = mode;
+				flipTrans.direction = direction;				
+				navigator.pushView(views.pipeline.PipelineSummaryChart, null, null, flipTrans);
+			}		
+			
+			protected function navigatorButtonClicked():void
+			{
+				trace("Logout Clicked - exiting application");
+				navigator.pushView(views.ies.LogoutView);
+			}
+			
+			
+			
+			public function getPipelineSummaryData( limit:String, apikey:String):void{				
+				PipelineSummaryResultsData.token = pipelineService.getSummary(limit, APIKey.getInstance().keyCode);
+			}
+			
+			private function resultHandler(event:ResultEvent):void
+			{
+				trace("HTTP Service RESPONSE executed successfully");
+				busy.visible=false;				
+			}
+			
+			private function faultHandler(event:FaultEvent):void
+			{
+				trace(event.fault.faultDetail, "Error");				
+			}
+			
+		]]>
+	</fx:Script>
+
+	<s:states>
+		<s:State name="normal" />
+		<s:State name="disabled" />
+	</s:states>
+	
+	
+	<fx:Declarations>
+		<s:CallResponder id="PipelineSummaryResultsData" 
+						 result="resultHandler(event)" 
+						 fault="faultHandler(event)"/>
+		<pipelineservice:PipelineService id="pipelineService"/>
+	</fx:Declarations>	
+
+	<!--
+		Nav Bar
+	-->
+	<s:actionContent>
+		<s:Button id="chartBtn" click="actionButtonClicked()"
+				  icon="@Embed('assets/glyphs/icon-chartup@2x.png')">
+		</s:Button>
+	</s:actionContent>	
+
+	
+	<!--
+		List
+	-->
+	<s:List id="viewsList" left="0" right="0" top="0" bottom="0" 
+			change="onListItemSelect()"
+			dataProvider="{viewsAC}" 
+			fontFamily="Helvetica">
+			<s:itemRenderer>
+				<fx:Component>
+					<s:IconItemRenderer 						
+						iconField="icon"
+						decorator="@Embed(source='assets/buttonsweb/fancy_nav_right.png')"/>
+						<!--
+						decorator="@Embed(source='assets/icons/Info.png')"/>
+						-->
+				</fx:Component>
+			</s:itemRenderer>
+	</s:List>
+
+	<!--
+		Busy Indicator
+	-->
+	<s:BusyIndicator id="busy" visible="true" width="76" height="68" horizontalCenter="0"
+					 rotationInterval="50" symbolColor="#004080" verticalCenter="-65"/>			
+</s:View>

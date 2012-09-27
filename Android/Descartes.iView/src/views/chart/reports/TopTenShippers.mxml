@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:charts="charts.*"
+		creationComplete="chart1.getData()"
+		title="Top 10 Shippers">
+	
+	<s:states>
+		<s:State name="portrait"/>
+		<s:State name="landscape"/>
+	</s:states>
+	
+	<s:navigationContent>
+		<s:Button includeIn="portrait" icon="@Embed('assets/glyphs/icon-back@2x.png')" click="navigator.popView()"/>				
+	</s:navigationContent>
+	
+	<s:Label id="title2" styleName="title" text="Shippers"
+			 x.portrait="191" y.portrait="20" width.portrait="101"/>
+	<charts:ProductColumnChart id="chart1" change="chart2.getData(chart1.selectedItem)"
+							   left.landscape="20" right.landscape="{undefined}" top.landscape="20"
+							   bottom.landscape="20" width.landscape="{(width-60)/2}"
+							   height.landscape="{undefined}"
+							   left.portrait="22" right.portrait="28" top.portrait="13"
+							   bottom.portrait="154" horizontalCenter.portrait="-3"
+							   verticalCenter.portrait="-71"/>
+	
+	<charts:ProductAreaChart id="chart2" styleName=""
+							 left.landscape="{undefined}" right.landscape="20" top.landscape="20"
+							 bottom.landscape="20" width.landscape="{(width-60)/2}"
+							 height.landscape="{undefined}"
+							 x.portrait="27" top.portrait="226" bottom.portrait="-62"
+							 width.portrait="265" verticalCenter.portrait="144"/>
+	
+	
+	<s:SkinnableContainer>		
+		<mx:GridLines gridDirection="horizontal">
+			<mx:horizontalStroke>
+				<mx:SolidColorStroke weight="1"/>
+			</mx:horizontalStroke>
+			<mx:horizontalFill>
+				<mx:SolidColor color="0xCCCCCC" alpha=".66"/>
+			</mx:horizontalFill>
+		</mx:GridLines>
+	</s:SkinnableContainer>
+
+</s:View>

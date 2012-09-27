@@ -1,0 +1,2 @@
+var APPLICATION_ID = 'At40BkmLyLuzTfnJ55GYh7HiV17cTfLC062tegdS';
+var MASTER_KEY = 'kYXHoFrLSqwFwxxiXTGEzquXRR9bvZSzPQVeMjrw';

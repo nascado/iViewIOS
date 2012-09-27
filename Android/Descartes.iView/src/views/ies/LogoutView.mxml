@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		title="iView : Logout">
+	<fx:Script>
+		<![CDATA[
+		
+			import views.ies.LoginScreen;
+
+			public function actionButtonClicked():void
+			{
+				this.tabBarVisible=false;
+				navigator.pushView(views.ies.LoginScreen);				
+			}
+			
+			public function navigatorButtonClicked():void
+			{
+				navigator.popView();
+			
+			}
+			
+
+		]]>
+	</fx:Script>
+	<s:navigationContent>
+		<s:Button icon="@Embed('assets/glyphs/icon-point.png')" 
+				  click="navigatorButtonClicked()"/>				
+	</s:navigationContent>			
+	<s:actionContent>
+		<s:Button id="chartBtn" click="actionButtonClicked()"
+				  icon="@Embed('assets/glyphs/icon-ok@2x.png')">
+		</s:Button>
+	</s:actionContent>	
+
+</s:View>

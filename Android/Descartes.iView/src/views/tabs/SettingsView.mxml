@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:mx="library://ns.adobe.com/flex/mx"		
+		viewActivate="loadViewSetup()"
+		fontFamily="Verdana" title="Settings">
+
+	
+	<fx:Script> 
+		<![CDATA[ 
+			import com.zeusbase.APIKey;
+			import views.ies.LoginScreen;
+			import views.tabs.*;
+			
+			private var delay:int = 3000;
+			private var repeat:int = 1;			
+			private var customsWaitingTimer:Timer = new Timer(delay, repeat);		
+			
+			
+			public var timerCounter:int = 0;
+			public var responseTotal:int = 0;
+			
+			
+			[Bindable]
+			protected var usernameParam:String = "";
+			[Bindable]
+			protected var passwordParam:String = "";
+			
+			
+			
+			
+			protected function loadViewSetup():void{
+				usernameParam = APIKey.getInstance().username;
+				passwordParam = APIKey.getInstance().password;
+				
+			}
+			
+			public function actionButtonClicked():void
+			{
+							
+			}
+			
+			public function navigatorButtonClicked():void
+			{
+				
+				
+			}	
+			public function logoutAction():void{											
+				//this.navigator.parentNavigator.selectedIndex = 0;				
+				//navigator.pushView(views.ies.LoginScreen);
+				busy.visible=true;
+				CustomsTimer();				
+			}
+			
+			/**
+			 * Functions for Creating and Configuring a Timer Object
+			 */
+			public function CustomsTimer():void
+			{				
+				customsWaitingTimer.addEventListener("timer", timerHandler);				
+				customsWaitingTimer.start();
+				
+				customsWaitingTimer.addEventListener(TimerEvent.TIMER, timerHandler);
+				customsWaitingTimer.addEventListener(TimerEvent.TIMER_COMPLETE, completeHandler);						
+			}
+			
+			/**
+			 *  COMPLETE TIMER EVENT
+			 */ 
+			private function completeHandler(e:TimerEvent):void {
+				trace("Times Up");
+				
+				//waitingTopMessage.text = "TIMER COMPLETE EVENT TRIGGERED";											
+				customsWaitingTimer.stop();
+				applicationExit();
+				
+			}
+			
+			/**
+			 * Timer Event Actions
+			 */			
+			public function timerHandler(event:TimerEvent):void {
+				trace("timerHandler: " + event);
+				trace("Just Waiting for Customs - La Di Da La Di Da");
+				trace("Running Query Response Check now...");
+				trace("TIMER EVENT LISTENER - " + timerCounter);			
+				
+				var calcRepeat:int = repeat - timerCounter;
+			
+				timerCounter++;
+				
+			}
+			
+			public function applicationExit():void {    
+				var exitingEvent:Event = new Event(Event.EXITING, false, true);    
+				NativeApplication.nativeApplication.dispatchEvent(exitingEvent);    
+				if (!exitingEvent.isDefaultPrevented()) {        
+					NativeApplication.nativeApplication.exit();   
+				}
+			}
+		]]>
+	</fx:Script> 
+	<fx:Declarations>
+		<fx:Component className="AlertMsg">
+			<s:SkinnablePopUpContainer x="10" y="200">
+				<s:TitleWindow title="Credentials Saved" close="close()">
+					<s:VGroup horizontalAlign="center" paddingTop="8" paddingBottom="8" paddingLeft="8" paddingRight="8" gap="5" width="100%">
+						<s:Label text="Saved Successfully..."/>
+						<s:Button label="OK" click="close()"/>
+					</s:VGroup>
+				</s:TitleWindow>
+			</s:SkinnablePopUpContainer>
+		</fx:Component>
+		<fx:Component className="CofirmCancelMsg">
+			<s:SkinnablePopUpContainer x="10" y="200">
+				<s:TitleWindow title="Cancel" close="close()">
+					<s:VGroup horizontalAlign="center" paddingTop="8" paddingBottom="8" paddingLeft="8" paddingRight="8" gap="5" width="100%">
+						<s:Label text="Are you sure you wish to cancel?"/>
+						<s:Button label="Yes" click="close()"/>						
+					</s:VGroup>
+				</s:TitleWindow>
+			</s:SkinnablePopUpContainer>
+		</fx:Component>		
+		
+		
+	</fx:Declarations>
+	<!--
+	<s:actionContent>
+		<s:Button id="refreshBtn" 
+				  click="Object(navigator.activeView).refresh()">
+			<s:icon>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/refresh160.png')"
+										source240dpi="@Embed('assets/refresh240.png')"
+										source320dpi="@Embed('assets/refresh320.png')"/>
+			</s:icon>
+		</s:Button>
+	</s:actionContent>		
+	
+	<s:navigationContent>
+		<s:Button icon="@Embed('assets/glyphs/icon-close@2x.png')" 
+				  click="(new CofirmCancelMsg()).open(this, false)"/>				
+	</s:navigationContent>			
+	-->
+	<s:actionContent>
+		<s:Button id="chartBtn" click="(new CofirmCancelMsg()).open(this, false)"
+				  icon="@Embed('assets/glyphs/icon-ok@2x.png')">
+		</s:Button>
+	</s:actionContent>	
+	
+	<!-- Background -->
+	<s:Rect left="0" right="0" height="100%" width="100%">
+		<s:fill>
+			<s:BitmapFill source="@Embed('assets/backgrounds/textureGradient.png')" fillMode="scale" />
+		</s:fill>
+	</s:Rect>
+	
+
+	
+	<s:VGroup left="0" right="0" top="0" bottom="0">	
+		<s:VGroup width="100%" paddingLeft="10" paddingTop="35" paddingRight="20" paddingBottom="20" gap="5">
+			<s:VGroup width="100%">
+				<s:Label color="#F8FDFD" fontSize="12" fontWeight="normal" text="Username"
+						 textDecoration="underline"/>										
+				<s:TextInput id="username" width="100%" text="{usernameParam}"  
+							 color="#3F3F47" fontFamily="Helvetica Nue" fontWeight="normal"/>	
+			</s:VGroup>
+			
+			<s:VGroup width="100%" paddingTop="10">
+				<s:Label color="#F6F9F9" fontSize="12" fontWeight="normal" text="Password"
+						 textDecoration="underline" verticalAlign="top"/>
+				<s:TextInput id="password" width="100%" color="#3F3F47" displayAsPassword="true"
+							 fontFamily="Helvetica Nue" fontWeight="normal" text="{usernameParam}"
+							 textAlign="left"/>
+				<!--
+				<s:TextInput id="password" width="100%" displayAsPassword="true" text="{APIKey.getInstance().password}"/>
+				-->
+			</s:VGroup>
+
+			<s:VGroup width="100%" click="logoutAction()" horizontalAlign="center" paddingLeft="50"
+					  paddingRight="50" paddingTop="100">
+				<s:Button id="btnLogout" width="200" label="Logout" color="#E31414"
+						  fontFamily="Helvetica" icon="@Embed('assets/glyphs/111-user.png')" />
+			</s:VGroup>
+			
+
+		</s:VGroup>
+
+	</s:VGroup>
+	
+	<!--
+	** Animated Busy Indicator
+	-->				
+	<s:BusyIndicator id="busy" visible="false" width="86" height="84" horizontalCenter="0"
+					 rotationInterval="50" symbolColor="#ffffff" verticalCenter="-65"/>
+	
+	
+</s:View>

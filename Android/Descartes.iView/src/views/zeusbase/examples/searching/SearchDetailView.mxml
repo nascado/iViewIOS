@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		title="Search Details">
+	
+	<s:HGroup verticalAlign="middle" gap="12">
+		
+		<s:Image source="assets/pics/{data.picture}"/>
+		
+		<s:VGroup>
+			<s:Label text="{data.firstName} {data.lastName}"/>
+			<s:Label text="{data.title}"/>
+			<s:Label text="{data.department}"/>
+			<s:Label text="{data.city}"/>
+		</s:VGroup>
+		
+	</s:HGroup>
+	
+</s:View>

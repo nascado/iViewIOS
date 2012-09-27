@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:renderers="renderers.*"
+		fontWeight="normal"
+		xmlns:pipelineservice="services.pipelineservice.*"
+		creationComplete="view_creationCompleteHandler(event)"
+		title="Planning">
+	<fx:Script>
+		<![CDATA[
+			import com.adobe.serializers.utility.TypeUtility;
+			import com.zeusbase.APIKey;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.CollectionEvent;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.events.ViewNavigatorEvent;
+			
+			import views.detail.SOHeader;
+			import views.detail.ShipmentDetail;
+			import views.ies.LogoutView;
+			import views.pipeline.*;
+			import views.tabs.PipelineTabHome;
+
+
+			
+			[Bindable]
+			protected var viewsAC:ArrayCollection = new ArrayCollection(); 			
+			import mx.events.FlexEvent;
+			
+			/** @HYOKOS
+			 * Flip View Transition
+			 */
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;			
+			public var flipTrans:FlipViewTransition = new FlipViewTransition();			
+			import spark.events.IndexChangeEvent;
+			import mx.core.DPIClassification;
+			import mx.core.FlexGlobals;
+			import mx.events.FlexEvent;
+			
+			
+			
+			public function refresh(): void {		
+				busy.visible = true;				
+				getListData();				
+			}
+			
+			
+			
+			protected function list_changeHandler(event:IndexChangeEvent):void
+			{	
+				/**
+				var duration:int = 1;
+				var direction:String = 'left';
+				var mode:String = 'card';				
+				flipTrans.duration = duration*1000; 
+				flipTrans.mode = mode;
+				flipTrans.direction = direction;
+				navigator.pushView(views.detail.ShipmentDetail, list.selectedItem, null, flipTrans);
+				 */
+				navigator.pushView(views.detail.ShipmentDetail, list.selectedItem);
+			}
+			
+			
+			protected function asynclistview_Browse_collectionChangeHandler(event:CollectionEvent):void
+			{
+				busy.visible=false;						
+			}
+			
+			protected function view_creationCompleteHandler(event:FlexEvent):void
+			{
+				if (Capabilities.version.indexOf("IOS") == 0)
+				{
+					var padding:Number = (10 * FlexGlobals.topLevelApplication.applicationDPI / DPIClassification.DPI_160);
+					list.top = list.bottom = list.left = list.right = padding;
+				}
+				getListData();
+			}
+			
+			protected function list_creationCompleteHandler(event:FlexEvent):void
+			{
+				trace("Planning List : Creation Event");
+			}
+			
+			
+			public function getListData():void{				
+				PlanningResults.token = pipelineService.getPlanning('ShipmentView.PIPE_PLANNING', '50', APIKey.getInstance().keyCode);
+			}
+			
+			private function resultHandler(event:ResultEvent):void
+			{
+				trace("Planning : HTTP Service RESPONSE executed successfully");
+				busy.visible=false;				
+				
+				var totalResults:int = PlanningResults.lastResult.total;
+				trace("Planning : Total Results = " + totalResults);
+			}
+			
+			private function faultHandler(event:FaultEvent):void
+			{
+				trace(event.fault.faultDetail, "Error");				
+			}
+			
+			protected function goBackOneView():void {
+				/**
+				var duration:int = 1;
+				var direction:String = 'right';
+				// up, down, left, right
+				var mode:String = 'cube';
+				// cube, card
+				
+				flipTrans.duration = duration*1000; 
+				flipTrans.mode = mode;
+				flipTrans.direction = direction;
+				
+				//navigator.popView(flipTrans); 		
+				navigator.pushView(views.tabs.PipelineTabHome, data, null, flipTrans);
+				 *
+				 */
+				
+				navigator.pushView(views.tabs.PipelineTabHome, data);
+				
+			}		
+			
+
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:CallResponder id="PlanningResults"
+						 result="resultHandler(event)" 
+						 fault="faultHandler(event)"/>
+		<pipelineservice:PipelineService id="pipelineService"/>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<!-- STYLES
+	**************************************************************************************************
+	-->	
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		
+		.viewResultsResponseList { 
+			fontSize: 12;
+			fontFamily: "Helvetica";
+			textDecoration: none;
+			color: #2468a2;
+		}
+		
+		@media (os-platform: "IOS")
+		{
+			.listFormItemRenderer
+			{
+				borderStyle: rounded;
+				cornerRadius: 10;
+			}
+			
+			.listForm #titleDisplay
+			{
+				backgroundAlpha: 0;
+				color: #4C566C;
+				fontFamily: "Helvetica";
+				fontSize: 18;
+			}
+		}
+		
+		@media (os-platform: "IOS") and (application-dpi: 320)
+		{
+			.listFormItemRenderer
+			{
+				cornerRadius: 20;
+			}
+			
+			.listForm #titleDisplay
+			{
+				fontSize: 36;
+			}
+		}
+		
+	</fx:Style>
+	
+	
+
+	<!--
+	***  STATES
+	-->	
+	<s:states>
+		<s:State name="normal" />
+		<s:State name="disabled" />
+	</s:states>
+
+	<!--
+	***  Navigation Bar
+	-->	
+	<s:navigationContent>
+		<s:Button icon="@Embed('assets/glyphs/icon-back@2x.png')" click="navigator.pushView(views.tabs.PipelineTabHome)"/>				
+	</s:navigationContent>		
+	<s:actionContent>
+		<s:Button id="refreshBtn" click="Object(navigator.activeView).refresh()"
+				  icon="@Embed('assets/glyphs/icon-refresh@2x.png')">
+		</s:Button>
+	</s:actionContent>
+	
+	
+	
+	
+	<!-- Background -->
+	<s:Rect left="0" right="0" height="100%" width="100%">
+		<s:fill>
+			<s:BitmapFill source="@Embed('assets/backgrounds/chrome.png')" fillMode="scale" />
+		</s:fill>
+	</s:Rect>
+	
+	
+	<!--
+	***  List
+	-->
+	<s:Scroller width="100%" height="100%">
+		<s:Group width="100%" height="100%">
+			
+			<!-- Custom List with optional title skin part -->
+			<s:ListForm id="list" left="0" right="0" top="0" bottom="0" width="100%" height="100%"
+						change="list_changeHandler(event)"
+						creationComplete="list_creationCompleteHandler(event)" 						
+						styleName="listForm"
+						title="Total Records: {PlanningResults.lastResult.total} ">
+				
+				<s:AsyncListView collectionChange="asynclistview_Browse_collectionChangeHandler(event)"
+								 list="{TypeUtility.convertToCollection(PlanningResults.lastResult.data)}"/>
+				
+				<s:itemRenderer>
+					<fx:Component>
+						<renderers:StyledIconItemRenderer
+							styleName="listFormItemRenderer"
+							messageStyleName="viewResultsResponseList"
+							label="File#: {data.FileNumber}"
+							messageFunction="getDetails"					
+							verticalAlign="middle"
+							decorator="@Embed(source='assets/buttonsweb/msg_info.png')">
+							<fx:Script>
+								<![CDATA[
+									//import assets.LoadingIcon;
+									private function getDetails(item: Object): String{													
+										return "MBL: " + item.MasterNumber + " HBL: " + item.HouseNumber;										
+									}
+								]]>
+							</fx:Script>
+						</renderers:StyledIconItemRenderer>
+						
+					</fx:Component>
+				</s:itemRenderer>
+				
+				
+			</s:ListForm>
+			
+		</s:Group>
+	</s:Scroller>
+
+
+	
+	
+	<!--
+	***  Busy Indicator
+	-->
+	<s:BusyIndicator id="busy" visible="true" width="86" height="84" horizontalCenter="0"
+					 rotationInterval="50" symbolColor="#004080" verticalCenter="-65"/>
+</s:View>

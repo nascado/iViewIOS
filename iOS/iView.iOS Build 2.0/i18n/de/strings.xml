@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+	
+	<string name="appname">iView</string>
+
+	<string name="Pipeline">Pipeline</string>
+	<string name="Calendar">Kalender</string>
+	<string name="Search">Suche</string>
+	<string name="Report">Melden</string>	
+	<string name="Settings">Einstellungen</string>
+	<string name="Login">Login</string>	
+	
+	<string name="indicator_loading">Ein Moment...</string>
+	
+	
+	<string name="Username">Benutzername</string>
+	<string name="Password">Kennwort</string>
+	
+	<string name="ShipmentSummary">Versand Zusammenfassung</string>
+	<string name="Shipments">Sendungen</string>
+	<string name="Containers">Sehen Container</string>
+	<string name="Documents">Dokumente Anzeigen</string>
+	<string name="AddressBook">Fügen Vertragsparteien Kontakte</string>
+	<string name="Print">Drucken über das Netzwerk</string>
+	<string name="Share">Anteil Versand</string>
+	<string name="Scan">Scan-Datei</string>
+	<string name="FileNumber">Dateinummer</string>
+	<string name="PONumber">PO-Nummer</string>
+	<string name="ContainerNumber">Container-Nummer</string>
+	<string name="MasterNumber">MBL Nummer</string>
+	<string name="HouseNumber">HBL Nummer</string>
+	
+	
+	
+	<string name="AlertTitle">IES Nachricht</string>
+	<string name="AlertMessage01">Sind Sie sicher, Sie möchten Ihre IES Konto aktualisieren?</string>
+	<string name="AlertMessage02">Aufgrund der Vielzahl von Daten dieser App können Sie suchen, bitten wir Sie mindestens 3 Zeichen eingeben für den Filter, um eine überschaubare Ergebnis zurückgeben. Vielen Dank</string>
+	
+	<string name="query_button">Filter Festlegen</string>
+
+
+    <string name="ptr_pull_to_reload">Ziehen Sie zum Nachladen</string>
+    <string name="ptr_last_updated">Zuletzt aktualisiert: </string>
+    <string name="ptr_pull_down_to_refresh">Ziehen Sie zur Erfrischung...</string>
+    <string name="ptr_release_to_refresh">Lassen Sie zur Erfrischung...</string>
+    <string name="ptr_reloading">Neuladen...</string>
+
+    
+    <string name="NotArrived">Not Arrived</string>
+    <string name="EntDlvd">Ent Dlvd</string>
+    <string name="EntDlvdYTD">Ent Dlvd YTD</string>
+    <string name="InTransit">In Transit</string>
+    <string name="InProgress">In Progress</string>
+    <string name="Delivered">Delivered</string>
+    <string name="Released">Released</string>
+    <string name="Planning">Planning</string>
+    <string name="PipelinePO">PO</string>
+    <string name="PipelineSO">SO</string>
+	
+	<string name="AllArrivals">All Arrivals</string>
+    <string name="AirArrivalsOnly">Air Arrivals Only</string>
+    <string name="OceanArrivalsOnly">Ocean Arrivals Only</string>
+    
+	<string name="ShareTab">Share</string>
+	
+</resources>

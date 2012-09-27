@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		title="Web View" viewActivate="view1_viewActivateHandler(event)">
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+
+	
+	<fx:Script>
+		<![CDATA[
+			import com.adobe.serializers.utility.TypeUtility;
+			
+			import flash.media.StageWebView;
+			import flash.net.URLRequest;
+			
+			import mx.events.CollectionEvent;
+			import mx.events.FlexEvent;
+			
+			import spark.events.ViewNavigatorEvent;
+			
+			protected var webView:StageWebView = new StageWebView();
+			protected var openBrowser:Boolean = false; 
+			
+			
+			
+			import spark.events.IndexChangeEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.transitions.FlipViewTransition;
+			
+			
+			import views.zeusbase.UserManagment;
+			import views.zeusbase.ZeusMessaging;
+			
+			public var flipTrans:FlipViewTransition = new FlipViewTransition();
+			
+			[Bindable]
+			[Embed(source='assets/logo/ic_32x32.png')]
+			public var fbIcon:Class;			
+			
+			
+			/**
+			 * HTTP Service - Manual - Functions
+			 */ 
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.events.FaultEvent;
+			
+			
+			
+			/** Functions
+			 */			
+			protected function loadWebViewURL(url:String):void{
+				customsResponseWebViewBusy.visible = true;
+				currentState = "normal";
+				webView.stage = this.stage;
+				webView.viewPort = new Rectangle(5, 100, this.stage.stageWidth, this .stage.stageHeight);
+				webView.addEventListener(LocationChangeEvent.LOCATION_CHANGE,onURLChange);	
+				webView.loadURL(url);	
+				addEventListener(ViewNavigatorEvent.REMOVING,onRemove);				
+			}
+			
+			
+			/** Event Handlers
+			 */ 
+			protected function view1_viewActivateHandler(event:ViewNavigatorEvent):void
+			{
+				if (StageWebView.isSupported)
+				{
+					loadWebViewURL("http://www.iesltd.com");
+				}
+				else {
+					currentState = "unsupported";
+					//lblSupport.text = "Web View feature not supported";
+				}	
+			}
+			
+			protected function onURLChange(event:LocationChangeEvent):void
+			{
+				trace("URL change");
+				customsResponseWebViewBusy.visible = false;
+				
+				// Uncomment the following line to load in the default browser instead... 
+				//navigateToURL(new URLRequest(event.location));
+			}
+			
+			protected function onRemove(event:ViewNavigatorEvent):void
+			{
+				this.webView.dispose();
+			}
+			
+			
+			
+			/** Load View
+			 */ 
+			public function loadViewData():void{
+				trace("load view data called");
+			}
+			
+			
+			/** Buttons
+			 */ 
+			public function navigatorButtonClicked():void
+			{
+				navigator.pushView(views.ies.LoginScreen);						
+			}
+			
+			protected function button1_clickHandler(event:MouseEvent):void
+			{
+				//navigator.pushView(views.data.ShipmentSummaryView);	
+			}
+			
+			protected function btn_refreshClicked():void{
+				customsResponseWebViewBusy.visible = true;
+				loadWebViewURL("http://www.iesltd.com");
+			}
+			protected function btn_siteLinkClicked():void{
+				customsResponseWebViewBusy.visible = true;
+				loadWebViewURL("http://www.google.com");
+			}			
+			
+			
+		]]>
+	</fx:Script>
+	
+	<s:states>
+		<s:State name="normal"/>
+	</s:states>
+	
+	<!--
+	** Navigation - Action Bar
+	-->		
+	<s:navigationContent>
+		<s:Button click="navigatorButtonClicked()"
+				  icon="@Embed('assets/glyphs/icon-dial@2x.png')"/>				
+	</s:navigationContent>				
+	<s:actionContent>
+		<s:Button click="btn_siteLinkClicked()"
+				  icon="@Embed('assets/glyphs/icon-at1@2x.png')"/>		
+		<s:Button click="btn_refreshClicked()"
+				  icon="@Embed('assets/glyphs/icon-refresh.png')"/>
+	</s:actionContent>	
+	
+	
+	
+	<!--
+	** Animated Busy Indicator
+	-->		
+	
+	<s:BusyIndicator id="customsResponseWebViewBusy" visible="true" top="110" width="114"
+					 height="102" horizontalCenter="0" rotationInterval="100" symbolColor="black"/>	
+	
+	
+</s:View>

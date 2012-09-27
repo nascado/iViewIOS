@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		destructionPolicy="never"
+		creationComplete="trace('Charts Tab Completion Created')"
+		title="Reports">
+	
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			
+			import spark.events.IndexChangeEvent;
+			
+			import views.chart.pipeline.EquipmentUtilView;
+			import views.chart.pipeline.PipelineSummaryView;
+			import views.chart.pipeline.TopTenConsignee;
+			import views.chart.pipeline.TopTenShippers;
+			import views.chart.reports.CalendarSummaryChart_Line;
+			import views.chart.reports.CalendarSummaryChart_Pie;
+			import views.chart.reports.PipelineSummaryChart;
+			import views.chart.reports.PipelineSummaryView;
+			import views.chart.reports.TopTenConsignee;
+			import views.chart.reports.TopTenShippers;
+
+			
+			[Bindable]
+			[Embed(source='assets/Chart_1.png')]
+			private var icon1:Class;
+			
+			[Bindable]
+			[Embed(source='assets/Chart_2.png')]
+			private var icon2:Class;
+			
+			[Bindable]
+			[Embed(source='assets/Chart_3.png')]
+			private var icon3:Class;
+			
+			[Bindable]
+			[Embed(source='assets/Chart_4.png')]
+			private var icon4:Class;
+			
+			[Bindable]
+			[Embed(source='assets/Chart_5.png')]
+			private var icon5:Class;
+				
+			[Bindable]
+			protected var items:ArrayCollection = new ArrayCollection([				
+				//{name: "Top Ten Port Pairs", 	view: views.chart.reports.PipelineSummaryView, 			icon: icon1, line1: "View a visual breakdown of your", line2: "top 10 port pairs."},
+				//{name: "Equipment Usage", 		view: views.chart.reports.EquipmentUtilView, 			icon: icon2, line1: "Equipment Utilization", line2: "Report"},
+				
+				{name: "Pipeline Summary", 		view: views.chart.reports.PipelineSummaryChart, 		icon: icon3, line1: "Visual Graph of Pipeline Buckets", line2: "of your grouped shipments"},
+				{name: "Arrivals by Month", 	view: views.chart.reports.CalendarSummaryChart_Line, 	icon: icon4, line1: "Visual Graph of Pipeline Buckets", line2: "of your grouped shipments"},
+				{name: "Arrival Pie Chart", 	view: views.chart.reports.CalendarSummaryChart_Pie, 	icon: icon5, line1: "Visual Graph of your Arrivals", line2: "broken down by air or ocean"}
+			]);
+				
+				//{name: "Top Ten Consignees", 	view: views.chart.reports.TopTenConsignee, 				icon: icon1, line1: "Visual Graph of Pipeline Buckets", line2: "of your grouped shipments"},
+				//{name: "Top Ten Shippers", 		view: views.chart.reports.TopTenShippers, 				icon: icon2, line1:"Where are you shipping from", line2: "the most last month?"}
+			
+			
+			
+			protected function list_changeHandler(event:IndexChangeEvent):void
+			{
+				navigator.pushView(list.selectedItem.view);
+				list.selectedIndex = -1;	
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:states>
+		<s:State name="portrait"/>
+		<s:State name="landscape"/>
+	</s:states>
+	
+	<s:navigationContent/>
+	
+	<s:List id="list" labelField="name" dataProvider="{items}" top="0" bottom="0" left="0" right="0"
+			change="list_changeHandler(event)">
+		<s:itemRenderer>
+			<fx:Component>
+				<s:ItemRenderer width="100%" height="200">
+					<s:Image source="{data.icon}" top="30" horizontalCenter="0"/>
+					<s:Label text="{data.name}" top="100" horizontalCenter="0" color="#646464"/>
+					<s:Label text="{data.line1}" top="130" horizontalCenter="0" color="#646464" fontSize="14"/>
+					<s:Label text="{data.line2}" top="150" horizontalCenter="0" color="#646464" fontSize="14"/>
+				</s:ItemRenderer>
+			</fx:Component>
+		</s:itemRenderer>
+		<s:layout>
+			<s:TileLayout requestedColumnCount="1" requestedColumnCount.landscape="3" columnAlign="justifyUsingWidth"/>
+		</s:layout>
+	</s:List>
+	
+</s:View>

@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:renderers="renderers.*"
+		fontWeight="normal"
+		xmlns:pipelineservice="services.pipelineservice.*"		
+		creationComplete="view1_creationCompleteHandler(event)"
+		title="Shipping Orders">
+	
+	
+<!-- SCRIPTS
+**************************************************************************************************
+-->
+<fx:Script>
+	<![CDATA[
+		import views.detail.SOHeader;
+		import com.adobe.serializers.utility.TypeUtility;
+		import com.zeusbase.APIKey;
+		
+		import mx.events.CollectionEvent;
+		import mx.collections.ArrayCollection;
+		import mx.rpc.events.FaultEvent;
+		import mx.rpc.events.ResultEvent;
+		import mx.core.DPIClassification;
+		import mx.core.FlexGlobals;
+		import mx.events.FlexEvent;
+		
+		import spark.events.ViewNavigatorEvent;
+		import spark.events.IndexChangeEvent;
+								
+		import views.tabs.PipelineTabHome;
+
+		[Bindable]
+		protected var viewsAC:ArrayCollection = new ArrayCollection(); 
+	
+		
+		
+		public function refresh(): void {		
+			busy.visible = true;				
+			getListData();				
+		}
+		
+		protected function view1_creationCompleteHandler(event:FlexEvent):void
+		{
+			if (Capabilities.version.indexOf("IOS") == 0)
+			{
+				var padding:Number = (10 * FlexGlobals.topLevelApplication.applicationDPI / DPIClassification.DPI_160);
+				list.top = list.bottom = list.left = list.right = padding;
+			}
+			getListData();
+		}
+		
+		protected function list_changeHandler(event:IndexChangeEvent):void
+		{				
+			navigator.pushView(views.detail.SOHeader, list.selectedItem);
+		}
+		
+		
+		protected function asynclistview_SOBrowse_collectionChangeHandler(event:CollectionEvent):void
+		{
+			busy.visible=false;						
+		}
+		
+		public function getListData():void{				
+			SOResults.token = pipelineService.getSOList('SO_VIEW', '100', APIKey.getInstance().keyCode);
+		}
+		
+		private function resultHandler(event:ResultEvent):void
+		{
+			trace("SO List : HTTP Service RESPONSE executed successfully");
+			busy.visible=false;				
+			
+			var totalResults:int = SOResults.lastResult.total;
+			trace("SO Total Results = " + totalResults);
+			
+			// Add message when result set is empty
+			if(totalResults == 0){	
+				toggleShowErrorAlert(true);
+			}
+		}
+		
+		private function faultHandler(event:FaultEvent):void
+		{
+			trace(event.fault.faultDetail, "Error");				
+		}
+		
+		protected function goBackOneView():void {	
+			navigator.pushView(views.tabs.PipelineTabHome); 
+		}		
+		
+		
+		protected function toggleShowErrorAlert(isVisible:Boolean):void
+		{
+			if(isVisible){
+				listMessageNoResults.visible = true;
+			} else {
+				listMessageNoResults.visible = false;
+			}
+		}
+		
+	]]>
+</fx:Script>
+
+
+	
+<!-- DECLARATIONS
+**************************************************************************************************
+-->	
+<fx:Declarations>
+	<s:CallResponder id="SOResults"
+					 result="resultHandler(event)" 
+					 fault="faultHandler(event)"/>
+	<pipelineservice:PipelineService id="pipelineService"/>
+</fx:Declarations>
+
+	
+<!-- STYLES
+**************************************************************************************************
+-->		
+<fx:Style>
+	@namespace s "library://ns.adobe.com/flex/spark";
+	
+	.viewResultsResponseList { 
+		fontSize: 12;
+		fontFamily: "Helvetica";
+		textDecoration: none;
+		color: #2468a2;
+	}
+	
+	@media (os-platform: "IOS")
+	{
+		.listFormItemRenderer
+		{
+			borderStyle: rounded;
+			cornerRadius: 10;
+		}
+		
+		.listForm #titleDisplay
+		{
+			backgroundAlpha: 0;
+			fontFamily: "Helvetica";
+			color: #4C566C;
+			fontSize: 18;
+		}
+	}
+	
+	@media (os-platform: "IOS") and (application-dpi: 320)
+	{
+		.listFormItemRenderer
+		{
+			cornerRadius: 20;
+		}
+		
+		.listForm #titleDisplay
+		{
+			fontSize: 36;
+		}
+	}
+	
+</fx:Style>
+	
+	
+	<!--
+	***  STATES
+	-->	
+	<s:states>
+		<s:State name="normal" />
+		<s:State name="disabled" />
+	</s:states>
+	
+	
+	<!--
+	 ***  Navigation Bar
+	-->
+	<s:navigationContent>
+		<s:Button icon="@Embed('assets/glyphs/icon-back@2x.png')" click="goBackOneView()"/>				
+	</s:navigationContent>
+
+	<s:actionContent>
+		<s:Button id="refreshBtn" click="Object(navigator.activeView).refresh()"
+				  icon="@Embed('assets/glyphs/icon-refresh@2x.png')">
+		</s:Button>
+	</s:actionContent>
+
+	
+	
+	<!-- Background -->
+	<s:Rect left="0" right="0" height="100%" width="100%">
+		<s:fill>
+			<s:BitmapFill source="@Embed('assets/backgrounds/chrome.png')" fillMode="scale" />
+		</s:fill>
+	</s:Rect>
+	
+	
+
+	
+	<!--
+	***  List
+	-->
+	<s:Scroller width="100%" height="100%">
+		<s:Group width="100%" height="100%">
+			
+			<!-- Custom List with optional title skin part -->
+			<s:ListForm id="list" left="0" right="0" top="0" bottom="0" width="100%" height="100%"
+					change="list_changeHandler(event)"						
+					styleName="listForm"
+					title="Total Ship Orders: {SOResults.lastResult.total} ">
+
+				<s:AsyncListView collectionChange="asynclistview_SOBrowse_collectionChangeHandler(event)"
+								 list="{TypeUtility.convertToCollection(SOResults.lastResult.data)}"/>
+				
+				<s:itemRenderer>
+					<fx:Component>
+						<renderers:StyledIconItemRenderer
+							styleName="listFormItemRenderer"
+							messageStyleName="viewResultsResponseList"
+							labelFunction="getLabel"
+							messageFunction="getDetails"					
+							verticalAlign="middle"
+							decorator="@Embed(source='assets/buttonsweb/msg_info.png')">
+							<fx:Script>
+								<![CDATA[
+									//import assets.LoadingIcon;
+									
+									private function getLabel(item: Object): String{																							
+										//return "SO#: " + item.Number;
+										return "SO#: Bob Need to Fix";
+									}
+									
+									private function getDetails(item: Object): String{													
+										return "Status: " + item.Status + " POL: " + item.PortOfLoad;
+									}
+								]]>
+							</fx:Script>
+						</renderers:StyledIconItemRenderer>
+
+					</fx:Component>
+				</s:itemRenderer>
+				
+				
+			</s:ListForm>
+			
+		</s:Group>
+	</s:Scroller>
+	
+
+	
+	<!--
+	** Error Message Alert
+	-->					
+	<s:Button id="listMessageNoResults" left="22" right="10" top="152" height="63" 
+			  visible="false" 
+			  label="No Results"
+			  skinClass="skins.zeusbase.ErrorMessageAlertSkin"			  
+			  horizontalCenter="0" verticalCenter="0" 
+			  click="toggleShowErrorAlert(false)" />
+		
+	
+	<!--
+	***  Busy Indicator
+	-->
+	<s:BusyIndicator id="busy" visible="true" width="86" height="84" horizontalCenter="0"
+				 rotationInterval="50" symbolColor="#004080" verticalCenter="-65"/>		
+	
+</s:View>

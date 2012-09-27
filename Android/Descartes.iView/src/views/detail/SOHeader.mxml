@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:components="components.*"
+		viewActivate="so_viewActivateHandler(event)"		
+		destructionPolicy="never"
+		menuKeyPressed="event_menuKeyPressed()"
+		overlayControls="false"
+		title="SO# Bob Fix">
+	
+	
+	<fx:Script>
+		<![CDATA[
+			import com.adobe.serializers.utility.TypeUtility;
+			
+			import mx.events.CollectionEvent;
+			import mx.events.FlexEvent;
+			
+			import spark.events.IndexChangeEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			
+			import views.chart.pipeline.PipelineSummaryView;
+			import views.pipeline.SOList;
+			import views.pipeline.SOPurchaseOrdersList;
+			import views.tabs.PipelineTabHome;
+			
+			public var flipTrans:FlipViewTransition = new FlipViewTransition();	
+			public var duration:int = 1;			
+			
+			
+			
+			protected function so_viewActivateHandler(event:ViewNavigatorEvent):void{
+				trace("Loading SO Header");
+			}
+			
+			protected function loadSOList():void
+			{				
+				navigator.pushView(views.pipeline.SOList); 				
+			}
+			
+			/**
+			 * View Level Event Handlers
+			 */			
+			public function event_menuKeyPressed():void
+			{
+				trace("Menu Key Pressed");	
+			}
+			
+			
+			
+			protected function onItemClick(event:MouseEvent):void
+			{
+				switch (event.currentTarget.label) {
+					case "Add to Favorites" :
+						//navigator.pushView(views.list.CustomsResponseLoader);
+						break;
+					case "Email" :
+						//navigator.pushView(views.zeusbase.UserManagment);
+						break;
+					default :
+						// do something
+				}
+			}	
+			
+			
+			protected function SOViewPurchaseOrdersButton_clickHandler(event:MouseEvent):void
+			{
+				flipTrans.duration = duration*1000; 
+				flipTrans.mode = 'card';
+				flipTrans.direction = 'right';	
+				navigator.pushView(views.pipeline.SOPurchaseOrdersList, data, null, flipTrans);				
+			}
+			
+		]]>
+	</fx:Script>		
+
+	<!--
+	** View Menu Items
+	-->	
+	<s:viewMenuItems>
+		<s:ViewMenuItem label="Add to Favorites" click="onItemClick(event)"/>
+		<s:ViewMenuItem label="Email" click="onItemClick(event)"/>							
+	</s:viewMenuItems>
+	
+	<!--
+	** Navigation
+	-->		
+	<s:actionContent>
+		<s:Button id="soFavoritesBtn" click="mx.core.FlexGlobals.topLevelApplication.viewMenuOpen=true;"
+				  icon="@Embed('assets/glyphs/icon-share.png')">
+		</s:Button>
+	</s:actionContent>
+	
+	<s:navigationContent>
+		<s:Button icon="@Embed('assets/glyphs/icon-back@2x.png')" click="loadSOList()"/>				
+	</s:navigationContent>
+	
+	
+	<!-- Background -->
+	<s:Rect left="0" right="0" height="100%" width="100%">
+		<s:fill>
+			<s:BitmapFill source="@Embed('assets/backgrounds/chrome.png')" fillMode="scale" />
+		</s:fill>
+	</s:Rect>
+	
+
+	
+	<!--
+	List of Prompts and Data
+	=====================================================
+	-->	
+	<s:HGroup left="0" right="0" top="0" bottom="390" fontFamily="Arial" gap="12"
+			  horizontalAlign="center" verticalAlign="middle">
+		
+		
+		<s:VGroup x="27" y="8" width="267" height="358" horizontalAlign="center" paddingBottom="10"
+				  paddingLeft="20" paddingRight="20" paddingTop="6">
+			
+			
+			<s:HGroup x="0" width="267" paddingTop="10" verticalAlign="middle">
+				<s:Label width="77" fontFamily="Helvetica" fontWeight="bold" styleName="Prompt"
+						 text="SO#:" textDecoration="underline"/>
+				<s:Label x="66" width="185" color="#004080" fontFamily="Helvetica" fontSize="13"
+						 fontWeight="normal" styleName="Data" text="Bobo Needs to Fix"
+						 textDecoration="none"/>
+			</s:HGroup>
+			
+			<s:HGroup x="0" width="267" paddingTop="10" verticalAlign="middle">
+				<s:Label width="77" color="#000000" fontFamily="Helvetica" fontSize="13"
+						 fontWeight="bold" text="Carrier:" textDecoration="underline"/>
+				<s:Label x="66" width="185" color="#004080" fontFamily="Helvetica" fontSize="13"
+						 fontWeight="normal" text="{data.Carrier} "/>
+			</s:HGroup>
+			
+			<s:HGroup x="0" width="267" paddingTop="10" verticalAlign="middle">
+				<s:Label width="77" color="#000000" fontFamily="Helvetica" fontSize="13"
+						 fontWeight="bold" text="Consginee:" textDecoration="underline"/>
+				<s:Label x="66" width="185" color="#004080" fontFamily="Helvetica" fontSize="13"
+						 fontWeight="normal" text="{data.Consignee} "/>
+			</s:HGroup>
+			
+			<s:HGroup x="0" width="267" paddingTop="10" verticalAlign="middle">
+				<s:Label width="77" color="#000000" fontFamily="Helvetica" fontSize="13"
+						 fontWeight="bold" text="Location:" textDecoration="underline"/>
+				<s:Label x="66" width="185" color="#004080" fontFamily="Helvetica" fontSize="13"
+						 fontWeight="normal" text="{data.DeliveryLocation} "/>
+			</s:HGroup>
+			
+			<s:HGroup x="0" width="267" paddingTop="10" verticalAlign="middle">
+				<s:Label width="77" color="#000000" fontFamily="Helvetica" fontSize="13"
+						 fontWeight="bold" text="Factory Load Date:" textDecoration="underline"/>
+				<s:Label x="66" width="185" color="#004080" fontFamily="Helvetica" fontSize="13"
+						 fontWeight="normal" text="{data.FactoryLoadDate} "/>
+			</s:HGroup>
+			
+			<s:HGroup x="0" width="267" paddingTop="10" verticalAlign="middle">
+				<s:Label width="77" color="#000000" fontFamily="Helvetica" fontSize="13"
+						 fontWeight="bold" text="POL:" textDecoration="underline"/>
+				<s:Label x="66" width="185" color="#004080" fontFamily="Helvetica" fontSize="13"
+						 fontWeight="normal" text="{data.PortOfLoad} "/>
+			</s:HGroup>
+			
+			<s:HGroup x="0" width="267" paddingTop="10" verticalAlign="middle">
+				<s:Label width="77" color="#000000" fontFamily="Helvetica" fontSize="13"
+						 fontWeight="bold" text="POD:" textDecoration="underline"/>
+				<s:Label x="66" width="185" color="#004080" fontFamily="Helvetica" fontSize="13"
+						 fontWeight="normal" text="{data.PortOfDischarge} "/>
+			</s:HGroup>			
+			
+			
+			<s:HGroup x="0" width="267" paddingTop="10" verticalAlign="middle">
+			</s:HGroup>
+			
+			<s:HGroup x="0" width="267" paddingTop="10" verticalAlign="middle"></s:HGroup>
+			<s:Button id="SOViewPurchaseOrdersButton" x="3" width="262" height="42"
+					  label="View Purchase Orders"
+					  click="SOViewPurchaseOrdersButton_clickHandler(event)" enabled="true"
+					  icon="@Embed('assets/buttonsweb/clipboard.png')"/>
+
+		</s:VGroup>
+		
+	</s:HGroup>	
+	
+</s:View>

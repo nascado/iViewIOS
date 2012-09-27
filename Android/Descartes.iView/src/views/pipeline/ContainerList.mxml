@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+			xmlns:s="library://ns.adobe.com/flex/spark"		
+			xmlns:mx="library://ns.adobe.com/flex/mx"
+			xmlns:layout="com.zeusbase.layout.*"
+			xmlns:skins="com.zeusbase.skins.*"		
+			xmlns:components="com.zeusbase.components.*"
+			xmlns:renderers="renderers.*"
+			xmlns:trackingservice="services.trackingservice.*"
+			creationComplete="view_creationCompleteHandler(event)"
+			destructionPolicy="never"	
+			title="Containers">
+		
+		<!-- =====================================================================================
+		SCRIPTS
+		===================================================================================== -->
+		<fx:Script>
+			<![CDATA[
+				import com.adobe.serializers.utility.TypeUtility;
+				import com.zeusbase.APIKey;
+				
+				import mx.collections.ArrayCollection;
+				import mx.core.DPIClassification;
+				import mx.core.FlexGlobals;
+				import mx.events.CollectionEvent;
+				import mx.events.FlexEvent;
+				import mx.rpc.events.FaultEvent;
+				import mx.rpc.events.ResultEvent;
+				
+				import spark.events.IndexChangeEvent;
+				import spark.transitions.FlipViewTransition;
+				import spark.transitions.FlipViewTransitionMode;
+				import spark.transitions.ViewTransitionDirection;
+				
+				import views.detail.Container;
+				import views.detail.ShipmentDetail;
+				import views.tabs.CalendarTabHome;
+				import views.tabs.PipelineTabHome;
+				public var flipTrans:FlipViewTransition = new FlipViewTransition();
+				
+				
+				
+				
+				protected function toggleShowErrorAlert(isVisible:Boolean):void
+				{
+					if(isVisible){
+						listMessageNoResults.visible = true;
+					} else {
+						listMessageNoResults.visible = false;
+					}
+				}
+				
+				
+				/**
+				 * Navigation Button Functions
+				 */ 
+				protected function goBackOneView():void {
+					var duration:int = 1;
+					var direction:String = 'right';					
+					var mode:String = 'cube';
+					
+					flipTrans.duration = duration*1000; 
+					flipTrans.mode = mode;
+					flipTrans.direction = direction;
+				 		
+					navigator.popView(flipTrans);
+					//navigator.pushView(views.detail.ShipmentDetail, data, null, flipTrans); 
+				}
+				
+				public function refresh(): void {		
+					busy.visible = true;				
+					getListData();				
+				}
+				
+				
+				/**
+				 * Data Access Functions
+				 */ 
+				private function resultHandler(event:ResultEvent):void
+				{
+					trace("HTTP Service RESPONSE executed successfully");
+					busy.visible=false;				
+					
+					var totalResults:int = ContainerResults.lastResult.total;
+					trace("Total Results = " + totalResults);
+					
+					// Add message when result set is empty
+					if(totalResults == 0){
+						toggleShowErrorAlert(true);
+					}
+				}
+				
+				private function faultHandler(event:FaultEvent):void
+				{
+					trace(event.fault.faultDetail, "Error");				
+				}
+				
+				public function getListData():void{
+					var shipmentId:String = data.ShipmentId;
+					ContainerResults.token = trackingService.getContainers(shipmentId, APIKey.getInstance().keyCode);
+				}
+				
+				
+				/**
+				 * Event Handlers
+				 */ 
+				protected function list_creationCompleteHandler(event:FlexEvent):void
+				{	
+					getListData();					
+				}
+				
+				protected function view_creationCompleteHandler(event:FlexEvent):void
+				{
+					trace('Loading Containers for ShipmentId = ' + data.ShipmentId);
+					
+					if (Capabilities.version.indexOf("IOS") == 0)
+					{
+						var padding:Number = (10 * FlexGlobals.topLevelApplication.applicationDPI / DPIClassification.DPI_160);
+						list.top = list.bottom = list.left = list.right = padding;
+					}
+
+				}
+				
+				protected function asynclistview_collectionChangeHandler(event:CollectionEvent):void
+				{
+					busy.visible=false;						
+				}
+				
+				protected function list_changeHandler(event:IndexChangeEvent):void
+				{
+					navigator.pushView(views.detail.Container, list.selectedItem);
+				}
+				
+			]]>
+		</fx:Script>
+		
+		<!-- =====================================================================================
+		DECLARATIONS
+		===================================================================================== -->
+		<fx:Declarations>
+			<s:CallResponder id="ContainerResults"
+							 result="resultHandler(event)" 
+							 fault="faultHandler(event)"/>
+			<trackingservice:TrackingService id="trackingService"/>
+		</fx:Declarations>
+		
+		<!-- =====================================================================================
+		STYLES
+		===================================================================================== -->
+		<fx:Style>
+			@namespace s "library://ns.adobe.com/flex/spark";
+			
+			.viewResultsResponseList { 
+				fontSize: 15;
+				fontFamily: "Helvetica";
+				textDecoration: none;
+				color: #2468a2;
+			}
+			
+			@media (os-platform: "IOS")
+			{
+				.listFormItemRenderer
+				{
+					borderStyle: rounded;
+					cornerRadius: 10;
+				}
+				
+				.listForm #titleDisplay
+				{
+					backgroundAlpha: 0;
+					color: #4C566C;
+					fontSize: 18;
+				}
+			}
+			
+			@media (os-platform: "IOS") and (application-dpi: 320)
+			{
+				.listFormItemRenderer
+				{
+					cornerRadius: 20;
+				}
+				
+				.listForm #titleDisplay
+				{
+					fontSize: 36;
+				}
+			}
+			
+		</fx:Style>
+
+	
+	
+		
+		
+		<!-- =====================================================================================
+		***  Navigation
+		===================================================================================== -->
+		<s:navigationContent>
+			<s:Button icon="@Embed('assets/glyphs/icon-back@2x.png')" click="goBackOneView()"/>				
+		</s:navigationContent>
+		
+		<s:actionContent>
+			<s:Button id="refreshBtn" click="Object(navigator.activeView).refresh()"
+					  icon="@Embed('assets/glyphs/icon-refresh@2x.png')">
+			</s:Button>
+		</s:actionContent>
+		
+		
+		<!-- Background -->
+		<s:Rect left="0" right="0" height="100%" width="100%">
+			<s:fill>
+				<s:BitmapFill source="@Embed('assets/backgrounds/chrome.png')" fillMode="scale" />
+			</s:fill>
+		</s:Rect>
+		
+		
+
+		
+		
+		<!-- =====================================================================================
+		***  LIST
+		===================================================================================== -->
+		<s:Scroller width="100%" height="100%">
+			<s:Group width="100%" height="100%">
+				
+				<s:ListForm id="list" left="0" right="0" top="0" bottom="0" width="100%" height="100%"
+							creationComplete="list_creationCompleteHandler(event)" 
+							change="list_changeHandler(event)"
+							styleName="listForm"
+							title="Total Containers: {ContainerResults.lastResult.total} ">
+					
+					
+					<s:AsyncListView collectionChange="asynclistview_collectionChangeHandler(event)" 
+									 list="{TypeUtility.convertToCollection(ContainerResults.lastResult.data)}"/>
+					
+					<s:itemRenderer>
+						<fx:Component>
+							<renderers:StyledIconItemRenderer
+								styleName="listFormItemRenderer"
+								messageStyleName="viewResultsResponseList"
+								label="Container#: {data.ContainerNumber}"
+								messageFunction="getDetails"					
+								verticalAlign="middle"
+								decorator="@Embed(source='assets/glyphs/Info.png')">
+								<fx:Script>
+									<![CDATA[
+										import assets.LoadingIcon;
+										private function getDetails(item: Object): String{																					
+											return "Pieces: " + item.Pieces + " Seal:" + item.Seal;
+										}
+									]]>
+								</fx:Script>
+							</renderers:StyledIconItemRenderer>
+							
+						</fx:Component>
+					</s:itemRenderer>
+					
+					
+				</s:ListForm>
+				
+			</s:Group>
+		</s:Scroller>
+		
+		
+		
+		<!--
+		** Error Message Alert
+		-->					
+		<s:Button id="listMessageNoResults" left="22" right="10" top="152" height="63" 
+				  visible="false" 
+				  label="No Results"
+				  skinClass="skins.zeusbase.ErrorMessageAlertSkin"			  
+				  horizontalCenter="0" verticalCenter="0" 
+				  click="toggleShowErrorAlert(false)" />
+		
+		
+		<!-- =====================================================================================
+		***  BUSY INDICATOR
+		===================================================================================== -->
+		<s:BusyIndicator id="busy" visible="true" width="86" height="84" horizontalCenter="0"
+						 rotationInterval="50" symbolColor="#004080" verticalCenter="-65"/>		
+	
+</s:View>

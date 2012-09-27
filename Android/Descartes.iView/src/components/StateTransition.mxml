@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" 
+				width="456" height="360" creationComplete="initApp()" currentState="stateUno">
+	<mx:Script>
+		<![CDATA[
+			[Bindable]
+			private var possibleStates:Array;
+			
+			private function initApp():void
+			{
+				possibleStates = new Array();
+				possibleStates.push("stateUno");
+				possibleStates.push("stateDos");
+				stateButtons.selectedIndex = 0;
+			}
+		]]>
+	</mx:Script>
+	<mx:Panel x="0" y="0" width="456" height="360" layout="horizontal" 
+			  title="Transitions with States" verticalAlign="middle">
+		<mx:ToggleButtonBar id="stateButtons" paddingLeft="5" direction="vertical"
+							dataProvider="{possibleStates}" itemClick="{currentState = String(event.item);}"/>
+		<mx:Box id="mainBox" direction="vertical" width="100%" height="100%" 
+				backgroundColor="#CE4299" verticalAlign="middle" horizontalAlign="center"/>
+	</mx:Panel>
+	<mx:states>
+		<mx:State name="stateUno">
+			<mx:AddChild relativeTo="{mainBox}" position="firstChild">
+				<mx:Label text="State Eins" fontSize="18"/>
+			</mx:AddChild>
+		</mx:State>
+		<mx:State name="stateDos">
+			<mx:AddChild relativeTo="{mainBox}" position="firstChild">
+				<mx:Label text="State Zwei" fontSize="18"/>
+			</mx:AddChild>
+		</mx:State>
+	</mx:states>
+	<mx:transitions>
+		<mx:Transition fromState="stateUno" toState="stateDos">
+			<mx:Sequence target="{mainBox}">
+				<mx:WipeDown duration="3000" />
+				<mx:Glow alphaFrom="1" alphaTo="0" duration="1500" color="#0044FC" 
+						 strength="30" blurXFrom="15" blurXTo="0" blurYFrom="15" blurYTo="0"/>
+			</mx:Sequence>
+		</mx:Transition>
+		<mx:Transition fromState="stateDos" toState="stateUno">
+			<mx:Parallel target="{mainBox}">
+				<mx:WipeUp duration="5000"/>
+				<mx:Blur blurXFrom="15" blurXTo="0" blurYFrom="15" 
+						 blurYTo="0" duration="5000"/>
+			</mx:Parallel>
+		</mx:Transition>
+	</mx:transitions>
+</mx:Application>

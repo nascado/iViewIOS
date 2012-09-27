@@ -1,0 +1,330 @@
+<?xml version="1.0"?>
+<!-- charts/VariableSeries.mxml -->
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:analytics="com.google.analytics.components.*"
+		xmlns:chartservice="services.chartservice.*"
+		height="600"
+		title="Calendar"
+		creationComplete="initApp();" 
+		overlayControls="false"
+		addedToStage="onComplete()">
+	
+	
+	<!-- SCRIPTS
+	**************************************************************************************************
+	-->
+	<fx:Script><![CDATA[
+		import com.zeusbase.APIKey;
+		
+		import mx.charts.chartClasses.IAxis;
+		import mx.charts.events.ChartItemEvent;
+		import mx.charts.events.LegendMouseEvent;
+		import mx.charts.series.LineSeries;
+		import mx.collections.ArrayCollection;
+		import mx.events.FlexEvent;
+		import mx.rpc.events.FaultEvent;
+		import mx.rpc.events.ResultEvent;
+		
+		import spark.transitions.FlipViewTransition; 
+		
+		import views.detail.ShipmentDetail;
+		import views.ies.LogoutView;
+		import views.tabs.CalendarTabHome;
+		
+		
+		
+		/**
+		 * START OF GOOGLE ANALYTICS CODE
+		 */ 
+		import com.google.analytics.GATracker;
+		import com.google.analytics.AnalyticsTracker;
+		
+		public var tracker:AnalyticsTracker;
+		
+		private function onComplete():void
+		{
+			tracker = new GATracker( this, "UA-31018068-1", "AS3", false );
+		}
+		
+		public function onLoginButtonClick():void
+		{
+			tracker.trackPageview("Calendar Line Chart");
+			
+		}
+		/**
+		 * END OF GOOGLE ANALYTICS CODE
+		 */ 
+		
+		
+		
+		public var flipTrans:FlipViewTransition = new FlipViewTransition();			
+		
+		public var apikey:String = null;
+		
+		public function initApp():void{
+			apikey = APIKey.getInstance().keyCode;			
+		}
+		
+		public function createDate(s:String):Date {
+			// Reformat the date input to create Date objects
+			// for the axis.
+			var a:Array = s.split("/");
+			
+			// The existing String s is in the format "MM/DD/YYYY". 
+			// To create a Date object, you pass "YYYY,MM,DD", 
+			// where MM is zero-based, to the Date() constructor.
+			var newDate:Date = new Date(a[2],a[0]-1,a[1]);
+			return newDate;
+		}
+		
+		protected function myChart_creationCompleteHandler(event:FlexEvent):void
+		{
+			ChartCalendarSummaryResults.token = chartService.getCalendarSummary(APIKey.getInstance().keyCode);
+		}
+		
+		protected function calendarSummaryLineChart_itemClickHandler(event:ChartItemEvent):void
+		{
+			//trace('Chart clicked - ' + calendarSummaryLineChart.selectedChartItem);
+			var eventDate:String = event.hitData.item.EventDate;
+			var numberOfArrivals:String = event.hitData.item.NumArrivals;
+			infoAlertBtn.label = eventDate + " had a total of " + numberOfArrivals + " Arrivals";
+			infoAlertBtn.visible = true;
+			
+		}
+		
+		
+		private function resultHandler(event:ResultEvent):void
+		{
+			trace("HTTP Service RESPONSE executed successfully");
+			busy.visible=false;	
+		}
+		
+		private function faultHandler(event:FaultEvent):void
+		{
+			trace(event.fault.faultDetail, "Error");				
+		}
+		
+		
+		protected function reloadChartData():void
+		{
+			busy.visible=true;
+			ChartCalendarSummaryResults.token = chartService.getCalendarSummary(APIKey.getInstance().keyCode);
+		}	
+		
+		protected function actionButtonClicked(event:MouseEvent):void 
+		{
+			var duration:int = 1;
+			var direction:String = 'left';
+			var mode:String = 'card';
+			
+			flipTrans.duration = duration*1000; 
+			flipTrans.mode = mode;
+			flipTrans.direction = direction;
+			
+			navigator.pushView(views.tabs.CalendarTabHome, null, null, flipTrans);
+		}			
+		
+		protected function navigatorButtonClicked():void
+		{
+			var duration:int = 1;
+			var direction:String = 'left';
+			var mode:String = 'card';
+			
+			flipTrans.duration = duration*1000; 
+			flipTrans.mode = mode;
+			flipTrans.direction = direction;
+			
+			//navigator.pushView(views.calendar.CalendarSummaryChart, null, null, flipTrans);
+			navigator.pushView(views.tabs.CalendarTabHome, null, null, flipTrans);
+		}
+		
+		
+		
+		private function linearAxis_labelFunc(item:Object, prevValue:Object, axis:IAxis):String {
+			return currFormatter.format(item);
+		}
+		
+		
+		protected function legend1_itemClickHandler(event:LegendMouseEvent):void
+		{
+			trace('legend item clicked');
+			
+		}
+		
+		
+		protected function hideAlertInfoButton():void {
+			infoAlertBtn.visible = false;
+		}
+		
+		
+	]]></fx:Script>
+
+	
+	<!--
+	<s:layout>
+		<s:VerticalLayout/>
+	</s:layout>
+	-->
+	
+	<!-- DECLARATIONS
+	**************************************************************************************************
+	-->
+	<fx:Declarations>
+		<s:CallResponder id="ChartCalendarSummaryResults"
+						 result="resultHandler(event)"
+						 fault="faultHandler(event)" />
+		<chartservice:ChartService id="chartService"/>
+	
+		<mx:CurrencyFormatter id="currFormatter" precision="2" />
+		
+		
+		<!-- Define custom Strokes. -->
+		<mx:SolidColorStroke id="s1" color="#004080" weight="1" alpha=".1"/>
+		<mx:SolidColorStroke id="s2" color="#004080" weight="1" alpha=".5"/>
+		<mx:SolidColorStroke id="s3" color="#004080" weight="1" alpha=".9"/>
+		
+		<!-- Define custom colors for use as pie wedge fills. -->
+		<mx:SolidColor id="sc1" color="#004080" alpha=".1"/>
+		<mx:SolidColor id="sc2" color="#004080" alpha=".5"/>
+		<mx:SolidColor id="sc3" color="#004080" alpha=".9"/>
+		
+	</fx:Declarations>
+	
+
+	<!-- NAV
+	**************************************************************************************************
+	-->
+	<s:navigationContent>
+		<s:Button click="navigatorButtonClicked()" 			
+				  icon="@Embed('assets/glyphs/icon-back@2x.png')"/>				
+	</s:navigationContent>
+	
+	<s:actionContent>
+		<s:Button id="chartBtn" click="reloadChartData()"
+				  icon="@Embed('assets/glyphs/icon-refresh@2x.png')">
+		</s:Button>
+	</s:actionContent>		
+	
+	
+	<!-- Background -->
+	<s:Rect left="0" right="0" height="100%" width="100%">
+		<s:fill>
+			<s:BitmapFill source="@Embed('assets/backgrounds/blueNoise.png')" fillMode="scale" />
+		</s:fill>
+	</s:Rect>
+	
+	
+	
+	
+	<!-- CHART
+	**************************************************************************************************
+	-->
+	<!--
+	<s:Panel visible="true" width="318" height="367" color="#F9F9F9" fontFamily="Helvetica"
+			 fontSize="14" fontStyle="normal" textAlign="left" title="Arrivals by Current Month">
+
+		<s:controlBarContent/>
+		-->
+		<mx:LineChart id="calendarSummaryLineChart" left="0" right="0" top="39" bottom="15"
+					  color="#ffffff" 
+					  creationComplete="myChart_creationCompleteHandler(event)"
+					  dataProvider="{ChartCalendarSummaryResults.lastResult.data}"
+					  itemClick="calendarSummaryLineChart_itemClickHandler(event)"
+					  showDataTips="false">
+			<mx:series>
+				<mx:LineSeries id="lineSeries2" fill="{sc1}" displayName="Air" yField="NumArrivalsAir"/>
+				<mx:LineSeries id="lineSeries"  fill="{sc2}" displayName="Ocean" yField="NumArrivalsOcean"/>												
+			</mx:series>
+
+			
+			<mx:horizontalAxis>
+				<mx:CategoryAxis id="haxis" categoryField="EventDate" title="Event Date"/>
+			</mx:horizontalAxis>
+			
+		</mx:LineChart>
+		<mx:Legend borderStyle="none" 
+				   itemClick="legend1_itemClickHandler(event)"			   
+				   left="0" top="0" width="314" color="#ffffff" height="40" dataProvider="{calendarSummaryLineChart}"/>
+
+	
+	
+	
+	
+	<!-- Gradients (top and bottom) && Alert/Info Popup Component
+	**************************************************************************************************
+	-->	
+	<!-- Gradient BOTTOM -->
+	<s:Image left="0" right="0" bottom="0" height="19" scaleMode="stretch" smooth="true"
+			 source="@Embed('assets/backgrounds/GradientBottom.png')"/>
+	
+	<!-- Gradient TOP -->
+	<s:Image id="topGradient" left="0" right="0" top="0" height="20" scaleMode="stretch"
+			 source="assets/backgrounds/GradientTop.png"/>
+	
+	<!-- INFO ALERT -->
+	<s:Button id="infoAlertBtn" left="22" right="10" top="152" height="63" visible="false"
+			  label=""
+			  skinClass="skins.zeusbase.InfoMessageAlertSkin"			  
+			  horizontalCenter="0" verticalCenter="0" 
+			  click="hideAlertInfoButton()" />
+
+		
+		
+		<!-- =====================================================================================
+		***  BUSY INDICATOR
+		===================================================================================== -->
+		<s:BusyIndicator id="busy" visible="true" width="86" height="84" horizontalCenter="0"
+						 rotationInterval="50" symbolColor="#ffffff" verticalCenter="-65"/>		
+<!--
+	</s:Panel>
+	-->
+	
+	<!-- EXAMPLE
+	**************************************************************************************************
+	-->
+	<!--
+	<mx:LineChart id="lineChart"
+				  showDataTips="true"
+				  dataProvider="{dp}"
+				  width="100%"
+				  height="100%">
+		
+		- vertical axis 
+		<mx:verticalAxis>
+			<mx:LinearAxis baseAtZero="false"
+						   title="Price"
+						   labelFunction="linearAxis_labelFunc" />
+		</mx:verticalAxis>
+		
+		- horizontal axis -
+		<mx:horizontalAxis>
+			<mx:CategoryAxis id="ca"
+							 categoryField="@date"
+							 title="Date" />
+		</mx:horizontalAxis>
+		
+		- horizontal axis renderer -
+		<mx:horizontalAxisRenderers>
+			<mx:AxisRenderer axis="{ca}"
+							 canDropLabels="true" />
+		</mx:horizontalAxisRenderers>
+		
+		- series -
+		<mx:series>
+			<mx:LineSeries yField="@open"
+						   form="curve"
+						   displayName="Open" />
+		</mx:series>
+		
+		- series filters -
+		<mx:seriesFilters>
+			<mx:Array />
+		</mx:seriesFilters>
+	</mx:LineChart>
+	
+	-->
+
+		
+</s:View>

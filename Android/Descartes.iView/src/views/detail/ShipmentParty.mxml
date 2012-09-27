@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:components="components.*"		
+		color="#060000" 
+		destructionPolicy="never" 
+		creationComplete="viewCreated_eventHandler()"
+		title="{data.Name}">
+	
+	<!-- SCRIPTS
+	**************************************************************************************************
+	-->
+	<fx:Script>
+	
+		<![CDATA[
+			import views.pipeline.ContainerList;
+			import views.pipeline.EventList;
+			import views.pipeline.ShipmentPartyList;
+			import views.tabs.CalendarTabHome;
+			import views.tabs.PipelineTabHome;
+			import views.zeusbase.ZeusMessaging;
+			
+			
+			/**
+			 * Functions
+			 */ 		
+			protected function viewCreated_eventHandler():void 
+			{
+				busy.visible = false;
+			}
+			
+			protected function ViewContainersButton_clickHandler(event:MouseEvent):void
+			{
+				navigator.pushView(views.pipeline.ContainerList, data);
+				
+			}
+			
+			protected function ViewPartiesButton_clickHandler(event:MouseEvent):void
+			{
+				navigator.pushView(views.pipeline.ShipmentPartyList, data);
+			}
+			
+			protected function ViewEventsButton_clickHandler(event:MouseEvent):void
+			{
+				navigator.pushView(views.pipeline.EventList, data);
+				
+			}
+			
+			protected function notifyBtn_clickHandler(event:MouseEvent):void
+			{
+				navigator.pushView(views.zeusbase.ZeusMessaging, data);
+			}
+			
+		]]>
+		
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	
+	<!-- NAVIGATION
+	**************************************************************************************************
+	-->
+	<s:actionContent>
+		<s:Button id="notifyBtn" click="notifyBtn_clickHandler(event)"
+				  icon="@Embed('assets/glyphs/icon-mail2.png')">
+		</s:Button>
+	</s:actionContent>
+	<s:navigationContent>
+		<s:Button icon="@Embed('assets/glyphs/icon-back@2x.png')" click="navigator.popView()"/>				
+	</s:navigationContent>		
+	
+	
+	<!-- Background -->
+	<s:Rect left="0" right="0" height="100%" width="100%">
+		<s:fill>
+			<s:BitmapFill source="@Embed('assets/backgrounds/chrome.png')" fillMode="scale" />
+		</s:fill>
+	</s:Rect>
+	
+	
+	<!-- Busy Indicator
+	**************************************************************************************************
+	-->
+	<s:BusyIndicator id="busy" visible="true" width="86" height="86" horizontalCenter="0"
+					 rotationInterval="100" symbolColor="#004080" verticalCenter="-65"/>		
+
+</s:View>

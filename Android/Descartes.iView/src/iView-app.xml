@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<application xmlns="http://ns.adobe.com/air/application/3.1">
+
+	<id>com.descartes.iView</id>
+	<filename>iView</filename> 
+	<name>iView</name>
+		 
+	<versionNumber>1.0</versionNumber>
+	<versionLabel>iView Mobile</versionLabel>
+	
+	<description>Mobile companion to web desktop product by Descartes.</description>
+
+	<copyright>Descartes</copyright>
+    
+    <initialWindow>
+		<content>[This value will be overwritten by Flash Builder in the output app.xml]</content>
+		
+		<!-- The title of the main window. Optional. -->
+		<title>iView Mobile</title>
+		<systemChrome>standard</systemChrome>
+		<minimizable>true</minimizable>
+		<maximizable>true</maximizable>
+		<resizable>true</resizable>
+		<width>800</width>
+		<height>600</height>
+		<x>100</x>
+		<y>100</y>
+		<minSize>400 200</minSize>
+		<maxSize>800 600</maxSize>
+		
+        <renderMode>auto</renderMode>
+		<autoOrients>false</autoOrients>
+        <fullScreen>true</fullScreen>
+        <visible>true</visible>
+        <softKeyboardBehavior>pan</softKeyboardBehavior>        
+   
+    </initialWindow>	
+
+	<!--
+	<supportedProfiles>mobileDevice</supportedProfiles>
+	-->
+
+	<icon>
+		<!--
+		<image16x16>assets/logo/ic_status_19x19.png</image16x16>
+		-->
+		<image32x32>assets/logo/ic_tab_32x32.png</image32x32>
+		<image36x36>assets/logo/ic_launcher_ldpi_36x36.png</image36x36>
+		<image48x48>assets/logo/ic_tab_48x48.png</image48x48>
+		<image57x57>assets/logo/Icon.png</image57x57>
+		<image114x114>assets/logo/Icon@2x.png</image114x114>
+		<image72x72>assets/logo/Icon-72-DarkBlue.png</image72x72>		
+		<image512x512>assets/logo/ic_google_play_512x512.png</image512x512>
+	</icon>	
+	
+	<allowBrowserInvocation>true</allowBrowserInvocation>
+
+	<android>
+        <manifestAdditions><![CDATA[
+        
+			<manifest android:installLocation="auto">
+			    <uses-permission android:name="android.permission.INTERNET"/>
+			</manifest>
+			
+		]]></manifestAdditions>
+		<colorDepth>16bit</colorDepth>
+    </android>
+    
+    <iPhone>
+    	<InfoAdditions>
+            <![CDATA[
+                <key>UIDeviceFamily</key>
+                <array>
+                    <string>1</string>
+                    <string>2</string>
+                </array>
+                <key>UIStatusBarStyle</key>
+                <string>UIStatusBarStyleBlackOpaque</string>
+                <key>UIRequiresPersistentWiFi</key>
+                <string>YES</string>
+            ]]>
+        </InfoAdditions>
+        <requestedDisplayResolution>high</requestedDisplayResolution>
+    </iPhone> 
+</application>

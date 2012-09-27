@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<companies>
+	<company symbol="A" name="Maersk" />
+	<company symbol="I" name="Intergrated Export Systems" />
+	<company symbol="A" name="Intergrated Export Systems" />
+	<company symbol="A" name="Intergrated Export Systems" />
+	<company symbol="B" name="Intergrated Export Systems" />
+	<company symbol="C" name="DHL" />
+	<company symbol="D" name="DHL" />
+	<company symbol="D" name="DHL" />
+</companies>

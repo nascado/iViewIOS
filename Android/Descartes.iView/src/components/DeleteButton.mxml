@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Button xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		  xmlns:s="library://ns.adobe.com/flex/spark"
+		  label="Securely delete all data"
+		  label.confirm="Tap again to delete the database!"
+		  fontSize="16"
+		  click="button1_clickHandler(event)"		  
+		  width="100%"
+		  currentState="up"
+		  color="0xFFFFFF"
+		  color.confirm="0xFF0000">
+
+	<fx:Script>
+		<![CDATA[
+			private var timeoutTimer:Timer;
+			
+			protected function button1_clickHandler(event:MouseEvent):void
+			{
+				if ( this.currentState != "disabled" && this.currentState != "confirm" )
+				{
+					event.stopImmediatePropagation();
+					event.stopPropagation();
+					event.preventDefault();
+					this.currentState = "confirm";
+					if ( !this.timeoutTimer )
+					{
+						this.timeoutTimer = new Timer(2500);
+						this.timeoutTimer.addEventListener(TimerEvent.TIMER,onTimer);						
+					}
+					this.timeoutTimer.stop();
+					this.timeoutTimer.start();
+				}
+				else if ( this.currentState == "confirm" )
+				{
+					this.currentState == "up";
+					stopTimer();
+				}
+			}
+			
+			protected function onTimer(te:TimerEvent):void
+			{
+				stopTimer();
+			}
+			
+			protected function stopTimer():void
+			{
+				this.timeoutTimer.stop();
+				this.timeoutTimer.removeEventListener(TimerEvent.TIMER,onTimer);
+				this.timeoutTimer = null;
+				this.currentState = "up";
+			}
+		]]>
+	</fx:Script>
+
+	<s:states>
+		<s:State name="confirm"/>
+		<s:State name="over"/>
+		<s:State name="up"/>		
+		<s:State name="down"/>
+		<s:State name="disabled"/>
+	</s:states>
+	
+	
+	
+</s:Button>
