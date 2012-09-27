@@ -1,0 +1,205 @@
+//
+//  Shipments.h
+//  WebTrackingMobile
+//
+//  Created by hyokos.ies on 9/16/12.
+//  Copyright (c) 2012 Descartes. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+@interface Shipments : NSObject
+
+
+
+@property (nonatomic, copy) NSString *account;
+@property (nonatomic, strong) id bookedDateTime;
+@property (nonatomic, copy) NSString *bookingNumber;
+@property (nonatomic, copy) NSString *cargoLocation;
+@property (nonatomic, copy) NSString *carrier;
+@property (nonatomic, copy) NSString *cartons;
+@property (nonatomic, copy) NSString *cBM;
+@property (nonatomic, copy) NSString *cFT;
+@property (nonatomic, strong) id clearedDateTime;
+@property (nonatomic, copy) NSString *clientId;
+@property (nonatomic, strong) id closingDateTime;
+@property (nonatomic, copy) NSString *cODAmount;
+@property (nonatomic, strong) NSNumber *cODFlag;
+@property (nonatomic, copy) NSString *commodity;
+@property (nonatomic, strong) id completedFlag;
+@property (nonatomic, strong) id confirmedArrivalDate;
+@property (nonatomic, strong) id confirmedDepartureDate;
+@property (nonatomic, copy) NSString *consignee;
+@property (nonatomic, copy) NSString *contactEmail;
+@property (nonatomic, copy) NSString *contactFax;
+@property (nonatomic, copy) NSString *contactName;
+@property (nonatomic, copy) NSString *contactPhoneFax;
+@property (nonatomic, copy) NSString *conveyance;
+@property (nonatomic, copy) NSString *createdDateTime;
+@property (nonatomic, copy) NSString *customerReferenceNumber;
+@property (nonatomic, copy) NSString *customsEntryNumber;
+@property (nonatomic, strong) id cutoffDateTime;
+@property (nonatomic, strong) id dateFileOpen;
+@property (nonatomic, strong) id deliveredDateTime;
+@property (nonatomic, copy) NSString *deliveryAddress;
+@property (nonatomic, strong) id doorETADateTime;
+@property (nonatomic, strong) NSNumber *downstairs;
+@property (nonatomic, strong) id entryFiledDate;
+@property (nonatomic, strong) id eTADateTime;
+@property (nonatomic, copy) NSString *fileId;
+@property (nonatomic, copy) NSString *fileNumber;
+@property (nonatomic, copy) NSString *fileType;
+@property (nonatomic, strong) NSNumber *forklift;
+@property (nonatomic, copy) NSString *forwarder;
+@property (nonatomic, strong) id fORWARDERSRE;
+@property (nonatomic, strong) id goDateDateTime;
+@property (nonatomic, copy) NSString *hazardousDescription;
+@property (nonatomic, copy) NSString *houseNumber;
+@property (nonatomic, copy) NSString *inBondNumber;
+@property (nonatomic, strong) id iTDate;
+@property (nonatomic, copy) NSString *kilos;
+@property (nonatomic, strong) id lastFreeDayDateTime;
+@property (nonatomic, strong) NSNumber *lCLFlag;
+@property (nonatomic, strong) NSNumber *liftgate;
+@property (nonatomic, strong) NSNumber *loadingDock;
+@property (nonatomic, copy) NSString *master;
+@property (nonatomic, copy) NSString *masterId;
+@property (nonatomic, copy) NSString *masterNumber;
+@property (nonatomic, copy) NSString *module;
+@property (nonatomic, copy) NSString *no20;
+@property (nonatomic, copy) NSString *no40;
+@property (nonatomic, copy) NSString *no40HC;
+@property (nonatomic, copy) NSString *notes;
+@property (nonatomic, copy) NSString *notify;
+@property (nonatomic, copy) NSString *oblRequired;
+@property (nonatomic, copy) NSString *pickupAt;
+@property (nonatomic, strong) id pickupDateTime;
+@property (nonatomic, copy) NSString *pieces;
+@property (nonatomic, copy) NSString *pieceType;
+@property (nonatomic, copy) NSString *placeOfDelivery;
+@property (nonatomic, copy) NSString *placeOfReceipt;
+@property (nonatomic, strong) id pODate;
+@property (nonatomic, strong) id pOInputDate;
+@property (nonatomic, copy) NSString *portOfDischarge;
+@property (nonatomic, copy) NSString *portOfLoad;
+@property (nonatomic, copy) NSString *pounds;
+@property (nonatomic, strong) id readyDateTime;
+@property (nonatomic, copy) NSString *reeferTemperature;
+@property (nonatomic, strong) id requestedDeliveryDateTime;
+@property (nonatomic, strong) id returnDate;
+@property (nonatomic, copy) NSString *routingParty;
+@property (nonatomic, strong) id sailDateTime;
+@property (nonatomic, copy) NSString *serviceType;
+@property (nonatomic, copy) NSString *shipmentId;
+@property (nonatomic, copy) NSString *shipper;
+@property (nonatomic, copy) NSString *siteId;
+@property (nonatomic, copy) NSString *status;
+@property (nonatomic, copy) NSString *statusCode;
+@property (nonatomic, copy) NSString *tEU;
+@property (nonatomic, copy) NSString *thirdParty;
+@property (nonatomic, copy) NSString *typeOfMove;
+@property (nonatomic, strong) id ultimateDestination;
+@property (nonatomic, copy) NSString *uNContactNumber;
+@property (nonatomic, strong) NSNumber *uNFlag;
+@property (nonatomic, copy) NSString *uNNumber;
+@property (nonatomic, strong) NSNumber *upstairs;
+@property (nonatomic, copy) NSString *vessel;
+@property (nonatomic, copy) NSString *voyage;
+
+// DECLARATION //
+- (BOOL)validateAccount:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateBookedDateTime:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateBookingNumber:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateCargoLocation:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateCarrier:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateCartons:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateCBM:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateCFT:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateClearedDateTime:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateClientId:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateClosingDateTime:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateCODAmount:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateCODFlag:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateCommodity:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateCompletedFlag:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateConfirmedArrivalDate:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateConfirmedDepartureDate:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateConsignee:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateContactEmail:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateContactFax:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateContactName:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateContactPhoneFax:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateConveyance:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateCreatedDateTime:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateCustomerReferenceNumber:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateCustomsEntryNumber:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateCutoffDateTime:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateDateFileOpen:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateDeliveredDateTime:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateDeliveryAddress:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateDoorETADateTime:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateDownstairs:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateEntryFiledDate:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateETADateTime:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateFileId:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateFileNumber:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateFileType:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateForklift:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateForwarder:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateFORWARDERSRE:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateGoDateDateTime:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateHazardousDescription:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateHouseNumber:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateInBondNumber:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateITDate:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateKilos:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateLastFreeDayDateTime:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateLCLFlag:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateLiftgate:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateLoadingDock:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateMaster:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateMasterId:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateMasterNumber:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateModule:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateNo20:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateNo40:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateNo40HC:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateNotes:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateNotify:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateOblRequired:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validatePickupAt:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validatePickupDateTime:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validatePieces:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validatePieceType:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validatePlaceOfDelivery:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validatePlaceOfReceipt:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validatePODate:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validatePOInputDate:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validatePortOfDischarge:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validatePortOfLoad:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validatePounds:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateReadyDateTime:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateReeferTemperature:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateRequestedDeliveryDateTime:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateReturnDate:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateRoutingParty:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateSailDateTime:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateServiceType:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateShipmentId:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateShipper:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateSiteId:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateStatus:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateStatusCode:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateTEU:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateThirdParty:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateTypeOfMove:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateUltimateDestination:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateUNContactNumber:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateUNFlag:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateUNNumber:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateUpstairs:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateVessel:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateVoyage:(id *)ioValue error:(NSError **)outError;
+
+
+@end
