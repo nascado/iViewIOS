@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+	
+	<string name="appname">iView</string>
+	
+	<string name="Pipeline">管道</string>	
+	<string name="Calendar">日历</string>
+    <string name="Search">搜索</string>
+	<string name="Report">报告</string>
+    <string name="Settings">设置</string>
+	<string name="Login">登录</string>
+		
+	<string name="indicator_loading">一会儿...</string>
+	
+	<string name="Username">用户名</string>
+	<string name="Password">密码</string>
+	
+	<string name="ShipmentSummary">運費摘要</string>
+	<string name="Shipments">運費摘要</string>
+    <string name="Containers">查看容器</string>
+	<string name="Documents">查看文檔</string>
+	<string name="AddressBook">添加到聯繫人締約方</string>
+	<string name="Print">通過網絡打印</string>
+	<string name="Share">購運費</string>
+	<string name="Scan">掃描文件</string>
+	<string name="FileNumber">文件編號</string>
+	<string name="PONumber">採購訂單編號</string>
+	<string name="ContainerNumber">集裝箱號碼</string>
+	<string name="MasterNumber">主賬單號碼</string>
+	<string name="HouseNumber">眾議院的法案號碼</string>
+	
+	
+	
+	<string name="AlertTitle">的IES消息</string>
+	<string name="AlertMessage01">你確定你想更新您的IES帳戶信息？</string>
+	<string name="AlertMessage02">由於這個程序允許你搜索到的各種數據，我們要求您輸入您的過濾器至少3個字符，以返回一個可管理的結果。謝謝？</string>
+	
+	
+	<string name="query_button">设置过滤器</string>
+	
+    <string name="ptr_pull_to_reload">拉來重新加載</string>
+    <string name="ptr_last_updated">最后更新: </string>
+    <string name="ptr_pull_down_to_refresh">下拉刷新...</string>
+    <string name="ptr_release_to_refresh">放开刷新...</string>
+    <string name="ptr_reloading">重装...</string>
+    
+    
+    <string name="NotArrived">的IES消息</string>
+    <string name="EntDlvd">的IES消息</string>
+    <string name="EntDlvdYTD">的IES消息</string>
+    <string name="InTransit">的IES消息</string>
+    <string name="InProgress">的IES消息</string>
+    <string name="Delivered">的IES消息</string>
+    <string name="Released">的IES消息</string>
+    <string name="Planning">的IES消息</string>
+    <string name="PipelinePO">的IES消息</string>
+    <string name="PipelineSO">的IES消息</string>
+        
+    <string name="AllArrivals">的IES消息</string>
+    <string name="AirArrivalsOnly">的IES消息</string>
+    <string name="OceanArrivalsOnly">的IES消息</string> 
+    
+    <string name="ShareTab">最后更新</string>
+	
+
+</resources>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ti:app xmlns:ti="http://ti.appcelerator.org">
+    <property name="acs-oauth-secret-production" type="string">A0QwGnYW8J8v8wj7T6hfvOcWzRuoGm5V</property>
+    <property name="acs-oauth-key-production" type="string">9zUeC1aWehFfMwF2Y8SD26RAADUty9gK</property>
+    <property name="acs-api-key-production" type="string">BMIRwrfhAksOtYztaU2CAxyRoOAaXQTE</property>
+    <property name="acs-oauth-secret-development" type="string">T4ZHObeB7jQVxkBiJASpcSgARXfPNshE</property>
+    <property name="acs-oauth-key-development" type="string">GUKfsVWPgNkOXG0WG2EHnYtrJ2BnZxka</property>
+    <property name="acs-api-key-development" type="string">y6RwTUlvoVzYzQsu0CZ5pnX56hVO0Fvx</property>
+    <deployment-targets>
+        <target device="mobileweb">false</target>
+        <target device="iphone">true</target>
+        <target device="ipad">true</target>
+        <target device="android">false</target>
+        <target device="blackberry">false</target>
+    </deployment-targets>
+    <sdk-version>2.1.2.GA</sdk-version>
+    <id>com.descartes.iViewMobile</id>
+    <name>Descartes.iView.iOS</name>
+    <version>1.0</version>
+    <publisher>Descartes</publisher>
+    <url>http://www.descartes.com</url>
+    <description>Descartes Mobile Application.	</description>
+    <copyright>Descartes</copyright>
+    <icon>appicon.png</icon>
+    <persistent-wifi>false</persistent-wifi>
+    <prerendered-icon>false</prerendered-icon>
+    <statusbar-style>default</statusbar-style>
+    <statusbar-hidden>false</statusbar-hidden>
+    <fullscreen>false</fullscreen>
+    <navbar-hidden>false</navbar-hidden>
+    <analytics>true</analytics>
+    <guid>dcc2c19e-6ade-4321-b17e-c2c4f2ca6ca2</guid>
+    <property name="ti.ui.defaultunit">system</property>
+    <iphone>
+        <orientations device="iphone">
+            <orientation>Ti.UI.PORTRAIT</orientation>
+        </orientations>
+        <orientations device="ipad">
+            <orientation>Ti.UI.PORTRAIT</orientation>
+            <orientation>Ti.UI.UPSIDE_PORTRAIT</orientation>
+            <orientation>Ti.UI.LANDSCAPE_LEFT</orientation>
+            <orientation>Ti.UI.LANDSCAPE_RIGHT</orientation>
+        </orientations>
+    </iphone>
+    <android xmlns:android="http://schemas.android.com/apk/res/android"/>
+    <mobileweb>
+        <precache/>
+        <splash>
+            <enabled>true</enabled>
+            <inline-css-images>true</inline-css-images>
+        </splash>
+        <theme>default</theme>
+    </mobileweb>
+    <modules>
+        <module platform="commonjs" version="2.3.0">ti.cloud</module>
+        <module platform="iphone" version="1.9">com.0x82.dropbox</module>
+        <module platform="iphone" version="3.0">com.0x82.sharekit</module>
+        <module platform="iphone" version="1.0">com.emityme.advalertview</module>
+        <module platform="iphone" version="1.0">com.emityme.advappearance</module>
+        <module platform="iphone" version="1.0">com.emityme.advprogressbar</module>
+        <module platform="iphone" version="1.0">com.emityme.advsegmcontrol</module>
+        <module platform="iphone" version="1.0">com.emityme.advswitch</module>
+        <module platform="iphone" version="0.2">com.paperwasp.calendar</module>
+        <module platform="iphone" version="1.0">com.salesforce</module>
+        <module platform="iphone" version="0.2">com.thinkorange.google.analytics</module>
+        <module platform="iphone" version="1.2">ti.airprint</module>
+        <module platform="iphone" version="1.7">ti.barcode</module>
+        <module platform="iphone" version="1.1.1">ti.box</module>
+        <module platform="iphone" version="1.3.0">ti.flurry</module>
+        <module platform="iphone" version="1.0">ti.php</module>
+        <module platform="iphone" version="1.5.1">ti.styledlabel</module>
+        <module platform="iphone" version="1.2.1">ti.urbanairship</module>
+    </modules>
+</ti:app>
