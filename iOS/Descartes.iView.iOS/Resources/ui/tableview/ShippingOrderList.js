@@ -75,7 +75,17 @@ function ShippingOrderList( title ){
 				searchBar.showCancel = (searchBar.showCancel === false)?false:true;
 			});			
 			tableview.addEventListener('click', function(e) {
-				 //searchBar.setShowCancel(false);
+				 /**
+				  *   Open new window and load current Shipping Order Detail Info
+				  */
+				 var soNumber               = e.rowData.soNumber;
+				var soDate    				 = e.rowData.soDate;			
+				var status                        = e.rowData.status;							
+				var ShippingOrderDetail = require('ui/detail/ShippingOrderDetail');
+				var shippingOrderDetailWindow = new ShippingOrderDetail( soNumber, status, soDate);		
+				iview.window.PipelineSummary.tabGroup.activeTab.open(shippingOrderDetailWindow, {
+							animated:true
+				});			
 			});
 			
 			tableview.addEventListener('open', function(e){

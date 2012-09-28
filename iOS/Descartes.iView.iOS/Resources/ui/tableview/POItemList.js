@@ -83,7 +83,18 @@ function POItemList( title ){
 				searchBar.showCancel = (searchBar.showCancel === false)?false:true;
 			});			
 			tableview.addEventListener('click', function(e) {
-				 //searchBar.setShowCancel(false);
+				 /**
+				  *   Open new window and load current PO Item Detail Info
+				  */
+				 var poItemId				   = e.rowData.id;
+				 var poHeaderId			   = e.rowData.poHeaderId;
+				 var partNumber               = e.rowData.partNumber;
+				 
+				var POItemDetail = require('ui/detail/POItemDetail');
+				var poItemDetailWindow = new POItemDetail( poItemId, poHeaderId, partNumber);		
+				iview.window.PipelineSummary.tabGroup.activeTab.open(poItemDetailWindow, {
+							animated:true
+				});							 
 			});
 			
 			tableview.addEventListener('open', function(e){
