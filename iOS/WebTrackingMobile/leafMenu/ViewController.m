@@ -104,10 +104,11 @@
 
 -(void)loadRESTList{
     
+    /**
     MenuViewController *restController = [[MenuViewController alloc] initWithNibName:@"MenuViewController" bundle:nil];
     restController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     [self presentModalViewController:restController animated:YES];
-    
+    */
 }
 
 -(void)loadRESTShipments{
