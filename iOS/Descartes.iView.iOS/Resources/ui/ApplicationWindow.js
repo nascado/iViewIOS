@@ -102,7 +102,7 @@ exports.LoginWindow = function(title, bgcolor, barcolor) {
   		image:'/images/logo/DescartesLogo_Transparent.png'
 	});
 	loginLogoImage.addEventListener('click', function(){
-	   var iviewVersion = 'Version 1.4';
+	   var iviewVersion = 'Version 1.5';
 	    alert(iviewVersion);		
 	});
 	
