@@ -8,25 +8,24 @@
 exports.ApplicationTabGroup = function(Window){
 	
      Ti.include('UrbanAirship.js');
-        
-	var advappearancetoolkit = require('com.emityme.advappearance');
-    advappearancetoolkit.setAppearanceNavTitleTextColor({color:'white', shadow:'black'});
-
 	Ti.UI.setBackgroundImage('/images/backgrounds/chrome.png');
 	
 	//create module instance
 	var tabGroup = Ti.UI.createTabGroup();
-	tabGroup.backgroundImage = '/images/tabBar/tabBar.png';
+	//tabGroup.backgroundImage = '/images/tabBar/tabBar.png';
 	
-	/**
-	var tabGroup = Ti.UI.createTabGroup({
-		backgroundColor: 'transparent',
-		backgroundImage: '/images/tabBar.png',
-		backgroundSelectedImage: '/images/tabBar.png',
-		tabDividerColor: 'white',
-		tabsAtBottom: true
-	});
-	*/
+	/** Custom Theme Object
+	 * 
+	 */
+	var advappearancetoolkit = require('com.emityme.advappearance');
+    advappearancetoolkit.setAppearanceNavTitleTextColor({color:'white', shadow:'black'});
+	// menu bar
+	//advappearancetoolkit.setAppearanceNavBkgImage('/Zeusbase/images/menubar.png');
+	//advappearancetoolkit.setAppearanceTabbarBkgImage('/Zeusbase/images/tabbar.png');
+	//advappearancetoolkit.setAppearanceTabSelIndicatorImage('/Zeusbase/images/tabbar-active.png');
+	advappearancetoolkit.setAppearanceTabSelImageTintColor('#66ccff'); 	
+	
+
 	var PipelineSummary		     = require('ui/window/PipelineSummary');	
 	var CalendarWindow   		     = require('ui/window/Calendar');
 	var SearchWindow	  			 = require('ui/window/Search');
