@@ -117,19 +117,14 @@ exports.postUserInfo = function(_username, _password, loginCallback){
 									        iview.app.apikey = apikey;
 								}
 								
-								//addUser(iview.app.apikey);
 								
+								Ti.App.fireEvent('parse:saveUserInfo');	
+												
 								Ti.API.debug('Response came back with Success of : ' + success);
 								Ti.API.debug('Response came back with API Key : ' + iview.app.apikey);
 								
 								loginCallback(true, iview.app.apikey);
 								
-								/**
-								var Window;
-								var ApplicationWindow   = require('ui/window/ApplicationWindow');						
-								Window						  = require('ui/ApplicationTabGroup').ApplicationTabGroup;
-						        new Window(ApplicationWindow).open();
-								*/
 								
 						 /**  INVALID LOGIN
 						  *  ================================================================

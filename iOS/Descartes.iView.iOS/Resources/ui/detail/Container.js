@@ -10,6 +10,8 @@ Ti.include('includes/Indicator.js');
 //==================================================================
 function Container(_containerNumber, _status, _fileNumber){
 	
+	var iViewService = require('services/iViewService');
+	
 	var self = Ti.UI.createWindow({
 						title: L('ContainerContentDetail', 'Container ' + _containerNumber),
 						barColor:'#6e747c',
@@ -93,8 +95,33 @@ function Container(_containerNumber, _status, _fileNumber){
                     height : 20,
                     left : 10,
                     top: 100
-                });
+    });
 	
+	/**
+	var tableView = Ti.UI.createTableView({
+		top: 100,
+	  	data: iViewService.ContainerContentList( _fileId, _containerNumber),
+	  	backgroundColor: 'transparent',
+	  	backgroundImage: '/images/backgrounds/GreyPattern@2x.png',	  	
+	  	separatorStyle: Ti.UI.iPhone.TableViewSeparatorStyle.NONE,
+	  	selectionStyle: 	Titanium.UI.iPhone.TableViewCellSelectionStyle.NONE,
+		style : Ti.UI.iPhone.TableViewStyle.GROUPED,
+		color: '#000',
+         shadowColor:'#fff',
+         shadowOffset:{x:0,y:1},	
+         font : {
+            fontSize : 20,
+            fontWeight : 'light',
+            fontStyle : 'bold',
+            fontFamily : 'Helvetica Neue'
+         },                         									
+		borderRadius : 10.1,	
+		rowHeight: 60,
+		opacity: 0.9
+	});
+	*/
+
+
 	self.add(fileNumberLabel);
 	self.add(containerNumberLabel);
 	self.add(statusLabel);

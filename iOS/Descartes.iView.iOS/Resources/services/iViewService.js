@@ -2,6 +2,125 @@
  * FILL
  *  ====================================================================================
  */
+
+var makeContainerContentRows = function(json){
+	           Ti.API.info('makeContainerContentRows - reached - filling rows for table view');
+               Titanium.API.debug("CONTAINER CONTENT RESULTS :  " + json );
+               
+               var ZeusbaseService = require('services/Zeusbase');
+                     
+                var showDebug = false;              
+                var data = [];
+                var success, row, total, shipmentPartyId,  rowPartyType, rowShipmentId, rowName;
+                var rowContact, rowPhone, rowEmail, rowCityStateZip;                         
+                var title, subtitle, subtitle2;
+                
+                 success     = json.success;
+                 total          = json.records;
+                 
+                 Titanium.API.info("success :  " + success );
+                 Titanium.API.info("total :  " + total );
+                 
+                //=====================================================================================
+                // If we have results in our json then loop thru them and create rows for the table view
+                //=====================================================================================              
+                for (i = 0; i < total; i++) {
+                	
+                        //=====================================================================================
+                        // Row and Cell  Creation
+                        //=====================================================================================                
+                        rowShipmentId                = json.data[i].ShipmentId;  
+                                                                       
+                        // create a tableview ROW object
+                      row = Ti.UI.createTableViewRow({
+                            id: shipmentPartyId,
+                            shipmentId: rowShipmentId,
+                            partyName: rowName,
+                            className: 'shipmentPartyRowResult',
+                            top: 5,
+                            layout: 'vertical',
+                            backgroundColor:'transparent',
+                            selectionStyle:Titanium.UI.iPhone.TableViewCellSelectionStyle.GREY,
+                            hasChild : true                         
+                        });                     
+                      // Non Creation Properties - must be set via the accessor methods
+                      row.height = 101;                          
+                      row.setBackgroundImage('/images/scrollable_view/tableview_row_line.png');
+                                                
+                      //row.setLeftImage('/images/scrollable_view/msg_info.png');                      
+                      row.setRightImage('/images/scrollable_view/plus_blue.png');
+                                                    
+                                                    
+                        //=====================================================================================
+                        // partyName 
+                        //=====================================================================================                                                                                                 
+                        title = Ti.UI.createLabel({
+                            color : '#000',
+                            shadowColor:'#fff',
+                            shadowOffset:{x:0,y:1},
+                            font : {
+                                fontSize : 12,
+                                fontFamily : 'Helvetica'
+                            },
+                            left : 10,
+                            top : 7,
+                            height : 15,
+                            width : 200,
+                            clickName : 'partyname',
+                            text : rowName
+                        });                        
+                        row.add(title);
+                        //=====================================================================================
+                        //  ?
+                        //=====================================================================================   
+                        subtitle = Ti.UI.createLabel({
+                            color: '#30343a',
+                            shadowColor:'#fff',
+                            shadowOffset:{x:0,y:1},                            
+                            font : {
+                                fontSize : 10,
+                                fontWeight : 'light',
+                                fontStyle : 'italic',
+                                fontFamily : 'Helvetica'
+                            },
+                            left : 15,
+                            top : 13,
+                            height : 15,
+                            width : 200,
+                            clickName : 'type',
+                            text : ''
+                        });             
+                        row.add(subtitle);  
+                        //=====================================================================================
+                        //  ?
+                        //=====================================================================================                                                        
+                        subtitle2 = Ti.UI.createLabel({
+                            color: '#30343a',
+                            shadowColor:'#fff',
+                            shadowOffset:{x:0,y:1},
+                            font : {
+                                fontSize : 10,
+                                fontWeight : 'light',
+                                fontStyle : 'italic',
+                                fontFamily : 'Helvetica'
+                            },
+                            left : 15,
+                            top : 15,
+                            height : 15,
+                            width : 200,
+                            clickName : 'fullAddress',
+                            text : ''
+                        });             
+                        row.add(subtitle2);  
+                                                                                    
+                        data.push(row);                     
+                    }                                   
+                 // send it back baby
+                 Ti.API.info('FINISHED BUILDING DATA ARRAY - about to return json formatted into tableview rows');
+                 Ti.API.info('JSON DATA = ' + data.toString());
+                 return data;               
+};
+
 var makeShipmentPartiesRowsWithHeaders = function(json){
                Ti.API.info('makeShipmentPartiesRows - reached - filling rows for table view');
                Titanium.API.debug("SHIPMENT PARTIES RESULTS :  " + json );
@@ -391,6 +510,41 @@ var makeEmptyRow = function(){
  * XHR
  *  ====================================================================================
  */
+
+exports.ContainerContentList = function(fileId, containerNumber, fillTableWithData){
+        var debugEntity = "Container Content";
+        var data = [];    
+        var restURL = "http://iviewservice.zeusdeveloper.com/index.php/mobile/getContentList?fileId='" + fileId + "'&containerNumber='" + containerNumber + "'";
+        var json, total, rows, i, row;    
+        Ti.API.info(debugEntity + ' List :  REST URL= ' + restURL);    
+        var xhr = Ti.Network.createHTTPClient({
+                    onload: function(e) {                        
+                             Ti.API.debug(debugEntity + " : XHR: onload : " + e);            
+                             Ti.API.debug(debugEntity + " : Response = " + this.responseText);                         
+                             json = JSON.parse(this.responseText);      
+                             success     =   json.success;
+                             total          =   json.records;
+                             if(success){
+                                 if(total > 0){                               
+                                        data = makeContainerContentRows(json);
+                                 } else {
+                                        data = makeEmptyRow();                                                           
+                                 }      
+                                 fillTableWithData(data);          
+                             } else {
+                                alert('There was an error.');
+                             }         
+                    },
+                    onerror: function(e) {                  
+                        Ti.API.debug(e.error);                                                              
+                        alert('There was an error');
+                    },
+                    timeout:120000
+            });      
+        xhr.open('GET', restURL);
+        xhr.send();  
+        Ti.API.debug("XHR: GET : " + debugEntity + " ::  " + restURL);
+};
 
 exports.ShipmentPartiesListData = function(shipmentId, fillTableWithData){ 
     var data = [];    

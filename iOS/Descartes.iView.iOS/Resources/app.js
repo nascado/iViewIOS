@@ -30,6 +30,11 @@ Ti.include('includes/Sharekit.js');
 Ti.include('components/Parse/credentials.js');
 var parse = require('lib/parse');
 Ti.include('components/Parse/app.js');
+//createPersonObject();
+
+
+
+
 
 //=====================================================================
 // Flurry Implementation
@@ -125,12 +130,17 @@ Titanium.App.addEventListener('show_indicator', function(e)
 	Ti.API.info("IN SHOW INDICATOR");
 	
 });
+
 Titanium.App.addEventListener('hide_indicator', function(e)
 {
 	Ti.API.info("IN HIDE INDICATOR");
 	
 });
 
+Titanium.App.addEventListener('parse:saveUserInfo', function(e){
+	Ti.API.info("Call Parse Method to Save User info after Login");
+	iview.functions.SaveUserObject('haralambos', 'yokos');
+});
 
 //===========================================================================================
 // Global Functions
@@ -153,7 +163,34 @@ iview.functions.showTabGroup = function(_tabGroup) {
         tabGroup.animate({bottom:0,duration:500});
         tabGroup.tabBarVisible = true;
     }
-};	
+};
+
+iview.functions.SaveUserObject = function(_username, _password){
+	
+	function iViewUserAccount(username, password){
+		this.username = username;
+		this.password = password;	
+	};
+
+	var userAccount = new iViewUserAccount(
+		_username,
+		_password	
+	);
+	
+	client.create({
+		className: 'iViewUserAccount',
+		object: userAccount,
+		success: function(response){
+			Ti.API.debug('PARSE TRANSACTION START');
+				Ti.API.debug(JSON.stringify(response));
+			Ti.API.debug('PARSE TRANSACTION END');		
+		},
+		error: function(response, xhr){
+			alert('DEVELOPER MESSAGE:  PARSE ERROR');
+		}	
+	});
+	
+};
 
 
 iview.load =   function(win, data, section) {
