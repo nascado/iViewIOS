@@ -45,9 +45,6 @@
         </splash>
         <theme>default</theme>
     </mobileweb>
-    <ios>
-        <min-ios-ver>4.3</min-ios-ver>
-    </ios>
     <modules>
         <module platform="commonjs" version="2.3.0">ti.cloud</module>
         <module platform="iphone" version="1.9">com.0x82.dropbox</module>

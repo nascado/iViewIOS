@@ -8,9 +8,9 @@ Ti.include('includes/Indicator.js');
 //==================================================================
 // WINDOW
 //==================================================================
-function Container(_containerNumber, _status, _fileNumber){
+function Container(_containerNumber, _status, _fileNumber, _fileId){
 	
-	var iViewService = require('services/iViewService');
+	var iViewService = require('/services/iViewService');
 	
 	var self = Ti.UI.createWindow({
 						title: L('ContainerContentDetail', 'Container ' + _containerNumber),
@@ -97,19 +97,27 @@ function Container(_containerNumber, _status, _fileNumber){
                     top: 100
     });
 	
+	//============================================================================
+	// List of Content
+	//============================================================================	
 	/**
+	
+	Ti.API.debug("Creating tableview for conainer content with params: ");
+	Ti.API.debug("FileId: " + _fileId);
+	Ti.API.debug("ContainerNumber: " + _containerNumber);
+	
 	var tableView = Ti.UI.createTableView({
 		top: 100,
-	  	data: iViewService.ContainerContentList( _fileId, _containerNumber),
+	  	//data: iViewService.ContainerContentList( _fileId, _containerNumber, fillTableWithData),
 	  	backgroundColor: 'transparent',
 	  	backgroundImage: '/images/backgrounds/GreyPattern@2x.png',	  	
 	  	separatorStyle: Ti.UI.iPhone.TableViewSeparatorStyle.NONE,
 	  	selectionStyle: 	Titanium.UI.iPhone.TableViewCellSelectionStyle.NONE,
 		style : Ti.UI.iPhone.TableViewStyle.GROUPED,
 		color: '#000',
-         shadowColor:'#fff',
-         shadowOffset:{x:0,y:1},	
-         font : {
+        shadowColor:'#fff',
+        shadowOffset:{x:0,y:1},	
+        font : {
             fontSize : 20,
             fontWeight : 'light',
             fontStyle : 'bold',
@@ -119,9 +127,21 @@ function Container(_containerNumber, _status, _fileNumber){
 		rowHeight: 60,
 		opacity: 0.9
 	});
+	
+	self.addEventListener('open', function(e){
+				Ti.API.info('window OPEN event called');
+				loadIndicatorStart( self );
+				iViewService.ContainerContentList( _fileId, _containerNumber, fillTableWithData),																
+	});
+	
+	var fillTableWithData = function(data){
+		tableView.setData(data);
+		loadIndicatorStop( self );     
+	};
+	
+	
+	self.add(tableView);
 	*/
-
-
 	self.add(fileNumberLabel);
 	self.add(containerNumberLabel);
 	self.add(statusLabel);

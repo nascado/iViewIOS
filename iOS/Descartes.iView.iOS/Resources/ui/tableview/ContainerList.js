@@ -71,11 +71,14 @@ function ContainerList( title ){
 			});			
 			
 			tableview.addEventListener('click', function(e) {				
+				
 				var fileNumber               = iview.currentShipment.FileNumber;
 				var containerNumber     = e.rowData.containerNumber;			
-				var status                        = e.rowData.status;							
+				var status                      = e.rowData.status;							
+				var fileId						= e.rowData.fileId;
+				
 				var ContainerDetail = require('ui/detail/Container');
-				var containerWindow = new ContainerDetail( containerNumber, status, fileNumber);		
+				var containerWindow = new ContainerDetail( containerNumber, status, fileNumber, fileId);		
 				iview.window.PipelineSummary.tabGroup.activeTab.open(containerWindow, {
 							animated:true
 				});						 

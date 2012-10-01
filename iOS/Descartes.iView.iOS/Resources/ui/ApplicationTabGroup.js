@@ -18,12 +18,16 @@ exports.ApplicationTabGroup = function(Window){
 	 * 
 	 */
 	var advappearancetoolkit = require('com.emityme.advappearance');
-    advappearancetoolkit.setAppearanceNavTitleTextColor({color:'white', shadow:'black'});
+    advappearancetoolkit.setAppearanceNavTitleTextColor({ 
+    	color:'#000', 
+    	shadow:'#fff', 
+    	shadowOffset:{x:0,y:1} 
+    });
 	// menu bar
 	//advappearancetoolkit.setAppearanceNavBkgImage('/Zeusbase/images/menubar.png');
 	//advappearancetoolkit.setAppearanceTabbarBkgImage('/Zeusbase/images/tabbar.png');
 	//advappearancetoolkit.setAppearanceTabSelIndicatorImage('/Zeusbase/images/tabbar-active.png');
-	advappearancetoolkit.setAppearanceTabSelImageTintColor('#66ccff'); 	
+	advappearancetoolkit.setAppearanceTabSelImageTintColor('#1E2024'); 	
 	
 
 	var PipelineSummary		     = require('ui/window/PipelineSummary');	

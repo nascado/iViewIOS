@@ -7,12 +7,11 @@ var makeContainerContentRows = function(json){
 	           Ti.API.info('makeContainerContentRows - reached - filling rows for table view');
                Titanium.API.debug("CONTAINER CONTENT RESULTS :  " + json );
                
-               var ZeusbaseService = require('services/Zeusbase');
+               var ZeusbaseService = require('/services/Zeusbase');
                      
                 var showDebug = false;              
                 var data = [];
-                var success, row, total, shipmentPartyId,  rowPartyType, rowShipmentId, rowName;
-                var rowContact, rowPhone, rowEmail, rowCityStateZip;                         
+                var success, row, total, contentId, shipmentId, containerId, containerNumber;
                 var title, subtitle, subtitle2;
                 
                  success     = json.success;
@@ -29,14 +28,14 @@ var makeContainerContentRows = function(json){
                         //=====================================================================================
                         // Row and Cell  Creation
                         //=====================================================================================                
-                        rowShipmentId                = json.data[i].ShipmentId;  
+                        //rowShipmentId                = json.data[i].ShipmentId;  
                                                                        
                         // create a tableview ROW object
                       row = Ti.UI.createTableViewRow({
-                            id: shipmentPartyId,
-                            shipmentId: rowShipmentId,
-                            partyName: rowName,
-                            className: 'shipmentPartyRowResult',
+                            id: contentId,
+                            shipmentId: shipmentId,
+                            containerId: containerId,
+                            className: 'containerContentRowResult',
                             top: 5,
                             layout: 'vertical',
                             backgroundColor:'transparent',
@@ -67,7 +66,7 @@ var makeContainerContentRows = function(json){
                             height : 15,
                             width : 200,
                             clickName : 'partyname',
-                            text : rowName
+                            text : 'Title'
                         });                        
                         row.add(title);
                         //=====================================================================================

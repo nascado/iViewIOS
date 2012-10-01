@@ -244,13 +244,15 @@ var makeContainerRows = function(json){
 				 		rowShipmentId 			= json.data[i].ShipmentId; 	
 				 		rowContainerNumber 	= json.data[i].ContainerNumber;
 				 		rowStatus                      = json.data[i].Status;
+				 		rowFileId						= json.data[i].FileId;
 				 						 		
 				 		// create a tableview ROW object
 					  row = Ti.UI.createTableViewRow({
 					        id: containerId,
 					        shipmentId: rowShipmentId,
 					        containerNumber: rowContainerNumber,
-					        status: rowStatus,					        
+					        status: rowStatus,					
+					        fileId: rowFileId,        
 					        className: 'containerRowResult',
 					        top: 5,
 					        layout: 'vertical',
