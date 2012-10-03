@@ -1,0 +1,71 @@
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace mx "library://ns.adobe.com/flex/mx";
+
+global
+{
+	font-family: Helvetica;
+	font-size: 13;
+	color: #A72121;
+	content-background-color: #f0f0f0;
+}
+
+s|Label.Prompt {
+	font-family: "Helvetica Nue";
+	font-size: 13;
+	color: #000000;
+	fontWeight:"bold";
+	textDecoration:"underline";
+}
+
+s|Label.Data {
+	font-family: "Helvetica Nue";
+	font-size: 13;
+	color: blue;
+	fontWeight:"normal";
+	textDecoration:"underline";
+}
+
+
+s|TabbedViewNavigator #tabBar
+{
+	chromeColor: #333333; 
+	color: #ffffff;
+	fontFamily: "Helvetica";
+	iconPlacement:top;
+	textDecoration:none;
+	align: center;
+}
+
+s|ActionBar
+{
+	chromeColor: #333333; 
+	titleAlign: center;
+	defaultButtonAppearance: beveled;
+}
+
+s|ActionBar #titleDisplay
+{
+	/*color: #70b2eb;  default color is white */		
+	fontSize: 20;
+	font-weight: light;
+	fontFamily: "Helvetica";
+}
+
+s|TextInput.ShipmentSummary
+{
+	color: #000000;
+	
+}
+
+
+/**ActionBar.beveled Group#actionGroup Button */
+s|Button.NavigationButton
+{
+	fontSize: 12;
+	skinClass: ClassReference("spark.skins.ios.BeveledActionButtonSkin");
+}
+
+
+
+

@@ -8,7 +8,7 @@ function DropboxWindow(_title){
 				backgroundColor: 'transparent',
 				title: _title				
 			});			
-			window.backgroundImage      = '/images/backgrounds/Waterproof.png';
+			window.backgroundImage      = '/images/backgrounds/GreyPattern.png';
 			window.barColor             		= '#6e747c';
 			window.barImage					= '/images/navbar.png';
 			
@@ -145,10 +145,10 @@ function DropboxWindow(_title){
 			
 			function deleteFolder() {
 			client.deletePath({
-			 path: '/IESDashboardFolder',
+			 path: '/DescartesIview',
 			 success: function(e) {
 			   Ti.API.log("SUCCESS DELETE FOLDER");
-			   alert("IESDashboardFolder -- was deleted in your dropbox account");
+			   alert("DescartesIview -- was deleted in your dropbox account");
 			   tableview.footerTitle = JSON.stringify(e);
 			 },
 			 error: function(e) {

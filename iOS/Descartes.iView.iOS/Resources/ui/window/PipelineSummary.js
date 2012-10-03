@@ -150,11 +150,11 @@ function PipelineSummary(title, bgcolor, barcolor) {
 							
 			dashboard.addEventListener('click', function(e) {
 				
-				var ShipmentListWindow 				= require('ui/tableview/pipeline/ShipmentList');
+				var ShipmentListWindow 				    = require('ui/tableview/pipeline/ShipmentList');
 				var FavoriteShipmentListWindow 	= require('ui/tableview/pipeline/FavoriteShipmentList');
-				var POListWindow						= require('ui/tableview/pipeline/POList');
-				var SOListWindow						= require('ui/tableview/pipeline/SOList');
-				var SalesforceWindow				 	= require('components/Salesforce/SalesforceWindow');
+				var POListWindow						    = require('ui/tableview/pipeline/POList');
+				var SOListWindow						    = require('ui/tableview/pipeline/SOList');
+				var SalesforceWindow				 	    = require('components/Salesforce/SalesforceWindow');
 				var DropboxWindow						= require('components/Dropbox/DropboxWindow');
 								
 				var pipelineDetailURL;
