@@ -1,0 +1,125 @@
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace mx "library://ns.adobe.com/flex/mx";
+
+global
+{
+	font-family: Helvetica;
+	font-size: 13;
+	color: #A72121;
+	content-background-color: #f0f0f0;
+}
+
+s|Label.Prompt {
+	font-family: "Helvetica Nue";
+	font-size: 13;
+	color: #000000;
+	fontWeight:"bold";
+	textDecoration:"underline";
+}
+
+s|Label.Data {
+	font-family: "Helvetica Nue";
+	font-size: 13;
+	color: blue;
+	fontWeight:"normal";
+	textDecoration:"underline";
+}
+
+
+s|TabbedViewNavigator #tabBar
+{
+	chromeColor: #333333; 
+	/**chromeColor: #004080; */
+	color: #ffffff;
+	fontFamily: "Helvetica";
+	iconPlacement:top;
+	textDecoration:none;
+	align: center;
+}
+
+s|ActionBar
+{
+	chromeColor: #333333; 
+	/** chromeColor: #004080; */
+	titleAlign: center;
+	defaultButtonAppearance: beveled;
+}
+
+s|ActionBar #titleDisplay
+{
+	/*color: #70b2eb;  default color is white */		
+	fontSize: 20;
+	font-weight: light;
+	fontFamily: "Helvetica";
+}
+
+s|TextInput.ShipmentSummary
+{
+	color: #000000;
+	
+}
+
+
+/**ActionBar.beveled Group#actionGroup Button */
+s|Button.NavigationButton
+{
+	fontSize: 12;
+	skinClass: ClassReference("spark.skins.ios.BeveledActionButtonSkin");
+}
+/**
+s|Button
+{
+	font-weight: normal;
+	fill-colors: #efefef, #dedede, #aec6ee, #739ee3;
+	fill-alphas: .9, .9, .9, .9;
+	highlight-alphas: .5, .2;
+	color: #666666;
+	text-roll-over-color: #4d78bc;
+	text-selected-color: #739ee3;
+	border-color: #999999;
+}
+
+
+s|Button.ViewEventsList
+{
+	font-weight: normal;
+	fill-colors: #efefef, #dedede, #aec6ee, #739ee3;
+	fill-alphas: .9, .9, .9, .9;
+	highlight-alphas: .5, .2;
+	color: #666666;
+	text-roll-over-color: #4d78bc;
+	text-selected-color: #739ee3;
+	border-color: #999999;
+}
+
+
+
+s|Button.IESDefaultButton {
+	
+	font-weight: normal;
+	fill-colors: #efefef, #dedede, #aec6ee, #739ee3;
+	fill-alphas: .9, .9, .9, .9;
+	highlight-alphas: .5, .2;
+	color: #ffffff;
+	text-roll-over-color: #4d78bc;
+	text-selected-color: #739ee3;
+	border-color: #999999;
+	chromeColor: #00415C;
+}
+
+s|Button.ViewResults
+{
+	color: #ffffff;
+	accentColor: #000000;
+	chromeColor: #000000; 
+	padding-left: 5;
+	font-size: 20;
+	font-weight: normal;
+	textShadowColor: #ffffff;
+	font-family: "Helvetica";	
+}
+*/
+
+
+
