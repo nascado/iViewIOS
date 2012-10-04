@@ -66,4 +66,11 @@
     
     <string name="ShareTab">Share</string>
 	
+        <string name="Status">Status</string>
+    
+    <string name="Parties">View Parties </string>
+    <string name="POItems">PO Items </string>        
+    <string name="ShippingOrders">Shipping Orders</string>        
+    <string name="SharePO">Share Purchase Order</string>        
+	
 </resources>

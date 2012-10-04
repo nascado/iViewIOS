@@ -1,3 +1,6 @@
+Ti.API.debug('================================================================================================');
+Ti.API.debug('URBAN AIRSHIP MODULE');
+Ti.API.debug('================================================================================================');
 var UrbanAirship = require('ti.urbanairship');
 UrbanAirship.options = {
     APP_STORE_OR_AD_HOC_BUILD: true,
@@ -38,6 +41,9 @@ Ti.Network.registerForPushNotifications({
     }
 });
 
+Ti.API.debug('================================================================================================');
+Ti.API.debug('Token and Helper functions');
+Ti.API.debug('================================================================================================');
 iview.app.UrbanAirship = {
     getToken: function() {
         return Ti.Network.remoteDeviceUUID;
