@@ -2,7 +2,7 @@ var Barcode = require('ti.barcode');
 
 var selectScanTypeWindow = Ti.UI.currentWindow;
 
-selectScanTypeWindow.title 							= 'IES Scan';
+selectScanTypeWindow.title 							= 'Descartes Scan';
 selectScanTypeWindow.barColor 					=  '#6e747c';
 selectScanTypeWindow.backgroundColor 		= 'transparent';
 

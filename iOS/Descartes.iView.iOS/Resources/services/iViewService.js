@@ -2,6 +2,116 @@
  * FILL
  *  ====================================================================================
  */
+var makePOShippingOrderRows = function(json){
+                var showDebug = false;              
+                var data = [];
+                var success, row, total,  rowSOHeaderId, rowSONumber, rowSODate, status;                        
+                var title, subtitle, subtitle2;
+                
+                 success    = json.success;
+                 total      = json.total;
+                 
+                 for (i = 0; i < total; i++) {
+                        //=====================================================================================
+                        // Row and Cell  Creation
+                        //=====================================================================================
+                        rowSOHeaderId          = json.data[i].PO_ShippingOrderId;                        
+                        rowSONumber             = json.data[i].Number;
+                        rowSODate                 = json.data[i].Date;                  
+                        status                        = json.data[i].Status;
+                        //numberOfAttachedPOs = json.data[i].Expander.length;
+                                                                                    
+                        // create a tableview ROW object
+                      row = Ti.UI.createTableViewRow({
+                            id: rowSOHeaderId,                                                        
+                            soNumber: rowSONumber,
+                            soDate: rowSODate,      
+                            status: status,     
+                            className: 'poShippingOrderRowResult',
+                            top: 5,
+                            layout: 'vertical',
+                            backgroundColor:'transparent',
+                            selectionStyle:Titanium.UI.iPhone.TableViewCellSelectionStyle.GREY,
+                            hasChild : true                         
+                        });                     
+                      row.height = 90;                          
+                      row.setBackgroundImage('/images/scrollable_view/tableview_row_line.png'); 
+                      row.setRightImage('/images/scrollable_view/plus_blue.png');
+                        //=====================================================================================
+                        // Row LABEL : POItemNumber (Title)
+                        //=====================================================================================                                                                         
+                        var SONumber     =  "SO Number#: " + json.data[i].Number;
+                        title = Ti.UI.createLabel({
+                            color : '#000',
+                            shadowColor:'#fff',
+                            shadowOffset:{x:0,y:1},
+                            font : {
+                                fontSize : 15,
+                                fontFamily : 'Helvetica'
+                            },
+                            left : 25,
+                            top : 7,
+                            height : 15,
+                            width : 200,
+                            clickName : 'SONumber',
+                            text : SONumber
+                        });                        
+                        row.add(title);                
+                  
+                        //=====================================================================================
+                        // Row LABEL : Subtitle
+                        //=====================================================================================                                                             
+                        var SODate = 'Date: ' + json.data[i].Date;                       
+                        subtitle = Ti.UI.createLabel({
+                            color: '#30343a',
+                            shadowColor:'#fff',
+                            shadowOffset:{x:0,y:1},                            
+                            font : {
+                                fontSize : 12,
+                                fontWeight : 'light',
+                                fontStyle : 'italic',
+                                fontFamily : 'Helvetica'
+                            },
+                            left : 30,
+                            top : 13,
+                            height : 15,
+                            width : 320,
+                            clickName : 'SODate',
+                            text : SODate
+                        });             
+                        row.add(subtitle);
+                        //=====================================================================================
+                        // Row LABEL : Subtitle2
+                        //=====================================================================================                     
+                        var Status = 'Status: ' + json.data[i].Status;                          
+                        subtitle2 = Ti.UI.createLabel({
+                            color: '#30343a',
+                            shadowColor:'#fff',
+                            shadowOffset:{x:0,y:1},
+                            font : {
+                                fontSize : 12,
+                                fontWeight : 'light',
+                                fontStyle : 'italic',
+                                fontFamily : 'Helvetica'
+                            },
+                            left : 30,
+                            top : 15,
+                            height : 15,
+                            width : 320,
+                            clickName : 'Status',
+                            text : Status
+                        });             
+                        row.add(subtitle2);                                                    
+
+                  
+                  
+                        data.push(row);                           
+                 }
+                 return data;
+
+    
+};
+
 
 var makeContainerContentRows = function(json){
 	           Ti.API.info('makeContainerContentRows - reached - filling rows for table view');
@@ -615,4 +725,49 @@ exports.ShipmentPartyById = function(shipmentPartyId, fillTableWithData){
         xhr.open('GET', restURL);
         xhr.send();  
         Ti.API.debug("XHR: GET : " + debugEntity + " ::  " + restURL);
+};
+
+
+exports.SOPurchaseOrdersListData = function(soHeaderId, apikey, callback){
+        
+    var data = [];    
+    var restURL = "http://iviewservice.zeusdeveloper.com/index.php/mobile/getPOShippingOrders?" + soHeaderId + "/purchaseorders?apiKey=" + apikey;
+    var json, total, rows, i, row;
+    
+    Ti.API.info('Container REST URL= '+restURL);
+    
+    var xhr = Ti.Network.createHTTPClient({
+                onload: function(e) {
+                        
+                         Ti.API.debug("XHR: onload : " + e);            
+                         Ti.API.debug(this.responseText);
+                         
+                         json = JSON.parse(this.responseText);      
+                         success    = json.success;
+                         total      = json.total;
+                         
+                         if(success){
+                             if(total > 0){                               
+                                    data = makePOShippingOrderRows(json);
+                             } else {
+                                    data = makeEmptyRow();                                                           
+                             }      
+                             callback(data);          
+                             
+                             
+                         } else {
+                            alert('There was an error.');
+                         }         
+                },
+                onerror: function(e) {                  
+                    Ti.API.debug(e.error);                                                              
+                    alert('There was an error');
+                },
+                timeout:120000
+        });      
+    xhr.open('GET', restURL);
+    xhr.send();
+        
+    Ti.API.debug("XHR: GET : PIPELINE SUMMARY : " + restURL);
+         
 };

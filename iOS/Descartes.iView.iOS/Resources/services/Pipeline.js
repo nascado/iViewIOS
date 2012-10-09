@@ -736,12 +736,14 @@ exports.SOPurchaseOrdersListData = function(soHeaderId, apikey, callback){
                              
                              
                          } else {
-                            alert('There was an error.');
+                            Ti.API.info('There was an XHR  error in the onLoad service function.');
+                            callback(data);
                          }         
                 },
                 onerror: function(e) {                  
                     Ti.API.debug(e.error);                                                              
-                    alert('There was an error');
+                    Ti.API.info('There was an XHR  error in the onError service function.');
+                    callback(data);
                 },
                 timeout:120000
         });      

@@ -23,12 +23,6 @@ function ShippingOrderSummary(){
 									clickName: 'PurchaseOrders',
 									hasChild : true,
 									child:'browse/SearchByName.js'
-								},						
-								{
-									title : L('Print', 'Print Via Network'),
-									hasChild : true,
-									clickName: 'Print',
-									child:'browse/SearchByName.js'
 								},
 								{
 									title : L('ShareSO', 'Share Shipping Order'),
@@ -41,14 +35,22 @@ function ShippingOrderSummary(){
 									hasChild : true,
 									clickName: 'Scan',
 									child:'browse/SearchByName.js'				
-								},
-								{
-									title : L('AddressBook', 'Add Contacts to AddressBook'),
-									hasChild : true,
-									clickName: 'Contacts',
-									child:'browse/SearchByName.js'
-								}								
+								}			
 								/**
+,                       
+                                {
+                                    title : L('Print', 'Print Via Network'),
+                                    hasChild : true,
+                                    clickName: 'Print',
+                                    child:'browse/SearchByName.js'
+                                },
+								,
+                                {
+                                    title : L('AddressBook', 'Add Contacts to AddressBook'),
+                                    hasChild : true,
+                                    clickName: 'Contacts',
+                                    child:'browse/SearchByName.js'
+                                }                   
 								{
 									title: L('Documents', 'View Documents'),
 									hasChild : true,

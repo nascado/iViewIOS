@@ -4,10 +4,10 @@ Ti.API.debug('==================================================================
 var UrbanAirship = require('ti.urbanairship');
 UrbanAirship.options = {
     APP_STORE_OR_AD_HOC_BUILD: true,
-    PRODUCTION_APP_KEY: 't_Ml1OwXTFm9MlcRnUQssw',
-    PRODUCTION_APP_SECRET: '5Ok-qmk9R0qDW5O7I5rK-A',
-    DEVELOPMENT_APP_KEY: 't_Ml1OwXTFm9MlcRnUQssw',
-    DEVELOPMENT_APP_SECRET: 'e2yYWKWMTEyJ7W0QIFT5ew',
+    PRODUCTION_APP_KEY: 'kuPICDwOSIKoR1iqHD_2Ug',
+    PRODUCTION_APP_SECRET: '3aqhx3YeSCaZUHjg5Rp5Vg',
+    DEVELOPMENT_APP_KEY: 'kuPICDwOSIKoR1iqHD_2Ug',
+    DEVELOPMENT_APP_SECRET: 'cMBWK_b2TqqSlEBLv1GHXg',
     LOGGING_ENABLED: true
 };
 

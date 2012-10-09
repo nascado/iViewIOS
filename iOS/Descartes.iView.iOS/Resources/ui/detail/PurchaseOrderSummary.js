@@ -31,12 +31,6 @@ function PurchaseOrderSummary(){
 									child:'browse/SearchByName.js'
 								},								
 								{
-									title : L('Print', 'Print Via Network'),
-									hasChild : true,
-									clickName: 'Print',
-									child:'browse/SearchByName.js'
-								},
-								{
 									title : L('SharePO', 'Share PO Info'),
 									hasChild : true,
 									clickName: 'Share',
@@ -47,14 +41,21 @@ function PurchaseOrderSummary(){
 									hasChild : true,
 									clickName: 'Scan',
 									child:'browse/SearchByName.js'				
-								},
+								}
+								/**
+			                     {
+                                    title : L('Print', 'Print Via Network'),
+                                    hasChild : true,
+                                    clickName: 'Print',
+                                    child:'browse/SearchByName.js'
+                                },
 								{
 									title : L('AddressBook', 'Add Contacts to AddressBook'),
 									hasChild : true,
 									clickName: 'Contacts',
 									child:'browse/SearchByName.js'
 								}								
-								/**
+								
 								{
 									title: L('Documents', 'View Documents'),
 									hasChild : true,
@@ -98,7 +99,7 @@ function PurchaseOrderSummary(){
 				var poDateLabelText = L('PODate', 'Date') + ': ' + _poDate;
 				var poDateLabel = Ti.UI.createLabel({
 					text: poDateLabelText,
-                    shadowColor:'#000',
+                    shadowColor:'#fff',
                     shadowOffset:{x:0,y:1},					
 					font : {
 						fontSize : 18,
@@ -106,7 +107,7 @@ function PurchaseOrderSummary(){
 						fontStyle : 'italic',
 						fontFamily : 'Helvetica Neue'
 					},
-					color : '#66ccff',
+					color : '#000',
 					textAlign : 'left',
 					width : 300,
 					height : 20,
@@ -117,7 +118,7 @@ function PurchaseOrderSummary(){
 				var poStatusLabelText = L('Status', 'Status') + ': ' + _poStatus;
 				var poStatusLabel = Ti.UI.createLabel({
 					text: poStatusLabelText,
-                    shadowColor:'#000',
+                    shadowColor:'#fff',
                     shadowOffset:{x:0,y:1},					
 					font : {
 						fontSize : 18,
@@ -125,7 +126,7 @@ function PurchaseOrderSummary(){
 						fontStyle : 'italic',
 						fontFamily : 'Helvetica Neue'
 					},
-					color : '#66ccff',
+					color : '#000',
 					textAlign : 'left',
 					width : 300,
 					height : 20,

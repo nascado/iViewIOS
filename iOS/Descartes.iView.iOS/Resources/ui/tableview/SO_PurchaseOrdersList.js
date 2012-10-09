@@ -10,7 +10,7 @@ Ti.include('includes/Indicator.js');
 function SOPurchaseOrdersList( title ){
 		
 			var PipelineService = require('/services/Pipeline');
-			
+			var iViewService = require('/services/iViewService');
 						
 			var self = Ti.UI.createWindow({
 				backButtonTitleImage: '/images/navbuttons/bar_home.png',
