@@ -90,11 +90,7 @@
 		CD26D47615B607FD00E16613 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD26D47515B607FD00E16613 /* CoreTelephony.framework */; };
 		CD26D47815B6080700E16613 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD26D47715B6080700E16613 /* StoreKit.framework */; };
 		CD26D47A15B6081000E16613 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD26D47915B6081000E16613 /* CoreLocation.framework */; };
-		CD26D47C15B6081D00E16613 /* libUAirship-1.2.2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CD26D47B15B6081D00E16613 /* libUAirship-1.2.2.a */; };
-		CD26D47E15B6087D00E16613 /* AirshipConfig.plish.plist in Resources */ = {isa = PBXBuildFile; fileRef = CD26D47D15B6087D00E16613 /* AirshipConfig.plish.plist */; };
 		CD26D48015B60B9000E16613 /* Descarte_TransparentLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = CD26D47F15B60B9000E16613 /* Descarte_TransparentLogo.png */; };
-		CD3588E815B8CA2700E79515 /* Container.m in Sources */ = {isa = PBXBuildFile; fileRef = CD3588E715B8CA2700E79515 /* Container.m */; };
-		CD3588EC15B8CB0200E79515 /* SearchResultsShipment.m in Sources */ = {isa = PBXBuildFile; fileRef = CD3588EB15B8CB0200E79515 /* SearchResultsShipment.m */; };
 		CD87E25715B7B96E00862CF0 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD87E25515B7B96E00862CF0 /* LoginViewController.m */; };
 		CD87E25815B7B96E00862CF0 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD87E25615B7B96E00862CF0 /* LoginViewController.xib */; };
 		CD87E26715B7FF6000862CF0 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD87E26615B7FF6000862CF0 /* QuartzCore.framework */; };
@@ -154,7 +150,6 @@
 		CDB9D7181618E9C500B65F0B /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = CDB9D6F61618E9C500B65F0B /* UIImageView+AFNetworking.m */; };
 		CDB9D7191618E9C500B65F0B /* whiteArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = CDB9D6F71618E9C500B65F0B /* whiteArrow.png */; };
 		CDB9D71A1618E9C500B65F0B /* whiteArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CDB9D6F81618E9C500B65F0B /* whiteArrow@2x.png */; };
-		CDE1D4DC16067A4200154310 /* Shipments.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE1D4DB16067A4200154310 /* Shipments.m */; };
 		CDEAD1C915B5FBF0008A84EA /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = CDEAD1C815B5FBF0008A84EA /* Default.png */; };
 		CDEAD1CB15B5FBF6008A84EA /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CDEAD1CA15B5FBF6008A84EA /* Default@2x.png */; };
 		CDEAD1CD15B5FC0A008A84EA /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CDEAD1CC15B5FC0A008A84EA /* Icon@2x.png */; };
@@ -278,12 +273,7 @@
 		CD26D47715B6080700E16613 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		CD26D47915B6081000E16613 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		CD26D47B15B6081D00E16613 /* libUAirship-1.2.2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libUAirship-1.2.2.a"; path = "Airship/libUAirship-1.2.2.a"; sourceTree = "<group>"; };
-		CD26D47D15B6087D00E16613 /* AirshipConfig.plish.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AirshipConfig.plish.plist; sourceTree = SOURCE_ROOT; };
 		CD26D47F15B60B9000E16613 /* Descarte_TransparentLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Descarte_TransparentLogo.png; sourceTree = "<group>"; };
-		CD3588E615B8CA2700E79515 /* Container.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Container.h; sourceTree = "<group>"; };
-		CD3588E715B8CA2700E79515 /* Container.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Container.m; sourceTree = "<group>"; };
-		CD3588EA15B8CB0200E79515 /* SearchResultsShipment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultsShipment.h; sourceTree = "<group>"; };
-		CD3588EB15B8CB0200E79515 /* SearchResultsShipment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResultsShipment.m; sourceTree = "<group>"; };
 		CD87E25415B7B96E00862CF0 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoginViewController.h; path = Application/LoginViewController.h; sourceTree = SOURCE_ROOT; };
 		CD87E25515B7B96E00862CF0 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoginViewController.m; path = Application/LoginViewController.m; sourceTree = SOURCE_ROOT; };
 		CD87E25615B7B96E00862CF0 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LoginViewController.xib; path = Application/LoginViewController.xib; sourceTree = SOURCE_ROOT; };
@@ -362,8 +352,6 @@
 		CDB9D6F61618E9C500B65F0B /* UIImageView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+AFNetworking.m"; sourceTree = "<group>"; };
 		CDB9D6F71618E9C500B65F0B /* whiteArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whiteArrow.png; sourceTree = "<group>"; };
 		CDB9D6F81618E9C500B65F0B /* whiteArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "whiteArrow@2x.png"; sourceTree = "<group>"; };
-		CDE1D4DA16067A4200154310 /* Shipments.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Shipments.h; path = ../Shipments.h; sourceTree = "<group>"; };
-		CDE1D4DB16067A4200154310 /* Shipments.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Shipments.m; path = ../Shipments.m; sourceTree = "<group>"; };
 		CDEAD1C815B5FBF0008A84EA /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		CDEAD1CA15B5FBF6008A84EA /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		CDEAD1CC15B5FC0A008A84EA /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
@@ -413,7 +401,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				CD87E26715B7FF6000862CF0 /* QuartzCore.framework in Frameworks */,
-				CD26D47C15B6081D00E16613 /* libUAirship-1.2.2.a in Frameworks */,
 				CD26D47A15B6081000E16613 /* CoreLocation.framework in Frameworks */,
 				CD26D47815B6080700E16613 /* StoreKit.framework in Frameworks */,
 				CD26D47615B607FD00E16613 /* CoreTelephony.framework in Frameworks */,
@@ -588,12 +575,6 @@
 		CD3588E515B8CA2700E79515 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				CDE1D4DA16067A4200154310 /* Shipments.h */,
-				CDE1D4DB16067A4200154310 /* Shipments.m */,
-				CD3588EA15B8CB0200E79515 /* SearchResultsShipment.h */,
-				CD3588EB15B8CB0200E79515 /* SearchResultsShipment.m */,
-				CD3588E615B8CA2700E79515 /* Container.h */,
-				CD3588E715B8CA2700E79515 /* Container.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -770,7 +751,6 @@
 				FA8F0127152D7DE30062EA20 /* InfoPlist.strings */,
 				FA8F012A152D7DE30062EA20 /* main.m */,
 				FA8F012C152D7DE30062EA20 /* WebTrackingMobile-Prefix.pch */,
-				CD26D47D15B6087D00E16613 /* AirshipConfig.plish.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -920,7 +900,6 @@
 				CDEAD1CB15B5FBF6008A84EA /* Default@2x.png in Resources */,
 				CDEAD1CD15B5FC0A008A84EA /* Icon@2x.png in Resources */,
 				CDEAD1CF15B5FC19008A84EA /* Icon.png in Resources */,
-				CD26D47E15B6087D00E16613 /* AirshipConfig.plish.plist in Resources */,
 				CD26D48015B60B9000E16613 /* Descarte_TransparentLogo.png in Resources */,
 				1FAA268B15B6652A004FA8BB /* SettingsViewController.xib in Resources */,
 				1FAA269C15B66B33004FA8BB /* button_large_style1.png in Resources */,
@@ -1023,9 +1002,6 @@
 				CD87E25715B7B96E00862CF0 /* LoginViewController.m in Sources */,
 				CD87E2F115B8145F00862CF0 /* ShipmentListViewController.m in Sources */,
 				CD87E2F515B8174E00862CF0 /* ShipmentCell.m in Sources */,
-				CD3588E815B8CA2700E79515 /* Container.m in Sources */,
-				CD3588EC15B8CB0200E79515 /* SearchResultsShipment.m in Sources */,
-				CDE1D4DC16067A4200154310 /* Shipments.m in Sources */,
 				CD0FA91E1614171F0033E90D /* ShipmentSearchController.m in Sources */,
 				CDB9D6F91618E9C500B65F0B /* AFHTTPClient.m in Sources */,
 				CDB9D6FA1618E9C500B65F0B /* AFHTTPRequestOperation.m in Sources */,
@@ -1119,11 +1095,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "leafMenu/WebTrackingMobile-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Airship\"",
-					"~/Airship",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = WebTrackingMobile;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
@@ -1139,11 +1111,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "leafMenu/WebTrackingMobile-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Airship\"",
-					"~/Airship",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = WebTrackingMobile;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "3849CAAE-0803-4608-AE27-B6C8E633FF47";
 				TARGETED_DEVICE_FAMILY = "1,2";
