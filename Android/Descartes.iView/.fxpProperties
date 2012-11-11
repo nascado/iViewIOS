@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<fxpProperties abbreviated="false" authoringTool="Flex Builder" compiles="true" parentProject="fdc23f00-30a2-4cdf-8af0-5b1e5cb042ea" projectUUID="fdc23f00-30a2-4cdf-8af0-5b1e5cb042ea" pureCatalystProject="false" sdkVersion="4.6.0" uuid="52031620-d7ca-4aa2-818b-b120211b3625" version="15">
+<fxpProperties abbreviated="false" authoringTool="Flex Builder" compiles="true" parentProject="fdc23f00-30a2-4cdf-8af0-5b1e5cb042ea" projectUUID="fdc23f00-30a2-4cdf-8af0-5b1e5cb042ea" pureCatalystProject="false" sdkVersion="4.6.0" uuid="198f707b-db04-4be6-94df-2538d1b8bd48" version="15">
   <projects/>
   <src/>
   <swc>
-    <linked location="sdkPlaceHolder" path="sdkPlaceHolder" position="0" uuid="52031620-d7ca-4aa2-818b-b120211b3625"/>
+    <linked location="sdkPlaceHolder" path="sdkPlaceHolder" position="0" uuid="198f707b-db04-4be6-94df-2538d1b8bd48"/>
     <linked location="${DCD_LIB_LOCATION}" path="${DCD_LIB_LOCATION}" position="1" uuid="bd7ef461-fe80-4e6d-bcb6-73e64f645a82"/>
     <linked location="${DCD_LOCALE_LOCATION}" path="${DCD_LOCALE_LOCATION}" position="2" uuid="bd7ef461-fe80-4e6d-bcb6-73e64f645a82"/>
     <linked location="${DCD_FIBER_LOCATION}/fiber.swc" path="${DCD_FIBER_LOCATION}/fiber.swc" position="3" uuid="bd7ef461-fe80-4e6d-bcb6-73e64f645a82"/>
